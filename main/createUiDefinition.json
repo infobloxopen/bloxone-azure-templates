@@ -41,7 +41,7 @@
         "multiLine": true,
         "constraints": {
           "required": false,
-          "regex": "^(.*).{0,100000}$",
+          "regex": "(?=.*).{0,100000}",
           "validationMessage": "The Custom data cannot be more than 100000 characters."
         },
         "visible": true
