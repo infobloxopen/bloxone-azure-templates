@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string"
+    },
+    "vmName": {
+      "type": "string"
+    },
+    "hardwareProfile": {
+      "type": "object"
+    },
+    "osProfile": {
+      "type": "object"
+    },
+    "storageProfile": {
+      "type": "object"
+    },
+    "networkProfile": {
+      "type": "object"
+    },
+    "diagnosticsProfile": {
+      "type": "object"
+    },
+    "plan": {
+      "type": "object"
+    }
+  },
+  "variables": {
+    "properties": {
+      "hardwareProfile": "[parameters('hardwareProfile')]",
+      "osProfile": "[parameters('osProfile')]",
+      "storageProfile": "[parameters('storageProfile')]",
+      "networkProfile": "[parameters('networkProfile')]",
+      "diagnosticsProfile": "[parameters('diagnosticsProfile')]"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2020-12-01",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('vmName')]",
+      "location": "[parameters('location')]",
+      "properties": "[variables('properties')]",
+      "plan": "[parameters('plan')]"
+    }
+  ],
+  "outputs": {}
+}
