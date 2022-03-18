@@ -8,7 +8,7 @@
         "artifactsBaseUrl": "/",
         "description": "The base URL for dependent assets."
       },
-      "defaultValue": "https://raw.githubusercontent.com/amarozinfoblox/azure-templates/master/main/"
+      "defaultValue": "https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/master/main/"
     },
     "customData": {
       "type": "string",
@@ -236,6 +236,20 @@
               "destinationPortRange": "22",
               "direction": "Inbound",
               "priority": 100,
+              "protocol": "Tcp",
+              "sourceAddressPrefix": "*",
+              "sourcePortRange": "*"
+            }
+          },
+          {
+            "name": "HTTPS",
+            "properties": {
+              "description": "Allow HTTPS",
+              "access": "Allow",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "443",
+              "direction": "Inbound",
+              "priority": 101,
               "protocol": "Tcp",
               "sourceAddressPrefix": "*",
               "sourcePortRange": "*"
