@@ -2,25 +2,23 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "adminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Password for the Virtual Machine."
-      }
-    },
     "artifactsBaseUrl": {
       "type": "string",
       "metadata": {
         "artifactsBaseUrl": "/",
         "description": "The base URL for dependent assets."
       },
-      "defaultValue": "https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/master/main/"
+      "defaultValue": "https://raw.githubusercontent.com/amarozinfoblox/azure-templates/master/main/"
     },
     "customData": {
       "type": "string",
       "metadata": {
         "description": "Custom data."
       }
+    },
+    "guid": {
+      "type": "string",
+      "defaultValue": "[newGuid()]"
     },
     "location": {
       "type": "string",
@@ -139,6 +137,7 @@
     }
   },
   "variables": {
+    "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "imagePublisher":"infoblox",
     "imageOffer":"infoblox-bloxone-33",
     "imageSku": "infoblox-bloxone-33",
@@ -318,7 +317,7 @@
             "value": {
               "computerName": "[parameters('vmName')]",
               "adminUsername": "[uniqueString(ResourceGroup().Id)]",
-              "adminPassword": "[parameters('adminPassword')]",
+              "adminPassword": "[variables('adminPassword')]",
               "customData": "[base64(parameters('customData'))]"
             }
           },

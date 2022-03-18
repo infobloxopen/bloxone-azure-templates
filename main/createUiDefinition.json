@@ -19,21 +19,6 @@
         "visible": true
       },
       {
-        "name": "adminPassword",
-        "toolTip": "Password for the user",
-        "type": "Microsoft.Common.PasswordBox",
-        "label": {
-          "password": "Password",
-          "confirmPassword": "Confirm password"
-        },
-        "constraints": {
-          "required": true,
-          "regex": "^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{12,64}$",
-          "validationMessage": "The password must be between 12 and 64 characters long, and contain characters from at least 3 of the following groups: uppercase characters, lowercase characters, numbers, and special characters."
-        },
-        "visible": true
-      },
-      {
         "name": "customData",
         "type": "Microsoft.Common.TextBox",
         "label": "Custom data",
@@ -134,7 +119,6 @@
       }
     ],
     "outputs": {
-      "adminPassword": "[basics('adminPassword')]",
       "customData": "[basics('customData')]",
       "location": "[location()]",
       "publicIPAddressName": "[steps('vmSettings').publicIp.name]",
