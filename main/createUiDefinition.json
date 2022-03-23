@@ -35,6 +35,30 @@
         "visible": true
       },
       {
+        "name": "vmSize",
+        "type": "Microsoft.Compute.SizeSelector",
+        "label": "VM size.",
+        "toolTip": "Select the size of VM.",
+        "recommendedSizes": [
+          "Standard_F4s"
+        ],
+        "constraints": {
+          "allowedSizes": [
+            "Standard_B2s",
+            "Standard_B2ms",
+            "Standard_B4ms",
+            "Standard_B8ms",
+            "Standard_B12ms",
+            "Standard_B16ms",
+            "Standard_B20ms",
+            "Standard_F4s",
+            "Standard_F8s"
+          ]
+        },
+        "visible": "true",
+        "osPlatform": "Linux"
+      },
+      {
         "name": "customData",
         "type": "Microsoft.Common.TextBox",
         "label": "Custom data",
@@ -58,30 +82,6 @@
           "postValidation": "Done"
         },
         "elements": [
-          {
-            "name": "vmSize",
-            "type": "Microsoft.Compute.SizeSelector",
-            "label": "Virtual machine size.",
-            "toolTip": "Select the size of VM.",
-            "recommendedSizes": [
-              "Standard_F4s"
-            ],
-            "constraints": {
-              "allowedSizes": [
-                "Standard_B2s",
-                "Standard_B2ms",
-                "Standard_B4ms",
-                "Standard_B8ms",
-                "Standard_B12ms",
-                "Standard_B16ms",
-                "Standard_B20ms",
-                "Standard_F4s",
-                "Standard_F8s"
-              ]
-            },
-            "visible": "true",
-            "osPlatform": "Linux"
-          },
           {
             "name": "network",
             "type": "Microsoft.Network.VirtualNetworkCombo",
@@ -148,7 +148,7 @@
       "virtualNetworkExistingRGName": "[steps('vmSettings').network.resourceGroup]",
       "virtualNetworkName": "[steps('vmSettings').network.name]",
       "vmName": "[basics('vmName')]",
-      "vmSize": "[steps('vmSettings').vmSize]",
+      "vmSize": "[basics('vmSize')]",
       "vnetNewOrExisting": "[steps('vmSettings').network.newOrExisting]"
     }
   }
