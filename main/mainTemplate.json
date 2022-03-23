@@ -2,13 +2,9 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "artifactsBaseUrl": {
+    "_artifactsLocation": {
       "type": "string",
-      "metadata": {
-        "artifactsBaseUrl": "/",
-        "description": "The base URL for dependent assets."
-      },
-      "defaultValue": "https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/master/main/"
+      "defaultValue": "[deployment().properties.templateLink.uri]"
     },
     "customData": {
       "type": "string",
@@ -24,7 +20,8 @@
       "type": "string",
       "metadata": {
         "description": "Location of resources."
-      }
+      },
+      "defaultValue": "[resourceGroup().location]"
     },
     "publicIpAddressName": {
       "type": "string",
@@ -54,7 +51,7 @@
     },
     "subnet1Name": {
       "type": "string",
-      "defaultValue": "Subnet1",
+      "defaultValue": "default",
       "metadata": {
         "description": "Subnet 1 name."
       }
@@ -82,7 +79,7 @@
     },
     "virtualNetworkName": {
       "type": "string",
-      "defaultValue": "Network",
+      "defaultValue": "onprem-qa-vnet",
       "metadata": {
         "description": "Virtual network name."
       }
@@ -99,7 +96,7 @@
       "metadata": {
         "description": "Size of the Virtual Machine."
       },
-      "defaultValue": "Standard_B2s",
+      "defaultValue": "Standard_F4s",
       "allowedValues": [
         "Standard_B2s",
         "Standard_B2ms",
@@ -107,7 +104,9 @@
         "Standard_B8ms",
         "Standard_B12ms",
         "Standard_B16ms",
-        "Standard_B20ms"
+        "Standard_B20ms",
+        "Standard_F4s",
+        "Standard_F8s"
       ]
     },
     "vnetNewOrExisting": {
@@ -115,7 +114,7 @@
       "metadata": {
         "description": "Identifies whether to use new or existing Virtual Network."
       },
-      "defaultValue": "new",
+      "defaultValue": "existing",
       "allowedValues": [
         "new",
         "existing"
@@ -142,6 +141,7 @@
     "imageOffer":"infoblox-bloxone-33",
     "imageSku": "infoblox-bloxone-33",
     "imageVersion": "3.3.0",
+    "nicName": "[concat(parameters('vmName'), '-lan1')]",
     "nicPrimaryExistingParams": {
       "location": {
         "value": "[parameters('location')]"
@@ -174,7 +174,7 @@
         "value": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
       }
     },
-    "nicPrimarySetupUrl": "[uri(parameters('artifactsBaseUrl'), concat('nic-pip-', variables('publicIpExistingOrNone'), '.json'))]",
+    "nicPrimarySetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/nic-pip-', variables('publicIpExistingOrNone'), '.json'))]",
     "nsgName": "[concat(parameters('vmName'), '-securityGroup')]",
     "osDiskName": "[concat(parameters('vmName'), uniqueString(resourceGroup().id))]",
     "publicIpAddressType": "Dynamic",
@@ -194,10 +194,10 @@
     "publicIpResourceExisting": "[resourceId(parameters('publicIpExistingRgName'), concat('Microsoft.Network', '/', 'publicIpAddresses'), parameters('publicIpAddressName'))]",
     "publicIpResourceId": "[if(equals(parameters('publicIpNewOrExistingOrNone'), 'none'), '', if(equals(parameters('publicIpNewOrExistingOrNone'), 'new'), variables('publicIpResourceNew'), variables('publicIpResourceExisting')))]",
     "publicIpResourceNew": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]",
-    "publicIpSetupUrl": "[uri(parameters('artifactsBaseUrl'), concat('publicip-', variables('publicIpNewOrNone'), '.json'))]",
+    "publicIpSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/publicip-', variables('publicIpNewOrNone'), '.json'))]",
     "subnet1ResourceId": "[concat(variables('vnetResourceId'), '/subnets/', parameters('subnet1Name'))]",
-    "virtualMachineSetUrl": "[uri(parameters('artifactsBaseUrl'), 'vm.json')]",
-    "virtualNetworkSetupUrl": "[uri(parameters('artifactsBaseUrl'), concat('vnet-', parameters('vnetNewOrExisting'),'.json'))]",
+    "virtualMachineSetUrl": "[uri(parameters('_artifactsLocation'), 'nestedtemplates/vm.json')]",
+    "virtualNetworkSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/vnet-', parameters('vnetNewOrExisting'),'.json'))]",
     "vnetNewParams": {
       "location": {
         "value": "[parameters('location')]"
@@ -215,11 +215,24 @@
         "value": "[parameters('subnet1Prefix')]"
       }
     },
-    "vnetResourceExisting": "[resourceId(parameters('virtualNetworkExistingRgName'),'Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
+    "vnetResourceExisting": "[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
     "vnetResourceId": "[if(equals(parameters('vnetNewOrExisting'), 'new'), variables('vnetResourceNew'), variables('vnetResourceExisting'))]",
     "vnetResourceNew": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
   },
   "resources": [
+    {
+      "name": "pid-75304c5f-1c4b-435e-80b4-d4b446091395-partnercenter",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": []
+        }
+      }
+    },
     {
       "apiVersion": "2021-05-01",
       "type": "Microsoft.Network/networkSecurityGroups",
@@ -259,6 +272,28 @@
       }
     },
     {
+      "condition": "[equals(parameters('vnetNewOrExisting'),'existing')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('nicName')]",
+      "apiVersion": "2021-02-01",
+      "location": "[parameters('location')]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('subnet1ResourceId')]"
+              }
+            }
+          }
+        ],
+        "enableIPForwarding": true
+      }
+    },
+    {
+      "condition": "[equals(parameters('vnetNewOrExisting'),'new')]",
       "name": "SettingUpVirtualNetwork",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
@@ -349,14 +384,6 @@
                 "offer":"[variables('imageOffer')]",
                 "sku":"[variables('imageSku')]",
                 "version":"[variables('imageVersion')]"
-              }
-            },
-            "osDisk": {
-              "name": "[variables('osDiskName')]",
-              "caching": "ReadWrite",
-              "createOption": "FromImage",
-              "managedDisk": {
-                "storageAccountType": "[parameters('storageAccountType')]"
               }
             }
           },
