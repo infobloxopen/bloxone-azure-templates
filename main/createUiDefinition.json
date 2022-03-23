@@ -3,6 +3,22 @@
   "handler": "Microsoft.Azure.CreateUIDef",
   "version": "0.1.2-preview",
   "parameters": {
+    "config": {
+      "isWizard": false,
+      "basics": {
+        "resourceGroup": {
+          "constraints": {
+            "validations": [
+              {
+                "isValid": "[not(contains(resourceGroup().name, 'test'))]",
+                "message": "Resource Group name can not contain test"
+              }
+            ]
+          },
+          "allowExisting": true
+        }
+      }
+    },
     "basics": [
       {
         "name": "vmName",
@@ -48,7 +64,7 @@
             "label": "Virtual machine size.",
             "toolTip": "Select the size of VM.",
             "recommendedSizes": [
-              "Standard_B2s"
+              "Standard_F4s"
             ],
             "constraints": {
               "allowedSizes": [
@@ -58,7 +74,9 @@
                 "Standard_B8ms",
                 "Standard_B12ms",
                 "Standard_B16ms",
-                "Standard_B20ms"
+                "Standard_B20ms",
+                "Standard_F4s",
+                "Standard_F8s"
               ]
             },
             "visible": "true",
@@ -75,7 +93,7 @@
               "virtualNetwork": "Only virtual networks in the currently selected subscription and location are listed. If you choose to create a new virtual network, it will be created in the same subscription, location, and resource group as the storage account."
             },
             "defaultValue": {
-              "addressPrefixSize": "/16"
+              "addressPrefixSize": "/8"
             },
             "constraints": {
               "minAddressPrefixSize": "/29"
