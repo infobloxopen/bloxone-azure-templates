@@ -59,15 +59,14 @@
         "osPlatform": "Linux"
       },
       {
-        "name": "customData",
+        "name": "jointoken",
         "type": "Microsoft.Common.TextBox",
-        "label": "Custom data",
-        "toolTip": "Pass custom data configuration.",
-        "multiLine": true,
+        "label": "Jointoken",
+        "toolTip": "Pass Jointoken.",
         "constraints": {
-          "required": false,
-          "regex": "(?=.*).{0,100000}",
-          "validationMessage": "The Custom data cannot be more than 100000 characters."
+          "required": true,
+          "regex": "^[a-zA-Z0-9_-]{44}$",
+          "validationMessage": "Insert validate Jointoken."
         },
         "visible": true
       }
@@ -137,7 +136,7 @@
       }
     ],
     "outputs": {
-      "customData": "[basics('customData')]",
+      "jointoken": "[basics('jointoken')]",
       "location": "[location()]",
       "publicIPAddressName": "[steps('vmSettings').publicIp.name]",
       "publicIpExistingRgName": "[steps('vmSettings').publicIp.resourceGroup]",

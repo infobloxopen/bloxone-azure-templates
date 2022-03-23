@@ -6,15 +6,15 @@
       "type": "string",
       "defaultValue": "[deployment().properties.templateLink.uri]"
     },
-    "customData": {
-      "type": "string",
-      "metadata": {
-        "description": "Custom data."
-      }
-    },
     "guid": {
       "type": "string",
       "defaultValue": "[newGuid()]"
+    },
+    "jointoken": {
+      "type": "string",
+      "metadata": {
+        "description": "Jointoken."
+      }
     },
     "location": {
       "type": "string",
@@ -137,6 +137,12 @@
   },
   "variables": {
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
+    "hostSetup": {
+      "accessPortal": "",
+      "configServer": "",
+      "notificationServer": ""
+    },
+    "customData": "[base64(concat('#cloud-config\nhost_setup:\n  access_portal: ', variables('hostSetup').accessPortal, '\n  jointoken: ', parameters('jointoken'), '\n  config_server: ', variables('hostSetup').configServer, '\n  notification_server: ', variables('hostSetup').notificationServer, '\n'))]",
     "imagePublisher":"infoblox",
     "imageOffer":"infoblox-bloxone-33",
     "imageSku": "infoblox-bloxone-33",
@@ -367,7 +373,7 @@
               "computerName": "[parameters('vmName')]",
               "adminUsername": "[uniqueString(ResourceGroup().Id)]",
               "adminPassword": "[variables('adminPassword')]",
-              "customData": "[base64(parameters('customData'))]"
+              "customData": "[base64(variables('customData'))]"
             }
           },
           "plan": {
