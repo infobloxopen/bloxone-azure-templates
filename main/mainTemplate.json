@@ -137,12 +137,13 @@
   },
   "variables": {
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
+    "cloudConfig": "#cloud-config\nhost_setup:\n",
+    "customData": "[concat(variables('cloudConfig'), '  access_portal: ', variables('hostSetup').accessPortal, '\n  jointoken: ', parameters('jointoken'), '\n  config_server: ', variables('hostSetup').configServer, '\n  notification_server: ', variables('hostSetup').notificationServer, '\n')]",
     "hostSetup": {
       "accessPortal": "",
       "configServer": "",
       "notificationServer": ""
     },
-    "customData": "[base64(concat('#cloud-config\nhost_setup:\n  access_portal: ', variables('hostSetup').accessPortal, '\n  jointoken: ', parameters('jointoken'), '\n  config_server: ', variables('hostSetup').configServer, '\n  notification_server: ', variables('hostSetup').notificationServer, '\n'))]",
     "imagePublisher":"infoblox",
     "imageOffer":"infoblox-bloxone-33",
     "imageSku": "infoblox-bloxone-33",
