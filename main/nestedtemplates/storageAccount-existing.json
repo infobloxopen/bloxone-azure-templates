@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "Description": "The name of the new storage account created to store the VMs disks."
+      }
+    },
+    "storageAccountExistingRG": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "Description": "Resource Group Name of the existing Storage Account."
+      }
+    }
+  },
+  "resources": [
+  ],
+  "outputs": {
+    "endpointURL": {
+      "type": "string",
+      "value": "[reference(resourceId(parameters('storageAccountExistingRG'), 'Microsoft.Storage/storageAccounts/', parameters('StorageAccountName')), '2021-08-01').primaryEndpoints.blob]"
+    }
+  }
+}

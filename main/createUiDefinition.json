@@ -37,7 +37,7 @@
       {
         "name": "vmSize",
         "type": "Microsoft.Compute.SizeSelector",
-        "label": "VM size.",
+        "label": "VM size",
         "toolTip": "Select the size of VM.",
         "recommendedSizes": [
           "Standard_F4s"
@@ -59,6 +59,27 @@
         "osPlatform": "Linux"
       },
       {
+        "name": "injecting",
+        "type": "Microsoft.Common.OptionsGroup",
+        "label": "Injecting",
+        "defaultValue": "Jointoken",
+        "toolTip": "Choose the type of injection.",
+        "constraints": {
+          "allowedValues": [
+            {
+              "label": "Jointoken",
+              "value": "Jointoken"
+            },
+            {
+              "label": "Custom Data",
+              "value": "Custom Data"
+            }
+          ],
+          "required": true
+        },
+        "visible": true
+      },
+      {
         "name": "jointoken",
         "type": "Microsoft.Common.TextBox",
         "label": "Jointoken",
@@ -68,7 +89,20 @@
           "regex": "^[a-zA-Z0-9_-]{44}$",
           "validationMessage": "Insert validate Jointoken."
         },
-        "visible": true
+        "visible": "[equals(basics('injecting'), 'Jointoken')]"
+      },
+      {
+        "name": "customData",
+        "type": "Microsoft.Common.TextBox",
+        "label": "Custom data",
+        "toolTip": "In case if this field is filled, Jointoken field will be ignored.",
+        "multiLine": true,
+        "constraints": {
+          "required": false,
+          "regex": "(?=.*).{0,100000}",
+          "validationMessage": "The Custom data cannot be more than 100000 characters."
+        },
+        "visible": "[equals(basics('injecting'), 'Custom Data')]"
       }
     ],
     "steps": [
@@ -92,7 +126,7 @@
               "virtualNetwork": "Only virtual networks in the currently selected subscription and location are listed. If you choose to create a new virtual network, it will be created in the same subscription, location, and resource group as the storage account."
             },
             "defaultValue": {
-              "addressPrefixSize": "/8"
+              "addressPrefixSize": "/16"
             },
             "constraints": {
               "minAddressPrefixSize": "/29"
@@ -101,15 +135,14 @@
               "hideExisting": false
             },
             "subnets": {
-              "subnetLan1": {
+              "subnet1": {
                 "label": "Subnet",
                 "defaultValue": {
                   "name": "subnet1",
                   "addressPrefixSize": "/24"
                 },
                 "constraints": {
-                  "minAddressPrefixSize": "/30",
-                  "minAddressCount": 1
+                  "minAddressPrefixSize": "/30"
                 }
               }
             },
@@ -131,16 +164,61 @@
               "zone": 3
             },
             "visible": true
+          },
+          {
+            "name": "serialConsole",
+            "type": "Microsoft.Common.OptionsGroup",
+            "label": "Serial Console",
+            "defaultValue": "No",
+            "toolTip": "Activate the serial console.",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "No",
+                  "value": "No"
+                },
+                {
+                  "label": "Yes",
+                  "value": "Yes"
+                }
+              ],
+              "required": true
+            },
+            "visible": true
+          },
+          {
+            "name": "storageAccount",
+            "type": "Microsoft.Storage.StorageAccountSelector",
+            "label": "Storage account",
+            "toolTip": "Choose storage account for Serial console.",
+            "defaultValue": {
+              "type": "Standard_LRS"
+            },
+            "allowedValues": [
+              "Standard_LRS",
+              "Standard_GRS",
+              "Premium_LRS",
+              "Premium_ZRS"
+            ],
+            "options": {
+              "hideExisting": false
+            },
+            "visible": "[equals(steps('vmSettings').serialConsole, 'Yes')]"
           }
         ]
       }
     ],
     "outputs": {
+      "customData": "[basics('customData')]",
       "jointoken": "[basics('jointoken')]",
       "location": "[location()]",
       "publicIPAddressName": "[steps('vmSettings').publicIp.name]",
       "publicIpExistingRgName": "[steps('vmSettings').publicIp.resourceGroup]",
       "publicIpNewOrExistingOrNone": "[steps('vmSettings').publicIp.newOrExistingOrNone]",
+      "storageAccountName": "[steps('vmSettings').storageAccount.name]",
+      "storageAccountType": "[steps('vmSettings').storageAccount.type]",
+      "storageAccountNewOrExistingOrNone": "[if(empty(steps('vmSettings').storageAccount.newOrExisting), 'none', steps('vmSettings').storageAccount.newOrExisting)]",
+      "storageAccountExistingRG": "[steps('vmSettings').storageAccount.resourceGroup]",
       "subnet1Name": "[steps('vmSettings').network.subnets.subnet1.name]",
       "subnet1Prefix": "[steps('vmSettings').network.subnets.subnet1.addressPrefix]",
       "virtualNetworkAddressPrefix": "[steps('vmSettings').network.addressPrefix]",
