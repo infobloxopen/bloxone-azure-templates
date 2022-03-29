@@ -9,12 +9,20 @@
     "customData": {
       "type": "string",
       "metadata": {
-        "description": "Custom data."
-      }
+        "description": "CustomData for cloudinit."
+      },
+      "defaultValue": ""
     },
     "guid": {
       "type": "string",
       "defaultValue": "[newGuid()]"
+    },
+    "jointoken": {
+      "type": "string",
+      "metadata": {
+        "description": "Jointoken."
+      },
+      "defaultValue": ""
     },
     "location": {
       "type": "string",
@@ -49,6 +57,58 @@
         "description": "Indicates whether the Public IP is new or existing."
       }
     },
+    "securityGroupSsh": {
+      "type": "string",
+      "defaultValue": "false",
+      "allowedValues": [
+        "false",
+        "true"
+      ]
+    },
+    "securityGroupBootstrapUi": {
+      "type": "string",
+      "defaultValue": "false",
+      "allowedValues": [
+        "false",
+        "true"
+      ]
+    },
+    "storageAccountName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Unique Name for Storage Account where the Virtual Machine's boot diagnostics will be placed."
+      }
+    },
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_GRS",
+      "allowedValues": [
+        "Standard_GRS"
+      ],
+      "metadata": {
+        "description": "The type of storage account created for boot diagnostics."
+      }
+    },
+    "storageAccountNewOrExistingOrNone": {
+      "type": "string",
+      "defaultValue": "none",
+      "allowedValues": [
+        "new",
+        "existing",
+        "none"
+      ],
+      "metadata": {
+        "description": "Identifies whether to use new or existing Storage Account for boot diagnostics."
+      }
+    },
+    "storageAccountExistingRG": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Resource Group containing existing storage account for boot diagnostics."
+      }
+    },
     "subnet1Name": {
       "type": "string",
       "defaultValue": "default",
@@ -70,7 +130,7 @@
         "description": "Virtual network address prefix."
       }
     },
-    "virtualNetworkExistingRgName": {
+    "virtualNetworkExistingRGName": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
@@ -96,7 +156,7 @@
       "metadata": {
         "description": "Size of the Virtual Machine."
       },
-      "defaultValue": "Standard_F4s",
+      "defaultValue": "Standard_F8s",
       "allowedValues": [
         "Standard_B2s",
         "Standard_B2ms",
@@ -105,8 +165,7 @@
         "Standard_B12ms",
         "Standard_B16ms",
         "Standard_B20ms",
-        "Standard_F4s",
-        "Standard_F8s"
+        "Standard_F4s"
       ]
     },
     "vnetNewOrExisting": {
@@ -114,34 +173,26 @@
       "metadata": {
         "description": "Identifies whether to use new or existing Virtual Network."
       },
-      "defaultValue": "existing",
+      "defaultValue": "new",
       "allowedValues": [
         "new",
         "existing"
-      ]
-    },
-    "storageAccountType": {
-      "type": "string",
-      "metadata": {
-        "Description": "The type of the Storage Account. !!! Remove before use in Azure Marketplace !!!"
-      },
-      "defaultValue": "Standard_LRS",
-      "allowedValues": [
-        "Standard_LRS",
-        "Premium_LRS",
-        "StandardSSD_LRS",
-        "Premium_ZRS",
-        "StandardSSD_ZRS"
       ]
     }
   },
   "variables": {
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
-    "imagePublisher":"infoblox",
-    "imageOffer":"infoblox-bloxone-33",
+    "cloudConfig": "#cloud-config\nhost_setup:\n",
+    "customData": "[concat(variables('cloudConfig'), '  access_portal: ', variables('hostSetup').accessPortal, '\n  jointoken: ', parameters('jointoken'), '\n  config_server: ', variables('hostSetup').configServer, '\n  notification_server: ', variables('hostSetup').notificationServer, '\n')]",
+    "hostSetup": {
+      "accessPortal": "",
+      "configServer": "",
+      "notificationServer": ""
+    },
+    "imagePublisher": "infoblox",
+    "imageOffer": "infoblox-bloxone-33",
     "imageSku": "infoblox-bloxone-33",
     "imageVersion": "3.3.0",
-    "nicName": "[concat(parameters('vmName'), '-lan1')]",
     "nicPrimaryExistingParams": {
       "location": {
         "value": "[parameters('location')]"
@@ -195,6 +246,60 @@
     "publicIpResourceId": "[if(equals(parameters('publicIpNewOrExistingOrNone'), 'none'), '', if(equals(parameters('publicIpNewOrExistingOrNone'), 'new'), variables('publicIpResourceNew'), variables('publicIpResourceExisting')))]",
     "publicIpResourceNew": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]",
     "publicIpSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/publicip-', variables('publicIpNewOrNone'), '.json'))]",
+    "securityRuleBase": [],
+    "securityRuleHtps": [
+      {
+        "name": "HTTPS",
+        "properties": {
+          "description": "Allow HTTPS",
+          "access": "Allow",
+          "destinationAddressPrefix": "*",
+          "destinationPortRange": "443",
+          "direction": "Inbound",
+          "priority": 101,
+          "protocol": "Tcp",
+          "sourceAddressPrefix": "*",
+          "sourcePortRange": "*"
+        }
+      }
+    ],
+    "securityRuleSsh": [
+      {
+        "name": "SSH",
+        "properties": {
+          "description": "Allow SSH",
+          "access": "Allow",
+          "destinationAddressPrefix": "*",
+          "destinationPortRange": "22",
+          "direction": "Inbound",
+          "priority": 100,
+          "protocol": "Tcp",
+          "sourceAddressPrefix": "*",
+          "sourcePortRange": "*"
+        }
+      }
+    ],
+    "securityRules": "[if(equals(parameters('securityGroupSsh'), 'true'), concat(if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), variables('securityRuleBase')), variables('securityRuleSsh')), if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), variables('securityRuleBase')))]",
+    "storageAccountExistingParams": {
+      "storageAccountName": {
+        "value": "[parameters('storageAccountName')]"
+      },
+      "storageAccountExistingRG": {
+        "value": "[parameters('storageAccountExistingRG')]"
+      }
+    },
+    "storageAccountNewParams": {
+      "location": {
+        "value": "[parameters('location')]"
+      },
+      "storageAccountType": {
+        "value": "[parameters('storageAccountType')]"
+      },
+      "storageAccountName": {
+        "value": "[parameters('storageAccountName')]"
+      }
+    },
+    "storageAccountSetupURL": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/storageAccount-', parameters('storageAccountNewOrExistingOrNone'), '.json'))]",
     "subnet1ResourceId": "[concat(variables('vnetResourceId'), '/subnets/', parameters('subnet1Name'))]",
     "virtualMachineSetUrl": "[uri(parameters('_artifactsLocation'), 'nestedtemplates/vm.json')]",
     "virtualNetworkSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/vnet-', parameters('vnetNewOrExisting'),'.json'))]",
@@ -215,13 +320,13 @@
         "value": "[parameters('subnet1Prefix')]"
       }
     },
-    "vnetResourceExisting": "[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
+    "vnetResourceExisting": "[resourceId(parameters('virtualNetworkExistingRGName'),'Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
     "vnetResourceId": "[if(equals(parameters('vnetNewOrExisting'), 'new'), variables('vnetResourceNew'), variables('vnetResourceExisting'))]",
     "vnetResourceNew": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
   },
   "resources": [
     {
-      "name": "pid-75304c5f-1c4b-435e-80b4-d4b446091395-partnercenter",
+      "name": "pid",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
       "properties": {
@@ -234,66 +339,28 @@
       }
     },
     {
+      "name": "SettingUpstorageAccount",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('storageAccountSetupURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": "[if(equals(parameters('storageAccountNewOrExistingOrNone'), 'new'), variables('storageAccountNewParams'), if(equals(parameters('storageAccountNewOrExistingOrNone'), 'existing'), variables('storageAccountExistingParams'), json('null')))]"
+      }
+    },
+    {
       "apiVersion": "2021-05-01",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('nsgName')]",
       "location": "[parameters('location')]",
       "properties": {
-        "securityRules": [
-          {
-            "name": "SSH",
-            "properties": {
-              "description": "Allow SSH",
-              "access": "Allow",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "22",
-              "direction": "Inbound",
-              "priority": 100,
-              "protocol": "Tcp",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*"
-            }
-          },
-          {
-            "name": "HTTPS",
-            "properties": {
-              "description": "Allow HTTPS",
-              "access": "Allow",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "443",
-              "direction": "Inbound",
-              "priority": 101,
-              "protocol": "Tcp",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*"
-            }
-          }
-        ]
+        "securityRules": "[variables('securityRules')]"
       }
     },
     {
-      "condition": "[equals(parameters('vnetNewOrExisting'),'existing')]",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[variables('nicName')]",
-      "apiVersion": "2021-02-01",
-      "location": "[parameters('location')]",
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Dynamic",
-              "subnet": {
-                "id": "[variables('subnet1ResourceId')]"
-              }
-            }
-          }
-        ],
-        "enableIPForwarding": true
-      }
-    },
-    {
-      "condition": "[equals(parameters('vnetNewOrExisting'),'new')]",
       "name": "SettingUpVirtualNetwork",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
@@ -342,6 +409,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
       "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments/', 'SettingUpstorageAccount')]",
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpPrimaryNic')]"
       ],
       "properties": {
@@ -367,11 +435,11 @@
               "computerName": "[parameters('vmName')]",
               "adminUsername": "[uniqueString(ResourceGroup().Id)]",
               "adminPassword": "[variables('adminPassword')]",
-              "customData": "[base64(parameters('customData'))]"
+              "customData": "[base64(if(empty(parameters('customData')), variables('customData'), parameters('customData')))]"
             }
           },
           "plan": {
-            "value" : {
+            "value": {
               "publisher": "[variables('imagePublisher')]",
               "product": "[variables('imageOffer')]",
               "name": "[variables('imageSku')]"
@@ -379,11 +447,11 @@
           },
           "storageProfile": {
             "value": {
-              "imageReference":{
-                "publisher":"[variables('imagePublisher')]",
-                "offer":"[variables('imageOffer')]",
-                "sku":"[variables('imageSku')]",
-                "version":"[variables('imageVersion')]"
+              "imageReference": {
+                "publisher": "[variables('imagePublisher')]",
+                "offer": "[variables('imageOffer')]",
+                "sku": "[variables('imageSku')]",
+                "version": "[variables('imageVersion')]"
               }
             }
           },
@@ -402,7 +470,8 @@
           "diagnosticsProfile": {
             "value": {
               "bootDiagnostics": {
-                "enabled": "true"
+                "enabled": "true",
+                "storageUri": "[if(equals(parameters('storageAccountNewOrExistingOrNone'), 'none'), '', reference('SettingUpstorageAccount').outputs.endpointURL.value)]"
               }
             }
           }
