@@ -166,6 +166,27 @@
             "visible": true
           },
           {
+            "name": "securityGroup",
+            "type": "Microsoft.Common.DropDown",
+            "label": "Security group",
+            "toolTip": "Select inbound ports.",
+            "multiselect": true,
+            "selectAll": true,
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "Bootstrap UI (443)",
+                  "value": "bootstrapUi"
+                },
+                {
+                  "label": "SSH (22)",
+                  "value": "ssh"
+                }
+              ]
+            },
+            "visible": true
+          },
+          {
             "name": "serialConsole",
             "type": "Microsoft.Common.OptionsGroup",
             "label": "Serial Console",
@@ -215,6 +236,8 @@
       "publicIPAddressName": "[steps('vmSettings').publicIp.name]",
       "publicIpExistingRgName": "[steps('vmSettings').publicIp.resourceGroup]",
       "publicIpNewOrExistingOrNone": "[steps('vmSettings').publicIp.newOrExistingOrNone]",
+      "securityGroupSsh": "[if(contains(steps('vmSettings').securityGroup, 'ssh'), 'true', 'false')]",
+      "securityGroupBootstrapUi": "[if(contains(steps('vmSettings').securityGroup, 'bootstrapUi'), 'true', 'false')]",
       "storageAccountName": "[steps('vmSettings').storageAccount.name]",
       "storageAccountType": "[steps('vmSettings').storageAccount.type]",
       "storageAccountNewOrExistingOrNone": "[if(empty(steps('vmSettings').storageAccount.newOrExisting), 'none', steps('vmSettings').storageAccount.newOrExisting)]",

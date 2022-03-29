@@ -57,6 +57,22 @@
         "description": "Indicates whether the Public IP is new or existing."
       }
     },
+    "securityGroupSsh": {
+      "type": "string",
+      "defaultValue": "false",
+      "allowedValues": [
+        "false",
+        "true"
+      ]
+    },
+    "securityGroupBootstrapUi": {
+      "type": "string",
+      "defaultValue": "false",
+      "allowedValues": [
+        "false",
+        "true"
+      ]
+    },
     "storageAccountName": {
       "type": "string",
       "defaultValue": "",
@@ -233,6 +249,40 @@
     "publicIpResourceId": "[if(equals(parameters('publicIpNewOrExistingOrNone'), 'none'), '', if(equals(parameters('publicIpNewOrExistingOrNone'), 'new'), variables('publicIpResourceNew'), variables('publicIpResourceExisting')))]",
     "publicIpResourceNew": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]",
     "publicIpSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/publicip-', variables('publicIpNewOrNone'), '.json'))]",
+    "securityRuleBase": [],
+    "securityRuleHtps": [
+      {
+        "name": "HTTPS",
+        "properties": {
+          "description": "Allow HTTPS",
+          "access": "Allow",
+          "destinationAddressPrefix": "*",
+          "destinationPortRange": "443",
+          "direction": "Inbound",
+          "priority": 101,
+          "protocol": "Tcp",
+          "sourceAddressPrefix": "*",
+          "sourcePortRange": "*"
+        }
+      }
+    ],
+    "securityRuleSsh": [
+      {
+        "name": "SSH",
+        "properties": {
+          "description": "Allow SSH",
+          "access": "Allow",
+          "destinationAddressPrefix": "*",
+          "destinationPortRange": "22",
+          "direction": "Inbound",
+          "priority": 100,
+          "protocol": "Tcp",
+          "sourceAddressPrefix": "*",
+          "sourcePortRange": "*"
+        }
+      }
+    ],
+    "securityRules": "[if(equals(parameters('securityGroupSsh'), 'true'), concat(if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), variables('securityRuleBase')), variables('securityRuleSsh')), if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), variables('securityRuleBase')))]",
     "storageAccountExistingParams": {
       "storageAccountName": {
         "value": "[parameters('storageAccountName')]"
@@ -275,14 +325,7 @@
     },
     "vnetResourceExisting": "[resourceId(parameters('virtualNetworkExistingRGName'),'Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
     "vnetResourceId": "[if(equals(parameters('vnetNewOrExisting'), 'new'), variables('vnetResourceNew'), variables('vnetResourceExisting'))]",
-    "vnetResourceNew": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-    "bootDiagnosticsNone": {
-      "enabled": "true"
-    },
-    "bootDiagnostics1": {
-      "enabled": "true",
-      "storageUri": "reference('SettingUpstorageAccount').outputs.endpointURL.value"
-    }
+    "vnetResourceNew": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
   },
   "resources": [
     {
@@ -317,36 +360,7 @@
       "name": "[variables('nsgName')]",
       "location": "[parameters('location')]",
       "properties": {
-        "securityRules": [
-          {
-            "name": "SSH",
-            "properties": {
-              "description": "Allow SSH",
-              "access": "Allow",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "22",
-              "direction": "Inbound",
-              "priority": 100,
-              "protocol": "Tcp",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*"
-            }
-          },
-          {
-            "name": "HTTPS",
-            "properties": {
-              "description": "Allow HTTPS",
-              "access": "Allow",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "443",
-              "direction": "Inbound",
-              "priority": 101,
-              "protocol": "Tcp",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*"
-            }
-          }
-        ]
+        "securityRules": "[variables('securityRules')]"
       }
     },
     {
