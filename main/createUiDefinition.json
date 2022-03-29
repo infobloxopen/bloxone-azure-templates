@@ -126,7 +126,7 @@
               "virtualNetwork": "Only virtual networks in the currently selected subscription and location are listed. If you choose to create a new virtual network, it will be created in the same subscription, location, and resource group as the storage account."
             },
             "defaultValue": {
-              "addressPrefixSize": "/16"
+              "addressPrefixSize": "/8"
             },
             "constraints": {
               "minAddressPrefixSize": "/29"
