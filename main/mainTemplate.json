@@ -159,7 +159,7 @@
       "metadata": {
         "description": "Size of the Virtual Machine."
       },
-      "defaultValue": "Standard_F4s",
+      "defaultValue": "Standard_F8s",
       "allowedValues": [
         "Standard_B2s",
         "Standard_B2ms",

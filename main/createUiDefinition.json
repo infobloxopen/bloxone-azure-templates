@@ -40,7 +40,7 @@
         "label": "VM size",
         "toolTip": "Select the size of VM.",
         "recommendedSizes": [
-          "Standard_F4s"
+          "Standard_F8s"
         ],
         "constraints": {
           "allowedSizes": [
