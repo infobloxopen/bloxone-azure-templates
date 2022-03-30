@@ -86,7 +86,7 @@
         "toolTip": "Pass Jointoken.",
         "constraints": {
           "required": true,
-          "regex": "^[a-zA-Z0-9_-]{44}$",
+          "regex": "^[a-zA-Z0-9_-]{44,44}$",
           "validationMessage": "Insert validate Jointoken."
         },
         "visible": "[equals(basics('injecting'), 'Jointoken')]"
@@ -126,7 +126,7 @@
               "virtualNetwork": "Only virtual networks in the currently selected subscription and location are listed. If you choose to create a new virtual network, it will be created in the same subscription, location, and resource group as the storage account."
             },
             "defaultValue": {
-              "addressPrefixSize": "/8"
+              "addressPrefixSize": "/16"
             },
             "constraints": {
               "minAddressPrefixSize": "/29"
