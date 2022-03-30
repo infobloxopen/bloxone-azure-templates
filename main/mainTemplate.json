@@ -6,13 +6,6 @@
       "type": "string",
       "defaultValue": "[deployment().properties.templateLink.uri]"
     },
-    "customData": {
-      "type": "string",
-      "metadata": {
-        "description": "CustomData for cloudinit."
-      },
-      "defaultValue": ""
-    },
     "guid": {
       "type": "string",
       "defaultValue": "[newGuid()]"
@@ -435,7 +428,7 @@
               "computerName": "[parameters('vmName')]",
               "adminUsername": "[uniqueString(ResourceGroup().Id)]",
               "adminPassword": "[variables('adminPassword')]",
-              "customData": "[base64(if(empty(parameters('customData')), variables('customData'), parameters('customData')))]"
+              "customData": "[base64(variables('customData'))]"
             }
           },
           "plan": {
