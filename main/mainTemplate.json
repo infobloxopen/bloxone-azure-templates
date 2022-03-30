@@ -54,13 +54,8 @@
         "description": "Indicates whether the Public IP is new or existing."
       }
     },
-    "securityGroupBootstrapUi": {
-      "type": "string",
-      "defaultValue": "false",
-      "allowedValues": [
-        "false",
-        "true"
-      ]
+    "securityGroup": {
+      "type": "array"
     },
     "storageAccountName": {
       "type": "string",
@@ -251,7 +246,7 @@
         }
       }
     ],
-    "securityRules": "[if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), json('[]'))]",
+    "securityRules": "[if(contains(parameters('securityGroup'), 'bootstrapUi'), variables('securityRuleHtps'), json('[]'))]",
     "storageAccountExistingParams": {
       "storageAccountName": {
         "value": "[parameters('storageAccountName')]"

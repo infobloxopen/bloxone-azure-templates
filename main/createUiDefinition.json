@@ -194,7 +194,7 @@
       "publicIPAddressName": "[steps('vmSettings').publicIp.name]",
       "publicIpExistingRgName": "[steps('vmSettings').publicIp.resourceGroup]",
       "publicIpNewOrExistingOrNone": "[steps('vmSettings').publicIp.newOrExistingOrNone]",
-      "securityGroupBootstrapUi": "[if(contains(steps('vmSettings').securityGroup, 'bootstrapUi'), 'true', 'false')]",
+      "securityGroup": "[steps('vmSettings').securityGroup]",
       "storageAccountName": "[steps('vmSettings').storageAccount.name]",
       "storageAccountType": "[steps('vmSettings').storageAccount.type]",
       "storageAccountNewOrExistingOrNone": "[if(empty(steps('vmSettings').storageAccount.newOrExisting), 'none', steps('vmSettings').storageAccount.newOrExisting)]",
