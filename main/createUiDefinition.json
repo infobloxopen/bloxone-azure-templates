@@ -59,27 +59,6 @@
         "osPlatform": "Linux"
       },
       {
-        "name": "injecting",
-        "type": "Microsoft.Common.OptionsGroup",
-        "label": "Injecting",
-        "defaultValue": "Jointoken",
-        "toolTip": "Choose the type of injection.",
-        "constraints": {
-          "allowedValues": [
-            {
-              "label": "Jointoken",
-              "value": "Jointoken"
-            },
-            {
-              "label": "Custom Data",
-              "value": "Custom Data"
-            }
-          ],
-          "required": true
-        },
-        "visible": true
-      },
-      {
         "name": "jointoken",
         "type": "Microsoft.Common.TextBox",
         "label": "Jointoken",
@@ -89,20 +68,7 @@
           "regex": "^[a-zA-Z0-9_-]{44}$",
           "validationMessage": "Insert validate Jointoken."
         },
-        "visible": "[equals(basics('injecting'), 'Jointoken')]"
-      },
-      {
-        "name": "customData",
-        "type": "Microsoft.Common.TextBox",
-        "label": "Custom data",
-        "toolTip": "Pass Custom Data for cloudinit.",
-        "multiLine": true,
-        "constraints": {
-          "required": false,
-          "regex": "(?=.*).{0,100000}",
-          "validationMessage": "The Custom data cannot be more than 100000 characters."
-        },
-        "visible": "[equals(basics('injecting'), 'Custom Data')]"
+        "visible": "true"
       }
     ],
     "steps": [
@@ -177,10 +143,6 @@
                 {
                   "label": "Bootstrap UI (443)",
                   "value": "bootstrapUi"
-                },
-                {
-                  "label": "SSH (22)",
-                  "value": "ssh"
                 }
               ]
             },
@@ -227,13 +189,11 @@
       }
     ],
     "outputs": {
-      "customData": "[basics('customData')]",
       "jointoken": "[basics('jointoken')]",
       "location": "[location()]",
       "publicIPAddressName": "[steps('vmSettings').publicIp.name]",
       "publicIpExistingRgName": "[steps('vmSettings').publicIp.resourceGroup]",
       "publicIpNewOrExistingOrNone": "[steps('vmSettings').publicIp.newOrExistingOrNone]",
-      "securityGroupSsh": "[if(contains(steps('vmSettings').securityGroup, 'ssh'), 'true', 'false')]",
       "securityGroupBootstrapUi": "[if(contains(steps('vmSettings').securityGroup, 'bootstrapUi'), 'true', 'false')]",
       "storageAccountName": "[steps('vmSettings').storageAccount.name]",
       "storageAccountType": "[steps('vmSettings').storageAccount.type]",
