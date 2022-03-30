@@ -169,7 +169,8 @@
         "Standard_B12ms",
         "Standard_B16ms",
         "Standard_B20ms",
-        "Standard_F4s"
+        "Standard_F4s",
+        "Standard_F8s"
       ]
     },
     "vnetNewOrExisting": {
