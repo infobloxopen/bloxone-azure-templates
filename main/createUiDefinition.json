@@ -86,7 +86,7 @@
         "toolTip": "Pass Jointoken.",
         "constraints": {
           "required": true,
-          "regex": "^[a-zA-Z0-9_-]{44}$",
+          "regex": "^[a-zA-Z0-9_-]{44,44}$",
           "validationMessage": "Insert validate Jointoken."
         },
         "visible": "[equals(basics('injecting'), 'Jointoken')]"

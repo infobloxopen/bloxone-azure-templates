@@ -6,6 +6,10 @@
       "type": "string",
       "defaultValue": "[deployment().properties.templateLink.uri]"
     },
+    "_artifactsLocationSasToken": {
+      "type": "secureString",
+      "defaultValue": ""
+    },
     "customData": {
       "type": "string",
       "metadata": {
@@ -225,9 +229,8 @@
         "value": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
       }
     },
-    "nicPrimarySetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/nic-pip-', variables('publicIpExistingOrNone'), '.json'))]",
+    "nicPrimarySetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/nic-pip-', variables('publicIpExistingOrNone'), '.json', parameters('_artifactsLocationSasToken')))]",
     "nsgName": "[concat(parameters('vmName'), '-securityGroup')]",
-    "osDiskName": "[concat(parameters('vmName'), uniqueString(resourceGroup().id))]",
     "publicIpAddressType": "Dynamic",
     "publicIpExistingOrNone": "[replace(parameters('publicIpNewOrExistingOrNone'), 'new', 'existing')]",
     "publicIpNewOrNone": "[replace(parameters('publicIpNewOrExistingOrNone'), 'existing', 'none')]",
@@ -245,8 +248,7 @@
     "publicIpResourceExisting": "[resourceId(parameters('publicIpExistingRgName'), concat('Microsoft.Network', '/', 'publicIpAddresses'), parameters('publicIpAddressName'))]",
     "publicIpResourceId": "[if(equals(parameters('publicIpNewOrExistingOrNone'), 'none'), '', if(equals(parameters('publicIpNewOrExistingOrNone'), 'new'), variables('publicIpResourceNew'), variables('publicIpResourceExisting')))]",
     "publicIpResourceNew": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]",
-    "publicIpSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/publicip-', variables('publicIpNewOrNone'), '.json'))]",
-    "securityRuleBase": [],
+    "publicIpSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/publicip-', variables('publicIpNewOrNone'), '.json', parameters('_artifactsLocationSasToken')))]",
     "securityRuleHtps": [
       {
         "name": "HTTPS",
@@ -279,7 +281,7 @@
         }
       }
     ],
-    "securityRules": "[if(equals(parameters('securityGroupSsh'), 'true'), concat(if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), variables('securityRuleBase')), variables('securityRuleSsh')), if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), variables('securityRuleBase')))]",
+    "securityRules": "[if(equals(parameters('securityGroupSsh'), 'true'), concat(if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), json('[]')), variables('securityRuleSsh')), if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), json('[]')))]",
     "storageAccountExistingParams": {
       "storageAccountName": {
         "value": "[parameters('storageAccountName')]"
@@ -301,8 +303,8 @@
     },
     "storageAccountSetupURL": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/storageAccount-', parameters('storageAccountNewOrExistingOrNone'), '.json'))]",
     "subnet1ResourceId": "[concat(variables('vnetResourceId'), '/subnets/', parameters('subnet1Name'))]",
-    "virtualMachineSetUrl": "[uri(parameters('_artifactsLocation'), 'nestedtemplates/vm.json')]",
-    "virtualNetworkSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/vnet-', parameters('vnetNewOrExisting'),'.json'))]",
+    "virtualMachineSetUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/vm.json', parameters('_artifactsLocationSasToken')))]",
+    "virtualNetworkSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/vnet-', parameters('vnetNewOrExisting'), '.json', parameters('_artifactsLocationSasToken')))]",
     "vnetNewParams": {
       "location": {
         "value": "[parameters('location')]"
