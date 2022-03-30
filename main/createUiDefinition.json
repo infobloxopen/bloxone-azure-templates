@@ -143,10 +143,6 @@
                 {
                   "label": "Bootstrap UI (443)",
                   "value": "bootstrapUi"
-                },
-                {
-                  "label": "SSH (22)",
-                  "value": "ssh"
                 }
               ]
             },
@@ -198,7 +194,6 @@
       "publicIPAddressName": "[steps('vmSettings').publicIp.name]",
       "publicIpExistingRgName": "[steps('vmSettings').publicIp.resourceGroup]",
       "publicIpNewOrExistingOrNone": "[steps('vmSettings').publicIp.newOrExistingOrNone]",
-      "securityGroupSsh": "[if(contains(steps('vmSettings').securityGroup, 'ssh'), 'true', 'false')]",
       "securityGroupBootstrapUi": "[if(contains(steps('vmSettings').securityGroup, 'bootstrapUi'), 'true', 'false')]",
       "storageAccountName": "[steps('vmSettings').storageAccount.name]",
       "storageAccountType": "[steps('vmSettings').storageAccount.type]",

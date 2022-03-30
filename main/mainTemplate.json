@@ -50,14 +50,6 @@
         "description": "Indicates whether the Public IP is new or existing."
       }
     },
-    "securityGroupSsh": {
-      "type": "string",
-      "defaultValue": "false",
-      "allowedValues": [
-        "false",
-        "true"
-      ]
-    },
     "securityGroupBootstrapUi": {
       "type": "string",
       "defaultValue": "false",
@@ -239,7 +231,6 @@
     "publicIpResourceId": "[if(equals(parameters('publicIpNewOrExistingOrNone'), 'none'), '', if(equals(parameters('publicIpNewOrExistingOrNone'), 'new'), variables('publicIpResourceNew'), variables('publicIpResourceExisting')))]",
     "publicIpResourceNew": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]",
     "publicIpSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/publicip-', variables('publicIpNewOrNone'), '.json'))]",
-    "securityRuleBase": [],
     "securityRuleHtps": [
       {
         "name": "HTTPS",
@@ -256,23 +247,7 @@
         }
       }
     ],
-    "securityRuleSsh": [
-      {
-        "name": "SSH",
-        "properties": {
-          "description": "Allow SSH",
-          "access": "Allow",
-          "destinationAddressPrefix": "*",
-          "destinationPortRange": "22",
-          "direction": "Inbound",
-          "priority": 100,
-          "protocol": "Tcp",
-          "sourceAddressPrefix": "*",
-          "sourcePortRange": "*"
-        }
-      }
-    ],
-    "securityRules": "[if(equals(parameters('securityGroupSsh'), 'true'), concat(if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), variables('securityRuleBase')), variables('securityRuleSsh')), if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), variables('securityRuleBase')))]",
+    "securityRules": "[if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), json('[]'))]",
     "storageAccountExistingParams": {
       "storageAccountName": {
         "value": "[parameters('storageAccountName')]"
