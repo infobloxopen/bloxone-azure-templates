@@ -61,21 +61,8 @@
         "description": "Indicates whether the Public IP is new or existing."
       }
     },
-    "securityGroupSsh": {
-      "type": "string",
-      "defaultValue": "false",
-      "allowedValues": [
-        "false",
-        "true"
-      ]
-    },
-    "securityGroupBootstrapUi": {
-      "type": "string",
-      "defaultValue": "false",
-      "allowedValues": [
-        "false",
-        "true"
-      ]
+    "securityGroup": {
+      "type": "array"
     },
     "storageAccountName": {
       "type": "string",
@@ -282,7 +269,7 @@
         }
       }
     ],
-    "securityRules": "[if(equals(parameters('securityGroupSsh'), 'true'), concat(if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), json('[]')), variables('securityRuleSsh')), if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), json('[]')))]",
+    "securityRules": "[if(contains(parameters('securityGroup'), 'ssh'), concat(if(contains(parameters('securityGroup'), 'bootstrapUi'), variables('securityRuleHtps'), json('[]')), variables('securityRuleSsh')), if(contains(parameters('securityGroup'), 'bootstrapUi'), variables('securityRuleHtps'), json('[]')))]",
     "storageAccountExistingParams": {
       "storageAccountName": {
         "value": "[parameters('storageAccountName')]"
