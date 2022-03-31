@@ -8,7 +8,10 @@
     },
     "_artifactsLocationSasToken": {
       "type": "secureString",
-      "defaultValue": ""
+      "defaultValue": "",
+      "metadata": {
+        "description": "SasToken access to Azure Storage resources."
+      }
     },
     "guid": {
       "type": "string",
@@ -54,8 +57,13 @@
         "description": "Indicates whether the Public IP is new or existing."
       }
     },
-    "securityGroup": {
-      "type": "array"
+    "securityGroupBootstrapUi": {
+      "type": "string",
+      "defaultValue": "false",
+      "allowedValues": [
+        "false",
+        "true"
+      ]
     },
     "storageAccountName": {
       "type": "string",
@@ -168,16 +176,16 @@
   "variables": {
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
-    "customData": "[concat(variables('cloudConfig'), '  access_portal: ', variables('hostSetup').accessPortal, '\n  jointoken: ', parameters('jointoken'), '\n  config_server: ', variables('hostSetup').configServer, '\n  notification_server: ', variables('hostSetup').notificationServer, '\n')]",
+    "customData": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n')]",
     "hostSetup": {
       "accessPortal": "",
       "configServer": "",
       "notificationServer": ""
     },
-    "imagePublisher": "infoblox",
-    "imageOffer": "infoblox-bloxone-33",
-    "imageSku": "infoblox-bloxone-33",
-    "imageVersion": "3.3.0",
+    "imageOffer": "",
+    "imagePublisher": "",
+    "imageSku": "",
+    "imageVersion": "",
     "nicPrimaryExistingParams": {
       "location": {
         "value": "[parameters('location')]"
@@ -246,7 +254,7 @@
         }
       }
     ],
-    "securityRules": "[if(contains(parameters('securityGroup'), 'bootstrapUi'), variables('securityRuleHtps'), json('[]'))]",
+    "securityRules": "[if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), json('[]'))]",
     "storageAccountExistingParams": {
       "storageAccountName": {
         "value": "[parameters('storageAccountName')]"
