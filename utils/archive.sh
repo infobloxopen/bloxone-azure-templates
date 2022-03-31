@@ -13,21 +13,21 @@ function archive() {
 
 function usage() {
     echo -e "\nUsage: $0 accessPortal=<accessPortal> configServer=<configServer> imageOffer=<imageOffer> imagePublisher=<imagePublisher> imageSku=<imageSku> imageVersion=<imageVersion> notificationServer=<notificationServer> pid=<pid>"
-      echo -e "Required parameters:\n imageOffer\n imagePublisher\n imageSku\n imageVersion\n pid"
+    echo -e "Required parameters:\n imageOffer\n imagePublisher\n imageSku\n imageVersion\n pid"
     echo -e "Optional parameters:\n accessPortal\n configServer\n notificationServer\n"
 }
 
 # Patching mainTemplate.
 function patchMainTemplate() {
-    if [ -z ${accessPortal} ]; then
+    if [ ! -z ${accessPortal} ]; then
         jq ".variables.hostSetup.accessPortal = \"${accessPortal}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
     fi
 
-    if [ -z ${configServer} ]; then
+    if [ ! -z ${configServer} ]; then
         jq ".variables.hostSetup.configServer = \"${configServer}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
     fi
 
-    if [ -z ${notificationServer} ]; then
+    if [ ! -z ${notificationServer} ]; then
         jq ".variables.hostSetup.notificationServer = \"${notificationServer}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
     fi
 
