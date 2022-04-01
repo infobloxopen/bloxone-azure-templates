@@ -69,6 +69,18 @@
           "validationMessage": "Insert valid Jointoken."
         },
         "visible": "true"
+      },
+      {
+        "name": "accessproxy",
+        "type": "Microsoft.Common.TextBox",
+        "label": "http proxy",
+        "toolTip": "Pass Accessproxy.",
+        "constraints": {
+          "required": false,
+          "regex": "(http|https)?:\\/\\/(\\S+)",
+          "validationMessage": "Pass correct Access Proxy"
+        },
+        "visible": "true"
       }
     ],
     "steps": [
@@ -186,6 +198,7 @@
     ],
     "outputs": {
       "jointoken": "[basics('jointoken')]",
+      "accessproxy": "[basics('accessproxy')]",
       "location": "[location()]",
       "publicIPAddressName": "[steps('vmSettings').publicIp.name]",
       "publicIpExistingRgName": "[steps('vmSettings').publicIp.resourceGroup]",
