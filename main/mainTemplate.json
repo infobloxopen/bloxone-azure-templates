@@ -24,10 +24,10 @@
       },
       "defaultValue": ""
     },
-    "accessproxy": {
+    "httpproxy": {
       "type": "string",
       "metadata": {
-        "description": "accessproxy."
+        "description": "httpproxy."
       },
       "defaultValue": ""
     },
@@ -182,9 +182,9 @@
   "variables": {
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
-    "customDataWithoutAccessProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n')]",
-    "customDataWithAccessProxy": "[concat(variables('customDataWithoutAccessProxy'), '  access_https_proxy: ', parameters('accessproxy'), '\n')]",
-    "customData": "[if(empty(parameters('accessproxy')), variables('customDataWithoutAccessProxy'), variables('customDataWithAccessProxy'))]",
+    "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n')]",
+    "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpproxy'), '\n')]",
+    "customData": "[if(empty(parameters('httpproxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
     "hostSetup": {
       "accessPortal": "",
       "configServer": "",
