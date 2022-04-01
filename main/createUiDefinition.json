@@ -62,11 +62,11 @@
         "name": "jointoken",
         "type": "Microsoft.Common.TextBox",
         "label": "Jointoken",
-        "toolTip": "Pass Jointoken.",
+        "toolTip": "Enter Jointoken obtained from CSP.",
         "constraints": {
           "required": true,
-          "regex": "^[a-zA-Z0-9_-]{44}$",
-          "validationMessage": "Insert validate Jointoken."
+          "regex": "^[a-zA-Z0-9_-]{44,44}$",
+          "validationMessage": "Insert valid Jointoken."
         },
         "visible": "true"
       }
@@ -91,9 +91,6 @@
             "toolTip": {
               "virtualNetwork": "Only virtual networks in the currently selected subscription and location are listed. If you choose to create a new virtual network, it will be created in the same subscription, location, and resource group as the storage account."
             },
-            "defaultValue": {
-              "addressPrefixSize": "/8"
-            },
             "constraints": {
               "minAddressPrefixSize": "/29"
             },
@@ -104,8 +101,7 @@
               "subnet1": {
                 "label": "Subnet",
                 "defaultValue": {
-                  "name": "subnet1",
-                  "addressPrefixSize": "/24"
+                  "name": "subnet1"
                 },
                 "constraints": {
                   "minAddressPrefixSize": "/30"
