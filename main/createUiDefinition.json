@@ -144,8 +144,6 @@
             "type": "Microsoft.Common.DropDown",
             "label": "Security group",
             "toolTip": "Select inbound ports.",
-            "multiselect": true,
-            "selectAll": true,
             "constraints": {
               "allowedValues": [
                 {
