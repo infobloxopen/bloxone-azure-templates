@@ -71,7 +71,7 @@
         "visible": "true"
       },
       {
-        "name": "httpproxy",
+        "name": "httpProxy",
         "type": "Microsoft.Common.TextBox",
         "label": "HTTP proxy",
         "toolTip": "Pass HTTP Proxy.",
@@ -196,7 +196,7 @@
     ],
     "outputs": {
       "jointoken": "[basics('jointoken')]",
-      "httpproxy": "[basics('httpproxy')]",
+      "httpProxy": "[basics('httpProxy')]",
       "location": "[location()]",
       "publicIPAddressName": "[steps('vmSettings').publicIp.name]",
       "publicIpExistingRgName": "[steps('vmSettings').publicIp.resourceGroup]",

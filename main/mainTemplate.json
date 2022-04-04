@@ -24,10 +24,10 @@
       },
       "defaultValue": ""
     },
-    "httpproxy": {
+    "httpProxy": {
       "type": "string",
       "metadata": {
-        "description": "httpproxy."
+        "description": "httpProxy."
       },
       "defaultValue": ""
     },
@@ -110,14 +110,12 @@
     },
     "subnet1Name": {
       "type": "string",
-      "defaultValue": "",
       "metadata": {
         "description": "Subnet 1 name."
       }
     },
     "subnet1Prefix": {
       "type": "string",
-      "defaultValue": "",
       "metadata": {
         "description": "Subnet 1 prefix."
       }
@@ -137,7 +135,6 @@
     },
     "virtualNetworkName": {
       "type": "string",
-      "defaultValue": "",
       "metadata": {
         "description": "Virtual network name."
       }
@@ -183,8 +180,8 @@
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
     "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n')]",
-    "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpproxy'), '\n')]",
-    "customData": "[if(empty(parameters('httpproxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
+    "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpProxy'), '\n')]",
+    "customData": "[if(empty(parameters('httpProxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
     "hostSetup": {
       "accessPortal": "",
       "configServer": "",
