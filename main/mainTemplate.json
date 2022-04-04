@@ -110,7 +110,7 @@
     },
     "subnet1Name": {
       "type": "string",
-      "defaultValue": "default",
+      "defaultValue": "",
       "metadata": {
         "description": "Subnet 1 name."
       }
@@ -137,7 +137,7 @@
     },
     "virtualNetworkName": {
       "type": "string",
-      "defaultValue": "onprem-qa-vnet",
+      "defaultValue": "",
       "metadata": {
         "description": "Virtual network name."
       }
