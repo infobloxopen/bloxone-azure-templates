@@ -122,21 +122,18 @@
     },
     "subnet1Name": {
       "type": "string",
-      "defaultValue": "",
       "metadata": {
         "description": "Subnet 1 name."
       }
     },
     "subnet1Prefix": {
       "type": "string",
-      "defaultValue": "",
       "metadata": {
         "description": "Subnet 1 prefix."
       }
     },
     "virtualNetworkAddressPrefix": {
       "type": "string",
-      "defaultValue": "",
       "metadata": {
         "description": "Virtual network address prefix."
       }
@@ -150,7 +147,6 @@
     },
     "virtualNetworkName": {
       "type": "string",
-      "defaultValue": "",
       "metadata": {
         "description": "Virtual network name."
       }
