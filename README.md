@@ -4,5 +4,5 @@
 
 To create zip archive use archive.sh script from utils directory:
 ```
-$ utils/archive.sh accessPortal="" configServer="" notificationServer="" pid=""
+$ utils/archive.sh accessPortal="" configServer="" imageOffer="" imagePublisher="" imageSku="" imageVersion="" notificationServer="" pid=""
 ```

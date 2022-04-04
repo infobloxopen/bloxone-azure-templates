@@ -6,6 +6,13 @@
       "type": "string",
       "defaultValue": "[deployment().properties.templateLink.uri]"
     },
+    "_artifactsLocationSasToken": {
+      "type": "secureString",
+      "defaultValue": "",
+      "metadata": {
+        "description": "SasToken access to Azure Storage resources."
+      }
+    },
     "guid": {
       "type": "string",
       "defaultValue": "[newGuid()]"
@@ -14,6 +21,13 @@
       "type": "string",
       "metadata": {
         "description": "Jointoken."
+      },
+      "defaultValue": ""
+    },
+    "httpproxy": {
+      "type": "string",
+      "metadata": {
+        "description": "httpproxy."
       },
       "defaultValue": ""
     },
@@ -96,21 +110,20 @@
     },
     "subnet1Name": {
       "type": "string",
-      "defaultValue": "default",
+      "defaultValue": "",
       "metadata": {
         "description": "Subnet 1 name."
       }
     },
     "subnet1Prefix": {
       "type": "string",
-      "defaultValue": "10.2.0.0/24",
+      "defaultValue": "",
       "metadata": {
         "description": "Subnet 1 prefix."
       }
     },
     "virtualNetworkAddressPrefix": {
       "type": "string",
-      "defaultValue": "10.0.0.0/8",
       "metadata": {
         "description": "Virtual network address prefix."
       }
@@ -124,7 +137,7 @@
     },
     "virtualNetworkName": {
       "type": "string",
-      "defaultValue": "onprem-qa-vnet",
+      "defaultValue": "",
       "metadata": {
         "description": "Virtual network name."
       }
@@ -150,7 +163,8 @@
         "Standard_B12ms",
         "Standard_B16ms",
         "Standard_B20ms",
-        "Standard_F4s"
+        "Standard_F4s",
+        "Standard_F8s"
       ]
     },
     "vnetNewOrExisting": {
@@ -168,16 +182,18 @@
   "variables": {
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
-    "customData": "[concat(variables('cloudConfig'), '  access_portal: ', variables('hostSetup').accessPortal, '\n  jointoken: ', parameters('jointoken'), '\n  config_server: ', variables('hostSetup').configServer, '\n  notification_server: ', variables('hostSetup').notificationServer, '\n')]",
+    "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n')]",
+    "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpproxy'), '\n')]",
+    "customData": "[if(empty(parameters('httpproxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
     "hostSetup": {
       "accessPortal": "",
       "configServer": "",
       "notificationServer": ""
     },
-    "imagePublisher": "infoblox",
-    "imageOffer": "infoblox-bloxone-33",
-    "imageSku": "infoblox-bloxone-33",
-    "imageVersion": "3.3.0",
+    "imageOffer": "",
+    "imagePublisher": "",
+    "imageSku": "",
+    "imageVersion": "",
     "nicPrimaryExistingParams": {
       "location": {
         "value": "[parameters('location')]"
@@ -210,9 +226,8 @@
         "value": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
       }
     },
-    "nicPrimarySetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/nic-pip-', variables('publicIpExistingOrNone'), '.json'))]",
+    "nicPrimarySetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/nic-pip-', variables('publicIpExistingOrNone'), '.json', parameters('_artifactsLocationSasToken')))]",
     "nsgName": "[concat(parameters('vmName'), '-securityGroup')]",
-    "osDiskName": "[concat(parameters('vmName'), uniqueString(resourceGroup().id))]",
     "publicIpAddressType": "Dynamic",
     "publicIpExistingOrNone": "[replace(parameters('publicIpNewOrExistingOrNone'), 'new', 'existing')]",
     "publicIpNewOrNone": "[replace(parameters('publicIpNewOrExistingOrNone'), 'existing', 'none')]",
@@ -230,7 +245,7 @@
     "publicIpResourceExisting": "[resourceId(parameters('publicIpExistingRgName'), concat('Microsoft.Network', '/', 'publicIpAddresses'), parameters('publicIpAddressName'))]",
     "publicIpResourceId": "[if(equals(parameters('publicIpNewOrExistingOrNone'), 'none'), '', if(equals(parameters('publicIpNewOrExistingOrNone'), 'new'), variables('publicIpResourceNew'), variables('publicIpResourceExisting')))]",
     "publicIpResourceNew": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]",
-    "publicIpSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/publicip-', variables('publicIpNewOrNone'), '.json'))]",
+    "publicIpSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/publicip-', variables('publicIpNewOrNone'), '.json', parameters('_artifactsLocationSasToken')))]",
     "securityRuleHtps": [
       {
         "name": "HTTPS",
@@ -269,8 +284,8 @@
     },
     "storageAccountSetupURL": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/storageAccount-', parameters('storageAccountNewOrExistingOrNone'), '.json'))]",
     "subnet1ResourceId": "[concat(variables('vnetResourceId'), '/subnets/', parameters('subnet1Name'))]",
-    "virtualMachineSetUrl": "[uri(parameters('_artifactsLocation'), 'nestedtemplates/vm.json')]",
-    "virtualNetworkSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/vnet-', parameters('vnetNewOrExisting'),'.json'))]",
+    "virtualMachineSetUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/vm.json', parameters('_artifactsLocationSasToken')))]",
+    "virtualNetworkSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/vnet-', parameters('vnetNewOrExisting'), '.json', parameters('_artifactsLocationSasToken')))]",
     "vnetNewParams": {
       "location": {
         "value": "[parameters('location')]"
