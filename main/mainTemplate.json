@@ -24,6 +24,13 @@
       },
       "defaultValue": ""
     },
+    "httpProxy": {
+      "type": "string",
+      "metadata": {
+        "description": "httpProxy."
+      },
+      "defaultValue": ""
+    },
     "location": {
       "type": "string",
       "metadata": {
@@ -103,14 +110,12 @@
     },
     "subnet1Name": {
       "type": "string",
-      "defaultValue": "default",
       "metadata": {
         "description": "Subnet 1 name."
       }
     },
     "subnet1Prefix": {
       "type": "string",
-      "defaultValue": "10.2.0.0/24",
       "metadata": {
         "description": "Subnet 1 prefix."
       }
@@ -130,7 +135,6 @@
     },
     "virtualNetworkName": {
       "type": "string",
-      "defaultValue": "onprem-qa-vnet",
       "metadata": {
         "description": "Virtual network name."
       }
@@ -175,7 +179,9 @@
   "variables": {
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
-    "customData": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n')]",
+    "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n')]",
+    "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpProxy'), '\n')]",
+    "customData": "[if(empty(parameters('httpProxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
     "hostSetup": {
       "accessPortal": "",
       "configServer": "",
