@@ -5,7 +5,7 @@ UI_TEMPLATE=main/createUiDefinition.json
 
 CUSTOM_DATA_PARAMETER='{"type":"string","metadata":{"description":"CustomData for cloudinit."},"defaultValue":""}'
 CUSTOM_DATA_VM="[base64(if(empty(parameters('customData')), variables('customData'), parameters('customData')))]"
-CUSTOM_DATA_WO_HTTP_PROXY="[concat(variables('cloudConfig'), '  access_portal: ', variables('hostSetup').accessPortal, '\n  config_server: ', variables('hostSetup').configServer, '\n  notification_server: ', variables('hostSetup').notificationServer, '\n')]"
+CUSTOM_DATA_WO_HTTP_PROXY="[concat(variables('cloudConfig'), '  access_portal: ', variables('hostSetup').accessPortal, '\n  config_server: ', variables('hostSetup').configServer, '\n  notification_server: ', variables('hostSetup').notificationServer, '\n  jointoken: ', parameters('jointoken'), '\n')]"
 
 SG_SSH='{"type":"string","defaultValue":"false","allowedValues":["false","true"]}'
 SR="[if(equals(parameters('securityGroupSsh'), 'true'), concat(if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), json('[]')), variables('securityRuleSsh')), if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), json('[]')))]"
