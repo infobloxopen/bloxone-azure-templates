@@ -12,30 +12,12 @@ function archive() {
 }
 
 function usage() {
-    echo -e "\nUsage: $0 accessPortal=<accessPortal> configServer=<configServer> imageOffer=<imageOffer> imagePublisher=<imagePublisher> imageSku=<imageSku> imageVersion=<imageVersion> notificationServer=<notificationServer> pid=<pid>"
+    echo -e "\nUsage: $0 imageOffer=<imageOffer> imagePublisher=<imagePublisher> imageSku=<imageSku> imageVersion=<imageVersion> pid=<pid>"
     echo -e "Required parameters:\n imageOffer\n imagePublisher\n imageSku\n imageVersion\n pid"
-    echo -e "Optional parameters:\n accessPortal\n configServer\n notificationServer\n"
 }
 
 # Patching mainTemplate.
 function patchMainTemplate() {
-    if [ ! -z ${accessPortal} ]; then
-        jq ".variables.hostSetup.accessPortal = \"${accessPortal}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
-    fi
-
-    if [ ! -z ${configServer} ]; then
-        jq ".variables.hostSetup.configServer = \"${configServer}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
-    fi
-
-    if [ ! -z ${notificationServer} ]; then
-        jq ".variables.hostSetup.notificationServer = \"${notificationServer}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
-    fi
-
-    # Removing hostSetup section in case if we not need override it.
-    if [ -z ${accessPortal} ] && [ -z ${configServer} ] && [ -z ${notificationServer} ]; then
-        jq "del(.variables.hostSetup)" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
-    fi
-
     jq ".variables.imageOffer = \"${imageOffer}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
     jq ".variables.imagePublisher = \"${imagePublisher}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
     jq ".variables.imageSku = \"${imageSku}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
