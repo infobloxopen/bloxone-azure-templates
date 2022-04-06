@@ -184,11 +184,6 @@
     "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n')]",
     "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpProxy'), '\n')]",
     "customData": "[if(empty(parameters('httpProxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
-    "hostSetup": {
-      "accessPortal": "",
-      "configServer": "",
-      "notificationServer": ""
-    },
     "imageOffer": "",
     "imagePublisher": "",
     "imageSku": "",
