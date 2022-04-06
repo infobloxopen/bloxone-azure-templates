@@ -29,8 +29,8 @@
         "multiLine": false,
         "constraints": {
           "required": true,
-          "regex": "^(([0-9a-zA-Z][0-9a-zA-Z-.]{0,63}[0-9a-zA-Z])|[0-9a-zA-Z]).{1,64}$",
-          "validationMessage": "The length must be between 1 and 64 characters. The first and the last characters must be letters or numbers. The remaining characters must be letters, numbers, periods or dashes."
+          "regex": "^(?!\\.|\\-|[0-9])([0-9a-zA-Z.-]){1,64}(?<!\\.|\\-)$",
+          "validationMessage": "Letters, numbers, '.' and '-' are allowed in the VM name.<br />The length must be between 1 and 64 characters.<br />The VM name cannot begin from numbers, '.', '-' or end with '.', '-'."
         },
         "visible": true
       },
