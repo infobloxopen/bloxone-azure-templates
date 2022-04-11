@@ -30,7 +30,7 @@
         "constraints": {
           "required": true,
           "regex": "^(?!\\.|\\-|[0-9])([0-9a-zA-Z.-]){1,64}(?<!\\.|\\-)$",
-          "validationMessage": "Letters, numbers, '.' and '-' are allowed in the VM name.<br />The length must be between 1 and 64 characters.<br />The VM name cannot begin from numbers, '.', '-' or end with '.', '-'."
+          "validationMessage": "Allowed characters for the VM name: [A-Z], [a-z], [0-9], [.-].<br />The length must be between 1 and 64 characters.<br />The VM name cannot start from [0-9], [.-] or end with [.-]."
         },
         "visible": true
       },
