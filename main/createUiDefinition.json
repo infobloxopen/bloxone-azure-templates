@@ -19,7 +19,7 @@
         },
         "location": {
           "label": "Region",
-          "toolTip": "Choose the Azure region that's right for you.",
+          "toolTip": "The Azure region into which the resources should be deployed.",
           "resourceTypes": [
             "Microsoft.Network/networkInterfaces",
             "Microsoft.Network/networkSecurityGroups",
