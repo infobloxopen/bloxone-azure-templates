@@ -153,18 +153,7 @@
       "metadata": {
         "description": "Size of the Virtual Machine."
       },
-      "defaultValue": "Standard_F8s",
-      "allowedValues": [
-        "Standard_B2s",
-        "Standard_B2ms",
-        "Standard_B4ms",
-        "Standard_B8ms",
-        "Standard_B12ms",
-        "Standard_B16ms",
-        "Standard_B20ms",
-        "Standard_F4s",
-        "Standard_F8s"
-      ]
+      "defaultValue": "Standard_F8s_v2"
     },
     "vnetNewOrExisting": {
       "type": "string",
