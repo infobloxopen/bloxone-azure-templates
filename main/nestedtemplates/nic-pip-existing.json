@@ -41,6 +41,7 @@
             }
           }
         ],
+        "enableIPForwarding": true,
         "networkSecurityGroup": {
           "id": "[parameters('networkSecurityGroupId')]"
         }
