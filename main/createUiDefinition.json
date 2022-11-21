@@ -111,6 +111,12 @@
             "visible": true
           },
           {
+            "name": "enableIPForwarding",
+            "type": "Microsoft.Common.CheckBox",
+            "label": "Enable IP forwarding",
+            "defaultValue": true
+          },
+          {
             "name": "publicIp",
             "type": "Microsoft.Network.PublicIpAddressCombo",
             "label": {
@@ -187,6 +193,7 @@
       }
     ],
     "outputs": {
+      "enableIPForwarding": "[steps('vmSettings').enableIPForwarding.value]",
       "jointoken": "[basics('jointoken')]",
       "httpProxy": "[basics('httpProxy')]",
       "location": "[location()]",

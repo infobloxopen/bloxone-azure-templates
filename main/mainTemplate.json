@@ -13,6 +13,10 @@
         "description": "SasToken access to Azure Storage resources."
       }
     },
+    "enableIPForwarding": {
+      "type": "bool",
+      "defaultValue": "true"
+    },
     "guid": {
       "type": "string",
       "defaultValue": "[newGuid()]"
@@ -178,6 +182,9 @@
     "imageSku": "",
     "imageVersion": "",
     "nicPrimaryExistingParams": {
+      "enableIPForwarding": {
+        "value": "[parameters('enableIPForwarding')]"
+      },
       "location": {
         "value": "[parameters('location')]"
       },
@@ -196,6 +203,9 @@
     },
     "nicPrimaryName": "[concat(parameters('vmName'), '-lan1')]",
     "nicPrimaryNoneParams": {
+      "enableIPForwarding": {
+        "value": "[parameters('enableIPForwarding')]"
+      },
       "location": {
         "value": "[parameters('location')]"
       },
