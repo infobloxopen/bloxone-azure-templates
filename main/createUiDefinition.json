@@ -113,8 +113,9 @@
           {
             "name": "enableIPForwarding",
             "type": "Microsoft.Common.CheckBox",
-            "label": "Enable IP forwarding",
-            "defaultValue": true
+            "label": "IP forwarding",
+            "defaultValue": true,
+            "toolTip": "Select checkbox to enable IP forwarding."
           },
           {
             "name": "publicIp",
