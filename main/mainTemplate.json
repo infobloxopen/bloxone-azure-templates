@@ -13,10 +13,6 @@
         "description": "SasToken access to Azure Storage resources."
       }
     },
-    "enableIPForwarding": {
-      "type": "bool",
-      "defaultValue": "true"
-    },
     "guid": {
       "type": "string",
       "defaultValue": "[newGuid()]"
@@ -177,13 +173,14 @@
     "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n')]",
     "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpProxy'), '\n')]",
     "customData": "[if(empty(parameters('httpProxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
+    "enableIPForwarding": true,
     "imageOffer": "",
     "imagePublisher": "",
     "imageSku": "",
     "imageVersion": "",
     "nicPrimaryExistingParams": {
       "enableIPForwarding": {
-        "value": "[parameters('enableIPForwarding')]"
+        "value": "[variables('enableIPForwarding')]"
       },
       "location": {
         "value": "[parameters('location')]"
@@ -204,7 +201,7 @@
     "nicPrimaryName": "[concat(parameters('vmName'), '-lan1')]",
     "nicPrimaryNoneParams": {
       "enableIPForwarding": {
-        "value": "[parameters('enableIPForwarding')]"
+        "value": "[variables('enableIPForwarding')]"
       },
       "location": {
         "value": "[parameters('location')]"
