@@ -53,7 +53,7 @@
         "toolTip": "Enter Jointoken obtained from CSP.",
         "constraints": {
           "required": true,
-          "regex": "^[a-zA-Z0-9_-]{44,44}$",
+          "regex": "^(?:[a-zA-Z0-9_\\-]+\\.)?[a-zA-Z0-9_\\-]{44}(?:\\.[a-zA-Z0-9_\\-]+)?$",
           "validationMessage": "Insert valid Jointoken."
         },
         "visible": "true"
