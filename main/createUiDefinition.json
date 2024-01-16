@@ -224,6 +224,34 @@
             "visible": "[equals(steps('vmSettings').serialConsole, 'Yes')]"
           }
         ]
+      },
+      {
+        "name": "tags",
+        "label": "Tags",
+        "bladeTitle": "Bloxone Tags",
+        "subLabel": {
+          "preValidation": "Configure tags",
+          "postValidation": "Done"
+        },
+        "elements": [
+          {
+            "name": "element1",
+            "type": "Microsoft.Common.TagsByResource",
+            "resources": [
+              "Microsoft.Compute/availabilitySets",
+              "Microsoft.Compute/disks",
+              "Microsoft.Network/networkInterfaces",
+              "Microsoft.Network/networkSecurityGroups",
+              "Microsoft.Network/publicIPAddresses",
+              "Microsoft.RecoveryServices/vaults",
+              "Microsoft.SqlVirtualMachine/sqlVirtualMachines",
+              "Microsoft.Compute/sshPublicKeys",
+              "Microsoft.Storage/storageAccounts",
+              "Microsoft.Compute/virtualMachines",
+              "Microsoft.Network/virtualNetworks"
+            ]
+          }
+        ]
       }
     ],
     "outputs": {
