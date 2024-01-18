@@ -165,6 +165,10 @@
         "new",
         "existing"
       ]
+    },
+    "tagsByResource": {
+      "type": "object",
+      "defaultValue": {}
     }
   },
   "variables": {
@@ -295,7 +299,8 @@
     },
     "vnetResourceExisting": "[resourceId(parameters('virtualNetworkExistingRGName'),'Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
     "vnetResourceId": "[if(equals(parameters('vnetNewOrExisting'), 'new'), variables('vnetResourceNew'), variables('vnetResourceExisting'))]",
-    "vnetResourceNew": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+    "vnetResourceNew": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Storage/storageAccounts'), parameters('tagsByResource')['Microsoft.Storage/storageAccounts'], json('{}')) ]"
   },
   "resources": [
     {
