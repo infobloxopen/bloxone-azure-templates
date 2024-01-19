@@ -456,5 +456,11 @@
         }
       }
     }
-  ]
+  ],
+  "outputs": {
+    "tagsOutput": {
+      "type": "object",
+      "value": "[parameters('tagsByResource')]"
+    }
+  }
 }

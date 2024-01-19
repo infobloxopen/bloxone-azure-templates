@@ -43,7 +43,10 @@
       "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
       "properties": "[variables('properties')]",
-      "plan": "[parameters('plan')]"
+      "plan": "[parameters('plan')]",
+      "tags": {
+        "value": "[parameters('tagsByResource')['Microsoft.Compute/virtualMachines']]"
+      }
     }
   ],
   "outputs": {}

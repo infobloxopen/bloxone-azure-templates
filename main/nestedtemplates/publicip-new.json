@@ -20,6 +20,9 @@
       "location": "[parameters('location')]",
       "properties": {
         "publicIPAllocationMethod": "[parameters('publicIpAddressType')]"
+      },
+      "tags": {
+        "value": "[parameters('tagsByResource')['Microsoft.Network/publicIPAddresses']]"
       }
     }
   ],
