@@ -44,6 +44,7 @@
       "location": "[parameters('location')]",
       "properties": "[variables('properties')]",
       "plan": "[parameters('plan')]",
+      "hyperVGeneration": "V2",
       "tags": {
         "value": "[parameters('tagsByResource')['Microsoft.Compute/virtualMachines']]"
       }
