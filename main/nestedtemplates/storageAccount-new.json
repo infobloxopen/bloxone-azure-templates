@@ -22,6 +22,10 @@
         "Description": "The type of the Storage Account created."
       },
       "defaultValue": "Standard_GRS"
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {"Microsoft.Storage/storageAccounts": {}}
     }
   },
   "resources": [

@@ -10,7 +10,12 @@
     },
     "publicIpAddressType": {
       "type": "string"
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {"Microsoft.Network/publicIPAddresses": {}}
     }
+
   },
   "resources": [
     {

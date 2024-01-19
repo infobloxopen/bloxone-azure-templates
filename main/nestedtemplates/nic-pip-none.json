@@ -16,6 +16,10 @@
     },
     "networkSecurityGroupId": {
       "type": "string"
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {"Microsoft.Network/networkInterfaces": {}}
     }
   },
   "resources": [

@@ -168,11 +168,13 @@
     },
     "tags": {
       "type": "object",
-      "defaultValue": {}
-    },
-    "hypervGenerationSelector": {
-      "type": "string",
-      "defaultValue": "V2"
+      "defaultValue": {
+        "Microsoft.Network/networkInterfaces": {},
+        "Microsoft.Network/publicIPAddresses": {},
+        "Microsoft.Storage/storageAccounts": {},
+        "Microsoft.Compute/virtualMachines": {},
+        "Microsoft.Network/virtualNetworks": {}
+      }
     }
   },
   "variables": {
@@ -309,7 +311,7 @@
       "Microsoft.Network/publicIPAddresses": "[if(contains(parameters('tags'), 'Microsoft.Network/publicIPAddresses'), parameters('tags')['Microsoft.Network/publicIPAddresses'], json('{}'))]",
       "Microsoft.Storage/storageAccounts": "[if(contains(parameters('tags'), 'Microsoft.Storage/storageAccounts'), parameters('tags')['Microsoft.Storage/storageAccounts'], json('{}'))]",
       "Microsoft.Compute/virtualMachines": "[if(contains(parameters('tags'), 'Microsoft.Compute/virtualMachines'), parameters('tags')['Microsoft.Compute/virtualMachines'], json('{}'))]",
-      "Microsoft.Network/virtualNetworks": "[if(contains(parameters('tags'), 'Microsoft.Network/virtualNetworks'), parameters('tags')['Microsoft.Network/virtualNetworks'], json('{}'))]",
+      "Microsoft.Network/virtualNetworks": "[if(contains(parameters('tags'), 'Microsoft.Network/virtualNetworks'), parameters('tags')['Microsoft.Network/virtualNetworks'], json('{}'))]"
     }
   },
   "resources": [

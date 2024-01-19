@@ -16,6 +16,10 @@
     },
     "subnet1Prefix": {
       "type": "string"
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {"Microsoft.Network/virtualNetworks": {}}
     }
   },
   "resources": [
@@ -25,7 +29,7 @@
       "name": "[parameters('virtualNetworkName')]",
       "location": "[parameters('location')]",
       "tags": {
-        "value": "[parameters('tagsByResource')['Microsoft.Network/virtualNetworks']]"
+        "value": "[parameters('tags')['Microsoft.Network/virtualNetworks']]"
       },
       "properties": {
         "addressSpace": {

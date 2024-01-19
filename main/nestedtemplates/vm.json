@@ -25,6 +25,14 @@
     },
     "plan": {
       "type": "object"
+    },
+    "hypervGenerationSelector": {
+      "type": "string",
+      "defaultValue": "V2"
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {"Microsoft.Compute/virtualMachines": {}}
     }
   },
   "variables": {
@@ -45,7 +53,6 @@
       "location": "[parameters('location')]",
       "properties": "[variables('properties')]",
       "plan": "[parameters('plan')]",
-      "hyperVGeneration": "V2",
       "tags": {
         "value": "[parameters('tags')['Microsoft.Compute/virtualMachines']]"
       }
