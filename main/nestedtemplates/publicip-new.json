@@ -22,7 +22,7 @@
         "publicIPAllocationMethod": "[parameters('publicIpAddressType')]"
       },
       "tags": {
-        "value": "[parameters('tagsByResource')['Microsoft.Network/publicIPAddresses']]"
+        "value": "[parameters('tags')['Microsoft.Network/publicIPAddresses']]"
       }
     }
   ],

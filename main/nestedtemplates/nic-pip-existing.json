@@ -28,7 +28,7 @@
       "name": "[parameters('nicName')]",
       "location": "[parameters('location')]",
       "tags": {
-        "value": "[parameters('tagsByResource')['Microsoft.Network/networkInterfaces']]"
+        "value": "[parameters('tags')['Microsoft.Network/networkInterfaces']]"
       },
       "properties": {
         "ipConfigurations": [

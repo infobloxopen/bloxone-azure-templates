@@ -33,7 +33,8 @@
       "osProfile": "[parameters('osProfile')]",
       "storageProfile": "[parameters('storageProfile')]",
       "networkProfile": "[parameters('networkProfile')]",
-      "diagnosticsProfile": "[parameters('diagnosticsProfile')]"
+      "diagnosticsProfile": "[parameters('diagnosticsProfile')]",
+      "hyperVGeneration": "[parameters('hypervGenerationSelector')]"
     }
   },
   "resources": [
@@ -46,7 +47,7 @@
       "plan": "[parameters('plan')]",
       "hyperVGeneration": "V2",
       "tags": {
-        "value": "[parameters('tagsByResource')['Microsoft.Compute/virtualMachines']]"
+        "value": "[parameters('tags')['Microsoft.Compute/virtualMachines']]"
       }
     }
   ],

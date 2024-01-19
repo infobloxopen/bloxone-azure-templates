@@ -36,7 +36,7 @@
       "properties": {
       },
       "tags": {
-        "value": "[parameters('tagsByResource')['Microsoft.Storage/storageAccounts']]"
+        "value": "[parameters('tags')['Microsoft.Storage/storageAccounts']]"
       }
     }
   ],

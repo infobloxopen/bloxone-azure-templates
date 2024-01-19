@@ -69,6 +69,27 @@
           "validationMessage": "Enter correct HTTP Proxy"
         },
         "visible": "true"
+      },
+      {
+        "name": "hypervGenerationSelector",
+        "type": "Microsoft.Common.OptionsGroup",
+        "label": "Hyper-V Generation",
+        "defaultValue": "V2",
+        "toolTip": "Select the Hyper-V generation for the virtual machine",
+        "constraints": {
+          "allowedValues": [
+            {
+              "label": "Generation 1",
+              "value": "V1"
+            },
+            {
+              "label": "Generation 2",
+              "value": "V2"
+            }
+          ],
+          "required": true
+        },
+        "visible": true
       }
     ],
     "steps": [
@@ -195,17 +216,11 @@
         },
         "elements": [
           {
-            "name": "element1",
+            "name": "tags",
             "type": "Microsoft.Common.TagsByResource",
             "resources": [
-              "Microsoft.Compute/availabilitySets",
-              "Microsoft.Compute/disks",
               "Microsoft.Network/networkInterfaces",
-              "Microsoft.Network/networkSecurityGroups",
               "Microsoft.Network/publicIPAddresses",
-              "Microsoft.RecoveryServices/vaults",
-              "Microsoft.SqlVirtualMachine/sqlVirtualMachines",
-              "Microsoft.Compute/sshPublicKeys",
               "Microsoft.Storage/storageAccounts",
               "Microsoft.Compute/virtualMachines",
               "Microsoft.Network/virtualNetworks"
@@ -233,7 +248,8 @@
       "virtualNetworkName": "[steps('vmSettings').network.name]",
       "vmName": "[basics('vmName')]",
       "vmSize": "[basics('vmSize')]",
-      "vnetNewOrExisting": "[steps('vmSettings').network.newOrExisting]"
+      "vnetNewOrExisting": "[steps('vmSettings').network.newOrExisting]",
+      "tags": "[steps('tags').tags]"
     }
   }
 }
