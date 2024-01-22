@@ -69,6 +69,27 @@
           "validationMessage": "Enter correct HTTP Proxy"
         },
         "visible": "true"
+      },
+      {
+        "name": "hypervGenerationSelector",
+        "type": "Microsoft.Common.OptionsGroup",
+        "label": "Hyper-V Generation",
+        "defaultValue": "V2",
+        "toolTip": "Select the Hyper-V generation for the virtual machine",
+        "constraints": {
+          "allowedValues": [
+            {
+              "label": "Generation 1",
+              "value": "V1"
+            },
+            {
+              "label": "Generation 2",
+              "value": "V2"
+            }
+          ],
+          "required": true
+        },
+        "visible": true
       }
     ],
     "steps": [
@@ -184,6 +205,28 @@
             "visible": "[equals(steps('vmSettings').serialConsole, 'Yes')]"
           }
         ]
+      },
+      {
+        "name": "tags",
+        "label": "Tags",
+        "bladeTitle": "Bloxone Tags",
+        "subLabel": {
+          "preValidation": "Configure tags",
+          "postValidation": "Done"
+        },
+        "elements": [
+          {
+            "name": "tags",
+            "type": "Microsoft.Common.TagsByResource",
+            "resources": [
+              "Microsoft.Network/networkInterfaces",
+              "Microsoft.Network/publicIPAddresses",
+              "Microsoft.Storage/storageAccounts",
+              "Microsoft.Compute/virtualMachines",
+              "Microsoft.Network/virtualNetworks"
+            ]
+          }
+        ]
       }
     ],
     "outputs": {
@@ -205,7 +248,9 @@
       "virtualNetworkName": "[steps('vmSettings').network.name]",
       "vmName": "[basics('vmName')]",
       "vmSize": "[basics('vmSize')]",
-      "vnetNewOrExisting": "[steps('vmSettings').network.newOrExisting]"
+      "vnetNewOrExisting": "[steps('vmSettings').network.newOrExisting]",
+      "tags": "[steps('tags').tags]",
+      "hypervGenerationSelector": "[basics('hypervGenerationSelector')]"
     }
   }
 }

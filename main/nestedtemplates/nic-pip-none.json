@@ -16,6 +16,10 @@
     },
     "networkSecurityGroupId": {
       "type": "string"
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {"Microsoft.Network/networkInterfaces": {}}
     }
   },
   "resources": [
@@ -24,6 +28,9 @@
       "apiVersion": "2021-12-01",
       "name": "[parameters('nicName')]",
       "location": "[parameters('location')]",
+      "tags": {
+        "value": "[parameters('tags')['Microsoft.Network/networkInterfaces']]"
+      },
       "properties": {
         "ipConfigurations": [
           {
