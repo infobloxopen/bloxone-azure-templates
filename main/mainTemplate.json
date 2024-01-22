@@ -166,6 +166,10 @@
         "existing"
       ]
     },
+    "hypervGenerationSelector": {
+      "type": "string",
+      "defaultValue": "V2"
+    },
     "tags": {
       "type": "object",
       "defaultValue": {
