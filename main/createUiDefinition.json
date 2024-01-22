@@ -79,11 +79,11 @@
         "constraints": {
           "allowedValues": [
             {
-              "label": "Generation 1",
+              "label": "Gen1",
               "value": "V1"
             },
             {
-              "label": "Generation 2",
+              "label": "Gen2",
               "value": "V2"
             }
           ],
