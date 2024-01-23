@@ -73,7 +73,7 @@
       {
         "name": "hypervGenerationSelector",
         "type": "Microsoft.Common.OptionsGroup",
-        "label": "Hyper-V Generation",
+        "label": "VM Generation",
         "defaultValue": "V2",
         "toolTip": "Select the Hyper-V generation for the virtual machine",
         "constraints": {
