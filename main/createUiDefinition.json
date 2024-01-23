@@ -69,27 +69,6 @@
           "validationMessage": "Enter correct HTTP Proxy"
         },
         "visible": "true"
-      },
-      {
-        "name": "hypervGenerationSelector",
-        "type": "Microsoft.Common.OptionsGroup",
-        "label": "VM Generation",
-        "defaultValue": "V2",
-        "toolTip": "Select the Hyper-V generation for the virtual machine",
-        "constraints": {
-          "allowedValues": [
-            {
-              "label": "Gen1",
-              "value": "V1"
-            },
-            {
-              "label": "Gen2",
-              "value": "V2"
-            }
-          ],
-          "required": true
-        },
-        "visible": true
       }
     ],
     "steps": [
@@ -250,8 +229,7 @@
       "vmName": "[basics('vmName')]",
       "vmSize": "[basics('vmSize')]",
       "vnetNewOrExisting": "[steps('vmSettings').network.newOrExisting]",
-      "tagsByResource": "[steps('tags').tagsByResource]",
-      "hypervGenerationSelector": "[basics('hypervGenerationSelector')]"
+      "tagsByResource": "[steps('tags').tagsByResource]"
     }
   }
 }
