@@ -10,12 +10,7 @@
     },
     "publicIpAddressType": {
       "type": "string"
-    },
-    "tags": {
-      "type": "object",
-      "defaultValue": {"Microsoft.Network/publicIPAddresses": {}}
     }
-
   },
   "resources": [
     {
@@ -25,9 +20,6 @@
       "location": "[parameters('location')]",
       "properties": {
         "publicIPAllocationMethod": "[parameters('publicIpAddressType')]"
-      },
-      "tags": {
-        "value": "[parameters('tags')['Microsoft.Network/publicIPAddresses']]"
       }
     }
   ],
