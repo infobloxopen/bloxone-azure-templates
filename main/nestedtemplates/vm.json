@@ -25,10 +25,6 @@
     },
     "plan": {
       "type": "object"
-    },
-    "hypervGenerationSelector": {
-      "type": "string",
-      "defaultValue": "V2"
     }
   },
   "variables": {
@@ -37,8 +33,7 @@
       "osProfile": "[parameters('osProfile')]",
       "storageProfile": "[parameters('storageProfile')]",
       "networkProfile": "[parameters('networkProfile')]",
-      "diagnosticsProfile": "[parameters('diagnosticsProfile')]",
-      "hyperVGeneration": "[parameters('hypervGenerationSelector')]"
+      "diagnosticsProfile": "[parameters('diagnosticsProfile')]"
     }
   },
   "resources": [
