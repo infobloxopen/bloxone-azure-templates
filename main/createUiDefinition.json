@@ -250,7 +250,7 @@
       "vmName": "[basics('vmName')]",
       "vmSize": "[basics('vmSize')]",
       "vnetNewOrExisting": "[steps('vmSettings').network.newOrExisting]",
-      "tags": "[steps('tags').tagsByResource]",
+      "tagsByResource": "[steps('tags').tagsByResource]",
       "hypervGenerationSelector": "[basics('hypervGenerationSelector')]"
     }
   }
