@@ -22,6 +22,10 @@
         "Description": "The type of the Storage Account created."
       },
       "defaultValue": "Standard_GRS"
+    },
+    "tagsByResource": {
+      "type": "object",
+      "defaultValue": {}
     }
   },
   "resources": [
@@ -30,6 +34,7 @@
       "name": "[concat(parameters('storageAccountName'))]",
       "apiVersion": "2021-08-01",
       "location": "[parameters('location')]",
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Storage/storageAccounts'), parameters('tagsByResource')['Microsoft.Storage/storageAccounts'], json('{}')) ]",
       "sku":{
         "name": "[parameters('storageAccountType')]"
       },
