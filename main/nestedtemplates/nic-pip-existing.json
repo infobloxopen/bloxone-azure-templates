@@ -19,6 +19,10 @@
     },
     "networkSecurityGroupId": {
       "type": "string"
+    },
+    "tagsByResource": {
+      "type": "object",
+      "defaultValue": {}
     }
   },
   "resources": [
@@ -27,6 +31,7 @@
       "apiVersion": "2021-12-01",
       "name": "[parameters('nicName')]",
       "location": "[parameters('location')]",
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/networkInterfaces'), parameters('tagsByResource')['Microsoft.Network/networkInterfaces'], json('{}')) ]",
       "properties": {
         "ipConfigurations": [
           {
