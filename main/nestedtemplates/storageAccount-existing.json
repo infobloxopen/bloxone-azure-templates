@@ -14,17 +14,9 @@
       "metadata": {
         "Description": "Resource Group Name of the existing Storage Account."
       }
-    },
-    "tagsByResource": {
-      "type": "object",
-      "defaultValue": {}
     }
   },
-  "resources": [
-    {
-      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Storage/storageAccounts'), parameters('tagsByResource')['Microsoft.Storage/storageAccounts'], json('{}')) ]"
-    }
-  ],
+  "resources": [],
   "outputs": {
     "endpointURL": {
       "type": "string",
