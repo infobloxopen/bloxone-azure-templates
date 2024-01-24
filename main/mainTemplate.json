@@ -320,7 +320,7 @@
     {
       "name": "pid",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "properties": {
         "mode": "Incremental",
         "template": {
@@ -333,7 +333,7 @@
     {
       "name": "SettingUpstorageAccount",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -344,7 +344,7 @@
       }
     },
     {
-      "apiVersion": "2021-12-01",
+      "apiVersion": "2023-06-01",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('nsgName')]",
       "location": "[parameters('location')]",
@@ -356,7 +356,7 @@
     {
       "name": "SettingUpVirtualNetwork",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -369,7 +369,7 @@
     {
       "name": "SettingUpPrimaryNic",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpVirtualNetwork')]",
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpPublicIP')]",
@@ -387,7 +387,7 @@
     {
       "name": "SettingUpPublicIP",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -400,7 +400,7 @@
     {
       "name": "SettingUpVirtualMachine",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpstorageAccount')]",
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpPrimaryNic')]"

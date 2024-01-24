@@ -197,6 +197,7 @@
           {
             "name": "tagsByResource",
             "type": "Microsoft.Common.TagsByResource",
+            "tooltip": "Manage tags for resources.",
             "resources": [
               "Microsoft.Network/networkInterfaces",
               "Microsoft.Network/publicIPAddresses",
