@@ -25,6 +25,10 @@
     },
     "plan": {
       "type": "object"
+    },
+    "tagsByResource": {
+      "type": "object",
+      "defaultValue": {}
     }
   },
   "variables": {
@@ -43,7 +47,8 @@
       "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
       "properties": "[variables('properties')]",
-      "plan": "[parameters('plan')]"
+      "plan": "[parameters('plan')]",
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Compute/virtualMachines'), parameters('tagsByResource')['Microsoft.Compute/virtualMachines'], json('{}')) ]"
     }
   ],
   "outputs": {}
