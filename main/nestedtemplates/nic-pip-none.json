@@ -25,7 +25,7 @@
   "resources": [
     {
       "type": "Microsoft.Network/networkInterfaces",
-      "apiVersion": "2021-12-01",
+      "apiVersion": "2023-06-01",
       "name": "[parameters('nicName')]",
       "location": "[parameters('location')]",
       "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/networkInterfaces'), parameters('tagsByResource')['Microsoft.Network/networkInterfaces'], json('{}')) ]",
