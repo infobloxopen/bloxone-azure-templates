@@ -329,7 +329,7 @@
     },
     "storageAccountSetupURL": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/storageAccount-', parameters('storageAccountNewOrExistingOrNone'), '.json'))]",
     "subnet1ResourceId": "[concat(variables('vnetResourceId'), '/subnets/', parameters('subnet1Name'))]",
-    "virtualMachineSetUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/vm.json', parameters('_artifactsLocationSasToken')))]",
+    "virtualMachineSetUrl": "https://raw.githubusercontent.com/smallu-infoblox/bloxone-azure-templates/refs/heads/main/main/nestedtemplates/vm.json",
     "virtualNetworkSetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/vnet-', parameters('vnetNewOrExisting'), '.json', parameters('_artifactsLocationSasToken')))]",
     "vnetNewParams": {
       "location": {
@@ -444,7 +444,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('virtualMachineSetUrl')]",
+          "uri": "https://raw.githubusercontent.com/smallu-infoblox/bloxone-azure-templates/refs/heads/main/main/nestedtemplates/vm.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {

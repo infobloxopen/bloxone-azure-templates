@@ -20,7 +20,6 @@
       }
     },
     "basics": [
-	    
 	    {
           "name": "availabilityOptions",
           "type": "Microsoft.Common.DropDown",
