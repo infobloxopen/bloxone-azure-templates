@@ -28,6 +28,31 @@
       },
       "defaultValue": ""
     },
+    "availabilityOptions":{
+      "type": "string",
+      "metadata": {
+        "description": "Availability options for the Virtual Machine."
+      },
+      "defaultValue": "AvailabilityZone",
+      "allowedValues": [
+        "AvailabilityZone",
+        "No Infrastructure required"
+      ]
+    },
+    "zoneOptions": {
+      "type": "string",
+      "metadata": {
+        "description": "Zone options for the Virtual Machine."
+      },
+      "defaultValue": ""
+    },
+    "availabilityZone": {
+      "type": "string",
+      "metadata": {
+        "description": "Availability Zone for the Virtual Machine."
+      },
+      "defaultValue": ""
+    },
     "location": {
       "type": "string",
       "metadata": {
@@ -411,6 +436,7 @@
       "name": "SettingUpVirtualMachine",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
+      "zones": "[if(equals(parameters('availabilityOptions'), 'availabilityZone'), parameters('availabilityZone'), json('null'))]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpstorageAccount')]",
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpPrimaryNic')]"
