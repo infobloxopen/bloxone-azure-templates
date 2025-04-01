@@ -20,7 +20,6 @@
       }
     },
     "basics": [
-	    
 	    {
           "name": "availabilityOptions",
           "type": "Microsoft.Common.DropDown",
@@ -28,11 +27,11 @@
           "toolTip": "Select the availability option.",
           "constraints": {
             "allowedValues": [
-              { "label": "Availability zone", "value": "availabilityZone" },
-			        { "label": "No infrastructure redundancy required", "value": "no infrastructure"}
+			        { "label": "No infrastructure redundancy required", "value": "no infrastructure"},
+              { "label": "Availability zone", "value": "availabilityZone" }
             ]
           },
-		    "visible": "[or(equals(location(), 'eastus'), equals(location(), 'westus'), equals(location(), 'australiaeast'), equals(location(), 'brazilsouth'), equals(location(), 'canadacentral'), equals(location(), 'centralindia'), equals(location(), 'centralus'), equals(location(), 'eastasia'), equals(location(), 'eastus2'), equals(location(), 'francecentral'), equals(location(), 'germanywestcentral'), equals(location(), 'israelcentral'), equals(location(), 'italynorth'), equals(location(), 'japaneast'), equals(location(), 'koreacentral'), equals(location(), 'mexicocentral'), equals(location(), 'northeurope'), equals(location(), 'norwayeast'), equals(location(), 'polandcentral'), equals(location(), 'qatarcentral'), equals(location(), 'southafricanorth'), equals(location(), 'southcentralus'), equals(location(), 'southeastasia'), equals(location(), 'spaincentral'), equals(location(), 'swedencentral'), equals(location(), 'switzerlandnorth'), equals(location(), 'uaenorth'), equals(location(), 'uksouth'), equals(location(), 'westeurope'), equals(location(), 'westus2'), equals(location(), 'westus3'))]"
+		    "visible": "[or(equals(location(), 'eastus'), equals(location(), 'australiaeast'), equals(location(), 'brazilsouth'), equals(location(), 'canadacentral'), equals(location(), 'centralindia'), equals(location(), 'centralus'), equals(location(), 'eastasia'), equals(location(), 'eastus2'), equals(location(), 'francecentral'), equals(location(), 'germanywestcentral'), equals(location(), 'israelcentral'), equals(location(), 'italynorth'), equals(location(), 'japaneast'), equals(location(), 'japanwest'), equals(location(), 'koreacentral'), equals(location(), 'mexicocentral'), equals(location(), 'newzealandnorth'), equals(location(), 'northeurope'), equals(location(), 'norwayeast'), equals(location(), 'polandcentral'), equals(location(), 'qatarcentral'), equals(location(), 'southafricanorth'), equals(location(), 'southcentralus'), equals(location(), 'southeastasia'), equals(location(), 'spaincentral'), equals(location(), 'swedencentral'), equals(location(), 'switzerlandnorth'), equals(location(), 'uaenorth'), equals(location(), 'uksouth'), equals(location(), 'westeurope'), equals(location(), 'westus2'), equals(location(), 'westus3'))]"
       },
       {
           "name": "zoneOptions",
