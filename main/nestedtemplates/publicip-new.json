@@ -16,7 +16,25 @@
     {
       "apiVersion": "2021-05-01",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[parameters('publicIpAddressName')]",
+      "name": "[parameters('publicIpAddressName1')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "[parameters('publicIpAddressType')]"
+      }
+    },
+    {
+      "apiVersion": "2021-05-01",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[parameters('publicIpAddressName2')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "[parameters('publicIpAddressType')]"
+      }
+    },
+    {
+      "apiVersion": "2021-05-01",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[parameters('publicIpAddressName3')]",
       "location": "[parameters('location')]",
       "properties": {
         "publicIPAllocationMethod": "[parameters('publicIpAddressType')]"
