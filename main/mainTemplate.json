@@ -63,6 +63,7 @@
     },
     "publicIpAddressName": {
       "type": "string",
+      "defaultValue": "PublicIP",
       "metadata": {
         "description": "Name of the Public IP Address."
       }
@@ -175,6 +176,7 @@
     },
     "vmName": {
       "type": "string",
+      "defaultValue": "Bloxone",
       "metadata": {
         "description": "Name for the Virtual Machine."
       }
@@ -186,7 +188,6 @@
       },
       "defaultValue": "Standard_F8s",
       "allowedValues": [
-        "Standard_E2s_v3",
         "Standard_B2s",
         "Standard_B2ms",
         "Standard_B4ms",
@@ -208,47 +209,9 @@
         "new",
         "existing"
       ]
-    },
-    "vmOSDiskSize": {
-      "type": "int",
-      "metadata": {
-        "description": "The size of the disk in GB."
-      }
     }
   },
   "variables": {
-    "availabilityZone": "1",
-    "availabilityZonesLocations": [
-      "brazilsouth",
-      "canadacentral",
-      "centralus",
-      "eastus",
-      "eastus2",
-      "southcentralus",
-      "usgovvirginia",
-      "westus2",
-      "westus3",
-      "francecentral",
-      "germanywestcentral",
-      "northeurope",
-      "norwayeast",
-      "uksouth",
-      "westeurope",
-      "swedencentral",
-      "switzerlandnorth",
-      "qatarcentral",
-      "uaenorth",
-      "southafricanorth",
-      "australiaeast",
-      "centralindia",
-      "japaneast",
-      "koreacentral",
-      "southeastasia",
-      "eastasia",
-      "italynorth"
-    ],
-    "OSDiskName":"[concat(parameters('vmName'), uniqueString(resourceGroup().id))]",
-    "osDiskType":"Premium_LRS",
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
     "customData": "[concat(variables('cloudConfig'), '  access_portal: ', variables('hostSetup').accessPortal, '\n  jointoken: ', parameters('jointoken'), '\n  config_server: ', variables('hostSetup').configServer, '\n  notification_server: ', variables('hostSetup').notificationServer, '\n')]",
@@ -388,9 +351,7 @@
     },
     "vnetResourceExisting": "[resourceId(parameters('virtualNetworkExistingRGName'),'Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
     "vnetResourceId": "[if(equals(parameters('vnetNewOrExisting'), 'new'), variables('vnetResourceNew'), variables('vnetResourceExisting'))]",
-    "vnetResourceNew": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-    "location": "[parameters('location')]",
-    "vmSize": "[parameters('vmSize')]"
+    "vnetResourceNew": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
   },
   "resources": [
     {
@@ -473,23 +434,11 @@
       }
     },
     {
-      "name": "SettingUpAvailabilityZone",
-      "type": "Microsoft.Compute/availabilityZones",
-      "apiVersion": "2021-03-01",
-      "location": "[if(contains(variables('availabilityZonesLocations'), parameters('location')), parameters('location'), 'eastus2')]",
-      "properties": {
-        "zones": "[parameters('availabilityZone')]"
-      },
-      "dependsOn": []
-    },
-    {
       "name": "SettingUpVirtualMachine",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
-      "zones": "[parameters('availabilityZone')]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpstorageAccount')]",
-        "[resourceId('Microsoft.Compute/availabilityZones', variables('availabilityZone'))]",
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpPrimaryNic')]"
       ],
       "properties": {
@@ -505,7 +454,6 @@
           "location": {
             "value": "[parameters('location')]"
           },
-          "availiabilityZone": "[if(equals(parameters('availabilityOptions'), 'availabilityZone'), parameters('availabilityZone'), json('null'))]",
           "hardwareProfile": {
             "value": {
               "vmSize": "[parameters('vmSize')]"
@@ -533,15 +481,6 @@
                 "offer": "[variables('imageOffer')]",
                 "sku": "[variables('imageSku')]",
                 "version": "[variables('imageVersion')]"
-              },
-              "osDisk":{
-                "name":"[variables('OSDiskName')]",
-                "caching":"ReadOnly",
-                "createOption":"FromImage",
-                "managedDisk": {
-                  "storageAccountType": "[variables('osDiskType')]"
-                },
-                "diskSizeGB": "[parameters('vmOSDiskSize')]"
               }
             }
           },

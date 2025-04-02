@@ -44,7 +44,6 @@
       "location": "[parameters('location')]",
       "properties": "[variables('properties')]",
       "plan": "[parameters('plan')]",
-      "zones": "[parameters('availabilityZone')]"
     }
   ],
   "outputs": {}
