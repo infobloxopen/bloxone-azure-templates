@@ -61,11 +61,25 @@
       },
       "defaultValue": "[resourceGroup().location]"
     },
-    "publicIpAddressName": {
+    "publicIpAddressName1": {
       "type": "string",
       "defaultValue": "PublicIP",
       "metadata": {
-        "description": "Name of the Public IP Address."
+        "description": "Name of the Public IP Address for vm1."
+      }
+    },
+    "publicIpAddressName2": {
+      "type": "string",
+      "defaultValue": "PublicIP1",
+      "metadata": {
+        "description": "Name of the Public IP Address for vm2."
+      }
+    },
+    "publicIpAddressName3": {
+      "type": "string",
+      "defaultValue": "PublicIP2",
+      "metadata": {
+        "description": "Name of the Public IP Address for vm3."
       }
     },
     "publicIpExistingRgName": {
@@ -174,11 +188,25 @@
         "description": "Virtual network name."
       }
     },
-    "vmName": {
+    "vmName1": {
       "type": "string",
-      "defaultValue": "Bloxone",
+      "defaultValue": "[if(equals(length(parameters('availabilityZone')), 0), 'Bloxone', join(array('Bloxone-', parameters('availabilityZone')[0], if(greaterOrEquals(length(parameters('availabilityZone')), 2), concat(', Bloxone-', parameters('availabilityZone')[1]), ''), if(greaterOrEquals(length(parameters('availabilityZone')), 3), concat(', Bloxone-', parameters('availabilityZone')[2]), '')), ''))]",
       "metadata": {
-        "description": "Name for the Virtual Machine."
+        "description": "Name for the Virtual Machine 1."
+      }
+    },
+    "vmName2": {
+      "type": "string",
+      "defaultValue": "[if(equals(length(parameters('availabilityZone')), 0), 'Bloxone', join(array('Bloxone-', parameters('availabilityZone')[0], if(greaterOrEquals(length(parameters('availabilityZone')), 2), concat(', Bloxone-', parameters('availabilityZone')[1]), ''), if(greaterOrEquals(length(parameters('availabilityZone')), 3), concat(', Bloxone-', parameters('availabilityZone')[2]), '')), ''))]",
+      "metadata": {
+        "description": "Name for the Virtual Machine 2."
+      }
+    },
+    "vmName3": {
+      "type": "string",
+      "defaultValue": "[if(equals(length(parameters('availabilityZone')), 0), 'Bloxone', join(array('Bloxone-', parameters('availabilityZone')[0], if(greaterOrEquals(length(parameters('availabilityZone')), 2), concat(', Bloxone-', parameters('availabilityZone')[1]), ''), if(greaterOrEquals(length(parameters('availabilityZone')), 3), concat(', Bloxone-', parameters('availabilityZone')[2]), '')), ''))]",
+      "metadata": {
+        "description": "Name for the Virtual Machine 3."
       }
     },
     "vmSize": {
@@ -188,6 +216,7 @@
       },
       "defaultValue": "Standard_F8s",
       "allowedValues": [
+        "Standard_E2s_v3",
         "Standard_B2s",
         "Standard_B2ms",
         "Standard_B4ms",
@@ -212,6 +241,9 @@
     }
   },
   "variables": {
+    "availabilityOptions": "[parameters('availabilityOptions')]",
+    "zoneOptions": "[parameters('zoneOptions')]",
+    "availabilityZone": "[parameters('availabilityZone')]",
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
     "customData": "[concat(variables('cloudConfig'), '  access_portal: ', variables('hostSetup').accessPortal, '\n  jointoken: ', parameters('jointoken'), '\n  config_server: ', variables('hostSetup').configServer, '\n  notification_server: ', variables('hostSetup').notificationServer, '\n')]",
@@ -351,7 +383,19 @@
     },
     "vnetResourceExisting": "[resourceId(parameters('virtualNetworkExistingRGName'),'Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
     "vnetResourceId": "[if(equals(parameters('vnetNewOrExisting'), 'new'), variables('vnetResourceNew'), variables('vnetResourceExisting'))]",
-    "vnetResourceNew": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+    "vnetResourceNew": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "location": "[parameters('location')]",
+    "publicIpAddressName1": "[parameters('publicIpAddressName1')]",
+    "publicIpAddressName2": "[parameters('publicIpAddressName2')]",
+    "publicIpAddressName3": "[parameters('publicIpAddressName3')]",
+    "virtualNetworkName": "[parameters('virtualNetworkName')]",
+    "subnet1Name": "[parameters('subnet1Name')]",
+    "subnet1Prefix": "[parameters('subnet1Prefix')]",
+    "virtualNetworkAddressPrefix": "[parameters('virtualNetworkAddressPrefix')]",
+    "vmName1": "[parameters('vmName1')]",
+    "vmName2": "[parameters('vmName2')]",
+    "vmName3": "[parameters('vmName3')]",
+    "vmSize": "[parameters('vmSize')]"
   },
   "resources": [
     {
