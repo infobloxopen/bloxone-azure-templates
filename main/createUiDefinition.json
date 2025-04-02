@@ -52,7 +52,7 @@
           "label": "Availability zone",
 		      "defaultValue": "Zone 1",
 		      "toolTip": "Multiple zones can be selected",
-	        "multiselect": true,
+	        
           "constraints": {
             "allowedValues": [
               { "label": "Zone 1", "value": "1" },
@@ -157,6 +157,16 @@
           "postValidation": "Done"
         },
         "elements": [
+          {
+            "name": "vmOSDiskSize",
+            "type": "Microsoft.Common.TextBox",
+            "label": "OS Disk Size for VM",
+            "toolTip": "Specify the size of the Disk. The Disk size should be between 60GB and 2500GB",
+            "constraints": {
+              "regex": "^(6[0-9]|7[0-9]|8[0-9]|9[0-9]|1[0-9]{2}|1[1-9][0-9]{2}|2[0-4][0-9]{2}|2500)$",
+              "validationMessage": "The size must be in numbers and minimum allowed size is 30GB and maximum is 2500GB"
+            }
+          },
           {
             "name": "network",
             "type": "Microsoft.Network.VirtualNetworkCombo",
@@ -272,6 +282,10 @@
       "customData": "[basics('customData')]",
       "jointoken": "[basics('jointoken')]",
       "location": "[location()]",
+      "vmOSDiskSize": "[int(steps('vmSettings').vmOSDiskSize)]",
+      "availabilityOptions": "[basics('availabilityOptions')]",
+      "zoneOptions": "[basics('zoneOptions')]",
+      "availabilityZone": "[basics('availabilityZone')]",
       "publicIPAddressName": "[steps('vmSettings').publicIp.name]",
       "publicIpExistingRgName": "[steps('vmSettings').publicIp.resourceGroup]",
       "publicIpNewOrExistingOrNone": "[steps('vmSettings').publicIp.newOrExistingOrNone]",
