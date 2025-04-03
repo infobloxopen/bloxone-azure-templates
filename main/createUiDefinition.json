@@ -52,7 +52,6 @@
           "label": "Availability zone",
 		      "defaultValue": "Zone 1",
 		      "toolTip": "Multiple zones can be selected",
-	        "multiselect": true,
           "constraints": {
             "allowedValues": [
               { "label": "Zone 1", "value": "1" },
