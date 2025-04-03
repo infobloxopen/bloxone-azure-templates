@@ -47,12 +47,12 @@
       "defaultValue": ""
     },
     "availabilityZone": {
-      "type": "string",
+      "type": "Array",
       "metadata": {
         "description": "Availability Zone for the Virtual Machine 1."
       },
-      "allowedValues": ["1", "2", "3"],
-      "defaultValue": "1"
+      "allowedValues": [["1"], ["2"], ["3"]],
+      "defaultValue": ["1"]
     },
     "location": {
       "type": "string",
@@ -521,6 +521,9 @@
                 }
               ]
             }
+          },
+          "zones": {
+            "value": "[parameters('availabilityZone')]"
           },
           "diagnosticsProfile": {
             "value": {
