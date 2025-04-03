@@ -13,31 +13,31 @@ To do this or modify the template or UI experience we need to do changes or modi
 
 In the context of Azure Managed Applications, createUiDefinition.json defines the user interface for creating the application, while mainTemplate.json specifies the Azure resources to be deployed.  
 
-Here's a more detailed breakdown: 
+## Here's a more detailed breakdown: 
 
-createUiDefinition.json: 
+### createUiDefinition.json: 
 This file defines the user interface elements (like text boxes, drop-downs, etc.) that users see in the Azure portal when creating a managed application. It allows publishers to customize the experience and guide users on how to provide input for parameters needed during deployment.  
 
-mainTemplate.json: 
+### mainTemplate.json: 
 This file is a standard Azure Resource Manager (ARM) template that specifies the resources to be deployed when the managed application is created. It defines things like web apps, databases, storage accounts, and virtual machines, and is no different than a regular ARM template.  
 
-In essence: 
-createUiDefinition.json: focuses on the user experience of creating the application. 
+### In essence: 
+createUiDefinition.json: focuses on the user experience of creating the application.
 mainTemplate.json: focuses on the deployment of resources when the application is created. 
 
 In this, we have added option for Availability zone, where customer can choose the availability zone and how many zones while deploying the VM. These are the supported regions - https://learn.microsoft.com/en-us/azure/reliability/regions-list 
 
 When you don't select any while launching a VM with the Azure-selected zone option, Azure automatically selects the best availability zone for your VM based on current capacity and performance metrics. This helps to optimize the placement of your VM without requiring you to manually choose a specific zone. 
 
-Here’s how it works: 
+## Here’s how it works: 
 
-Automatic Zone Selection: 
+### Automatic Zone Selection: 
 Azure evaluates the available zones within the selected region and places your VM in the zone that offers the best performance and reliability at the time of deployment 
 
-Simplified Deployment: 
+### Simplified Deployment: 
 You don't need to worry about selecting the zone yourself. This can be particularly useful if you're deploying multiple VMs and want to ensure they are distributed across different zones for redundancy 
 
-Portal Configuration: 
+### Portal Configuration: 
 In the Azure portal, you can select the Azure-selected zone option during the VM creation process. The availability zone selection will be grayed out, indicating that Azure will handle the zone placement 
 
 
@@ -55,9 +55,9 @@ Create UI Definition Sandbox
  
 ![Screenshot from 2025-03-24 16:02:46](https://raw.githubusercontent.com/smallu-infoblox/bloxone-azure-templates/azure/az/Screenshot%20from%202025-03-24%2016-02-46.png)
 
-Then modify mainTemplate.json accordingly and Go to -> Test UI -> Build your own template -> paste the json content which you have modified -> save to preview 
+Then modify mainTemplate.json accordingly and Go to -> Test UI(https://portal.azure.com/#create/Microsoft.Template) -> Build your own template -> paste the json content which you have modified -> save to preview 
 
-![Screenshot from 2025-03-26 09:37:00](https://raw.githubusercontent.com/smallu-infoblox/bloxone-azure-templates/azure/az/Screenshot%20from%202025-03-26%2009-37-00.png)
+![Screenshot from 2025-03-26 10:50:04](https://raw.githubusercontent.com/smallu-infoblox/bloxone-azure-templates/azure/az/Screenshot%20from%202025-03-26%2010-50-04.png)
 
 Use offerid -> infoblox-bloxone-34 & image version -> 3.4.1 - This can be checked with the team internally because this may change sometime. 
 
@@ -65,7 +65,7 @@ And check for final preview, if it is good then proceed for Next. Below is refer
 
 When it is success, it'll show Create option like below, here artifacts location we need to provide for manual testing purpose only. 
 
-![Screenshot from 2025-03-26 10:50:04](https://raw.githubusercontent.com/smallu-infoblox/bloxone-azure-templates/azure/az/Screenshot%20from%202025-03-26%2010-50-04.png)
+![Screenshot from 2025-03-26 09:37:00](https://raw.githubusercontent.com/smallu-infoblox/bloxone-azure-templates/azure/az/Screenshot%20from%202025-03-26%2009-37-00.png)
 
 Use this link for artifacts location -> https://raw.githubusercontent.com/smallu-infoblox/bloxone-azure-templates/refs/heads/main/main/ 
 
