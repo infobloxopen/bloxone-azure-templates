@@ -47,7 +47,7 @@ When availability zone supports for example: East US
 
 Create UI Definition Sandbox 
 
-!Screenshot from 2025-03-24 15:53:54
+!![Screenshot from 2025-03-24 15:53:54](https://raw.githubusercontent.com/smallu-infoblox/bloxone-azure-templates/azure/az/Screenshot%20from%202025-03-24%2015-53-54.png)
 
 When availability zone doesn't support for example: Australia Central 
 
