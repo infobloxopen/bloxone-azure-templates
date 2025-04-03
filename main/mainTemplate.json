@@ -499,15 +499,6 @@
                 },
                 "diskSizeGB": "[parameters('vmOSDiskSize')]"
               }
-              "osDisk":{
-                  "name":"[variables('OSDiskName')]",
-                  "caching":"ReadOnly",
-                  "createOption":"FromImage",
-                  "managedDisk": {
-                    "storageAccountType": "[variables('osDiskType')]"
-                  },
-                  "diskSizeGB": "[parameters('vmOSDiskSize')]"
-              }
             }
           },
           "networkProfile": {
