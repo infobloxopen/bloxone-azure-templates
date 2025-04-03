@@ -40,23 +40,7 @@
     {
       "apiVersion": "2021-11-01",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('vmName1')]",
-      "location": "[parameters('location')]",
-      "properties": "[variables('properties')]",
-      "plan": "[parameters('plan')]"
-    },
-    {
-      "apiVersion": "2021-11-01",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('vmName2')]",
-      "location": "[parameters('location')]",
-      "properties": "[variables('properties')]",
-      "plan": "[parameters('plan')]"
-    },
-    {
-      "apiVersion": "2021-11-01",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('vmName3')]",
+      "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
       "properties": "[variables('properties')]",
       "plan": "[parameters('plan')]"
