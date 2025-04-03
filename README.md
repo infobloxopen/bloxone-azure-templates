@@ -47,17 +47,17 @@ When availability zone supports for example: East US
 
 Create UI Definition Sandbox 
 
-!https://github.com/smallu-infoblox/bloxone-azure-templates/blob/azure/az/Screenshot%20from%202025-03-24%2015-53-54.png 
+!Screenshot from 2025-03-24 15:53:54
 
 When availability zone doesn't support for example: Australia Central 
 
 Create UI Definition Sandbox 
  
-!https://github.com/smallu-infoblox/bloxone-azure-templates/blob/azure/az/Screenshot%20from%202025-03-24%2016-02-46.png
+!Screenshot from 2025-03-24 16:02:46
 
 Then modify mainTemplate.json accordingly and Go to -> Test UI -> Build your own template -> paste the json content which you have modified -> save to preview 
 
-!https://github.com/smallu-infoblox/bloxone-azure-templates/blob/azure/az/Screenshot%20from%202025-03-26%2009-37-00.png
+!Screenshot from 2025-03-26 09:37:00
 
 Use offerid -> infoblox-bloxone-34 & image version -> 3.4.1 - This can be checked with the team internally because this may change sometime. 
 
@@ -65,7 +65,7 @@ And check for final preview, if it is good then proceed for Next. Below is refer
 
 When it is success, it'll show Create option like below, here artifacts location we need to provide for manual testing purpose only. 
 
-!https://github.com/smallu-infoblox/bloxone-azure-templates/blob/azure/az/Screenshot%20from%202025-03-26%2010-50-04.png
+!Screenshot from 2025-03-26 10:50:04
 
 Use this link for artifacts location -> https://raw.githubusercontent.com/smallu-infoblox/bloxone-azure-templates/refs/heads/main/main/ 
 
@@ -77,25 +77,25 @@ Other way is, in artifacts location you can put all the content from git like ab
 
 And when you click on Create and Deployment is success then it shows like below. 
 
-!https://github.com/smallu-infoblox/bloxone-azure-templates/blob/azure/az/Screenshot%20from%202025-03-26%2011-26-26.png
+!Screenshot from 2025-03-26 11:26:26
 
 Once this is done, you can click on VM name, check its details and verify it. 
 
-!https://github.com/smallu-infoblox/bloxone-azure-templates/blob/azure/az/Screenshot%20from%202025-03-26%2011-30-01.png
+!Screenshot from 2025-03-26 11:30:01
 
 The above process is deploying a regular VM without availability zone 
 
 Below deployed a VM with Zone 1 
 
-!https://github.com/smallu-infoblox/bloxone-azure-templates/blob/azure/az/Screenshot%20from%202025-04-03%2008-17-33.png
+!Screenshot from 2025-04-03 08:17:33
 
 Below deployed a VM with Zone 2 
 
-!https://github.com/smallu-infoblox/bloxone-azure-templates/blob/azure/az/Screenshot%20from%202025-04-03%2008-19-18.png
+!Screenshot from 2025-04-03 08:19:18
 
 Here, I have tried deploying a VM with OS disk size of 120GB, below is reference. 
 
-!https://github.com/smallu-infoblox/bloxone-azure-templates/blob/azure/az/Screenshot%20from%202025-04-03%2008-23-39.png
+!Screenshot from 2025-04-03 08:23:39
  
 
 So, basically createUiDefinition.json file is only a UI interface for viewing purpose. But mainTemplate.json file is something which takes the parameters behind and deploy a VM based on these values, along with other files in nested deployments. 
