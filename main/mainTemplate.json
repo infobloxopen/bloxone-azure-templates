@@ -47,12 +47,12 @@
       "defaultValue": ""
     },
     "availabilityZone": {
-      "type": "string",
+      "type": "Array",
       "metadata": {
         "description": "Availability Zone for the Virtual Machine 1."
       },
-      "allowedValues": ["1", "2", "3"],
-      "defaultValue": "1"
+      "allowedValues": [["1"], ["2"], ["3"]],
+      "defaultValue": ["1"]
     },
     "location": {
       "type": "string",
@@ -209,9 +209,17 @@
         "new",
         "existing"
       ]
+    },
+    "vmOSDiskSize": {
+      "type": "int",
+      "metadata": {
+        "description": "The size of the disk in GB."
+      }
     }
   },
   "variables": {
+    "OSDiskName":"[concat(parameters('vmName'), uniqueString(resourceGroup().id))]",
+    "osDiskType":"Premium_LRS",
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
     "customData": "[concat(variables('cloudConfig'), '  access_portal: ', variables('hostSetup').accessPortal, '\n  jointoken: ', parameters('jointoken'), '\n  config_server: ', variables('hostSetup').configServer, '\n  notification_server: ', variables('hostSetup').notificationServer, '\n')]",
@@ -481,6 +489,15 @@
                 "offer": "[variables('imageOffer')]",
                 "sku": "[variables('imageSku')]",
                 "version": "[variables('imageVersion')]"
+              },
+              "osDisk":{
+                "name":"[variables('OSDiskName')]",
+                "caching":"ReadOnly",
+                "createOption":"FromImage",
+                "managedDisk": {
+                  "storageAccountType": "[variables('osDiskType')]"
+                },
+                "diskSizeGB": "[parameters('vmOSDiskSize')]"
               }
             }
           },
@@ -495,6 +512,9 @@
                 }
               ]
             }
+          },
+          "zones": {
+            "value": "[parameters('availabilityZone')]"
           },
           "diagnosticsProfile": {
             "value": {

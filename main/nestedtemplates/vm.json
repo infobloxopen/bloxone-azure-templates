@@ -25,6 +25,9 @@
     },
     "plan": {
       "type": "object"
+    },
+    "zones": {
+      "type": "array"
     }
   },
   "variables": {
@@ -44,6 +47,7 @@
       "location": "[parameters('location')]",
       "properties": "[variables('properties')]",
       "plan": "[parameters('plan')]",
+      "zones": "[parameters('zones')]"
     }
   ],
   "outputs": {}

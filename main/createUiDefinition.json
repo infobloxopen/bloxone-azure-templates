@@ -52,7 +52,6 @@
           "label": "Availability zone",
 		      "defaultValue": "Zone 1",
 		      "toolTip": "Multiple zones can be selected",
-	        
           "constraints": {
             "allowedValues": [
               { "label": "Zone 1", "value": "1" },
@@ -157,7 +156,7 @@
           "postValidation": "Done"
         },
         "elements": [
-          {
+	        {
             "name": "vmOSDiskSize",
             "type": "Microsoft.Common.TextBox",
             "label": "OS Disk Size for VM",
@@ -282,10 +281,6 @@
       "customData": "[basics('customData')]",
       "jointoken": "[basics('jointoken')]",
       "location": "[location()]",
-      "vmOSDiskSize": "[int(steps('vmSettings').vmOSDiskSize)]",
-      "availabilityOptions": "[basics('availabilityOptions')]",
-      "zoneOptions": "[basics('zoneOptions')]",
-      "availabilityZone": "[basics('availabilityZone')]",
       "publicIPAddressName": "[steps('vmSettings').publicIp.name]",
       "publicIpExistingRgName": "[steps('vmSettings').publicIp.resourceGroup]",
       "publicIpNewOrExistingOrNone": "[steps('vmSettings').publicIp.newOrExistingOrNone]",
