@@ -79,12 +79,13 @@
         "name": "vmSize",
         "type": "Microsoft.Compute.SizeSelector",
         "label": "VM size",
-        "toolTip": "Select the size of VM.",
+        "toolTip": "Select a VM size to support the workload that you want to run. The size that you choose then determines factors such as processing power, memory, and storage capacity. Azure offers a wide variety of sizes to support many types of uses. Azure charges an hourly price based on the VM's size and operating system.Learn more about Virtual Machine sizes",
         "recommendedSizes": [
           "Standard_F8s"
         ],
         "constraints": {
           "allowedSizes": [
+            "Standard_E2s_v3",
             "Standard_B2s",
             "Standard_B2ms",
             "Standard_B4ms",
@@ -93,7 +94,8 @@
             "Standard_B16ms",
             "Standard_B20ms",
             "Standard_F4s",
-            "Standard_F8s"
+            "Standard_F8s",
+            "Standard_F16s"
           ]
         },
         "visible": "true",
@@ -156,16 +158,39 @@
           "postValidation": "Done"
         },
         "elements": [
-	  {
+	        {
             "name": "vmOSDiskSize",
             "type": "Microsoft.Common.TextBox",
-            "label": "OS Disk Size for VM",
+            "label": "OS Disk Size for VM (GiB)",
             "toolTip": "Specify the size of the Disk. The Disk size should be between 60GB and 2500GB",
+            "defaultValue": "60",
             "constraints": {
               "regex": "^(6[0-9]|7[0-9]|8[0-9]|9[0-9]|1[0-9]{2}|1[1-9][0-9]{2}|2[0-4][0-9]{2}|2500)$",
               "validationMessage": "The size must be in numbers and minimum allowed size is 60GB and maximum is 2500GB"
-
             }
+          },
+          {
+            "name": "osDiskType",
+            "type": "Microsoft.Common.DropDown",
+            "label": "OS disk type",
+            "defaultValue": "Premium SSD",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "Standard HDD",
+                  "value": "Standard HDD"
+                },
+                {
+                  "label": "Standard SSD",
+                  "value": "Standard SSD"
+                },
+                {
+                  "label": "Premium SSD",
+                  "value": "Premium SSD"
+                }
+              ]
+            },
+            "toolTip": "Select the type of OS disk."
           },
           {
             "name": "network",
@@ -298,6 +323,8 @@
       "virtualNetworkName": "[steps('vmSettings').network.name]",
       "vmName": "[basics('vmName')]",
       "vmSize": "[basics('vmSize')]",
+      "osDiskSize": "[steps('disks').osDiskSize]",
+      "osDiskType": "[steps('disks').osDiskType]",
       "vnetNewOrExisting": "[steps('vmSettings').network.newOrExisting]"
     }
   }
