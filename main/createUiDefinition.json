@@ -159,7 +159,7 @@
         },
         "elements": [
 	        {
-            "name": "vmOSDiskSize",
+            "name": "osDiskSize",
             "type": "Microsoft.Common.TextBox",
             "label": "OS Disk Size for VM (GiB)",
             "toolTip": "Specify the size of the Disk. The Disk size should be between 60GB and 2500GB",
@@ -323,8 +323,8 @@
       "virtualNetworkName": "[steps('vmSettings').network.name]",
       "vmName": "[basics('vmName')]",
       "vmSize": "[basics('vmSize')]",
-      "osDiskSize": "[steps('disks').osDiskSize]",
-      "osDiskType": "[steps('disks').osDiskType]",
+      "osDiskSize": "[steps('vmSettings').osDiskSize]",
+      "osDiskType": "[steps('vmSettings').osDiskType]",
       "vnetNewOrExisting": "[steps('vmSettings').network.newOrExisting]"
     }
   }

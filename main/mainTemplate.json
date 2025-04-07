@@ -210,7 +210,7 @@
         "existing"
       ]
     },
-    "vmOSDiskSize": {
+    "osDiskSize": {
       "type": "int",
       "metadata": {
         "description": "The size of the disk in GB."
@@ -509,7 +509,7 @@
                 "managedDisk": {
                   "storageAccountType": "[variables('osDiskType')]"
                 },
-                "diskSizeGB": "[parameters('vmOSDiskSize')]"
+                "diskSizeGB": "[parameters('osDiskSize')]"
               }
             }
           },
