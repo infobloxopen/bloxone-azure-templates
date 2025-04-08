@@ -304,7 +304,7 @@
         "value": "[parameters('enableIPForwarding')]"
       },
       "enableAcceleratedNetworking": {
-        "value": "[parameters'enableAcceleratedNetworking')]"
+        "value": "[parameters('enableAcceleratedNetworking')]"
       },
       "location": {
         "value": "[parameters('location')]"
@@ -609,3 +609,4 @@
     }
   ]
 }
+
