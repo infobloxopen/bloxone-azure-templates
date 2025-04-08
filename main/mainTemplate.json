@@ -248,10 +248,6 @@
       "type": "bool",
       "defaultValue": false
     },
-    "deleteNICWithVM": {
-      "type": "bool",
-      "defaultValue": false
-    },
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
@@ -499,9 +495,6 @@
         },
         "enableIPForwarding": {
           "value": "[parameters('enableIPForwarding')]"
-        },
-        "deleteNICWithVM": {
-          "value": "[parameters('deleteNICWithVM')]"
         }
       }
     },
@@ -589,8 +582,7 @@
                 {
                   "id": "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicPrimaryName'))]",
                   "properties": {
-                    "primary": true,
-                    "deleteNICWithVM": "[parameters('deleteNICWithVM')]"
+                    "primary": true
                   }
                 }
               ]

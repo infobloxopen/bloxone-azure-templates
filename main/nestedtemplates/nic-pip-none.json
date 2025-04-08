@@ -50,8 +50,7 @@
         "networkSecurityGroup": {
           "id": "[parameters('networkSecurityGroupId')]"
         },
-        "enableAcceleratedNetworking": "[parameters('enableAcceleratedNetworking')]",
-        "deleteNICWithVM": "[parameters('deleteNICWithVM')]"
+        "enableAcceleratedNetworking": "[parameters('enableAcceleratedNetworking')]"
       }
     }
   ],

@@ -47,15 +47,11 @@
                 "id": "[parameters('subnetId')]"
               },
               "publicIPAddress": {
-                "id": "[parameters('publicIpAddressId')]",
-                "properties": {
-                  "deleteOption": "[if(parameters('deleteNICWithVM'), 'Delete', 'Detach')]"
-                }
+                "id": "[parameters('publicIpAddressId')]"
               }
             }
           }
         ],
-        "deleteNICWithVM": "[parameters('deleteNICWithVM')]",
         "enableIPForwarding": "[parameters('enableIPForwarding')]",
         "networkSecurityGroup": {
           "id": "[parameters('networkSecurityGroupId')]"

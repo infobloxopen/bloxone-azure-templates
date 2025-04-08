@@ -52,7 +52,6 @@
       "properties": "[variables('properties')]",
       "plan": "[parameters('plan')]",
       "zones": "[parameters('zones')]",
-      "deleteWithVM": "[parameters('deleteWithVM')]",
       "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Compute/virtualMachines'), parameters('tagsByResource')['Microsoft.Compute/virtualMachines'], json('{}')) ]"
     }
   ],
