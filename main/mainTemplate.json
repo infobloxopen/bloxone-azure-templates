@@ -495,10 +495,13 @@
         },
         "parameters": "[if(equals(variables('publicIpExistingOrNone'), 'none'), variables('nicPrimaryNoneParams'), variables('nicPrimaryExistingParams'))]",
         "enableAcceleratedNetworking": {
-          "value": "[parameters'enableAcceleratedNetworking')]"
+          "value": "[parameters('enableAcceleratedNetworking')]"
         },
         "enableIPForwarding": {
-          "value": "[parameters'enableIPForwarding')]"
+          "value": "[parameters('enableIPForwarding')]"
+        },
+        "deleteNICWithVM": {
+          "value": "[parameters('deleteNICWithVM')]"
         }
       }
     },
@@ -587,7 +590,7 @@
                   "id": "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicPrimaryName'))]",
                   "properties": {
                     "primary": true,
-                    "deleteOption": "[if(parameters('deleteNICWithVM'), 'Delete', 'Detach')]"
+                    "deleteNICWithVM": "[parameters('deleteNICWithVM')]"
                   }
                 }
               ]

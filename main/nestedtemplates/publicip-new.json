@@ -25,7 +25,7 @@
       "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/publicIPAddresses'), parameters('tagsByResource')['Microsoft.Network/publicIPAddresses'], json('{}')) ]",
       "properties": {
         "publicIPAllocationMethod": "[parameters('publicIpAddressType')]",
-        "deleteOption": "[if(parameters('deleteNICWithVM'), 'Delete', 'Detach')]"
+        "deleteNICWithVM": "[parameters('deleteNICWithVM')]"
       }
     }
   ],

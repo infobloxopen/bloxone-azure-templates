@@ -28,7 +28,7 @@
   "resources": [
     {
       "type": "Microsoft.Network/networkInterfaces",
-      "apiVersion": "2021-05-01",
+      "apiVersion": "2023-06-01",
       "name": "[parameters('nicName')]",
       "location": "[parameters('location')]",
       "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/publicIPAddresses'), parameters('tagsByResource')['Microsoft.Network/publicIPAddresses'], json('{}')) ]",
@@ -51,7 +51,7 @@
           "id": "[parameters('networkSecurityGroupId')]"
         },
         "enableAcceleratedNetworking": "[parameters('enableAcceleratedNetworking')]",
-        "deleteOption": "[if(parameters('deleteNICWithVM'), 'Delete', 'Detach')]"
+        "deleteNICWithVM": "[parameters('deleteNICWithVM')]"
       }
     }
   ],
