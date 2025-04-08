@@ -25,6 +25,9 @@
     },
     "plan": {
       "type": "object"
+    },
+    "zones": {
+      "type": "array"
     }
   },
   "variables": {
@@ -43,7 +46,8 @@
       "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
       "properties": "[variables('properties')]",
-      "plan": "[parameters('plan')]"
+      "plan": "[parameters('plan')]",
+      "zones": "[parameters('zones')]"
     }
   ],
   "outputs": {}

@@ -20,6 +20,47 @@
       }
     },
     "basics": [
+	    {
+          "name": "availabilityOptions",
+          "type": "Microsoft.Common.DropDown",
+          "label": "Availability options",
+          "toolTip": "Select the availability option.",
+          "constraints": {
+            "allowedValues": [
+			        { "label": "No infrastructure redundancy required", "value": "no infrastructure"},
+              { "label": "Availability zone", "value": "availabilityZone" }
+            ]
+          },
+		    "visible": "[or(equals(location(), 'eastus'), equals(location(), 'australiaeast'), equals(location(), 'brazilsouth'), equals(location(), 'canadacentral'), equals(location(), 'centralindia'), equals(location(), 'centralus'), equals(location(), 'eastasia'), equals(location(), 'eastus2'), equals(location(), 'francecentral'), equals(location(), 'germanywestcentral'), equals(location(), 'israelcentral'), equals(location(), 'italynorth'), equals(location(), 'japaneast'), equals(location(), 'japanwest'), equals(location(), 'koreacentral'), equals(location(), 'mexicocentral'), equals(location(), 'newzealandnorth'), equals(location(), 'northeurope'), equals(location(), 'norwayeast'), equals(location(), 'polandcentral'), equals(location(), 'qatarcentral'), equals(location(), 'southafricanorth'), equals(location(), 'southcentralus'), equals(location(), 'southeastasia'), equals(location(), 'spaincentral'), equals(location(), 'swedencentral'), equals(location(), 'switzerlandnorth'), equals(location(), 'uaenorth'), equals(location(), 'uksouth'), equals(location(), 'westeurope'), equals(location(), 'westus2'), equals(location(), 'westus3'))]"
+      },
+      {
+          "name": "zoneOptions",
+          "type": "Microsoft.Common.OptionsGroup",
+          "label": "Zone options",
+          "toolTip": "Select the zone option.",
+          "constraints": {
+            "allowedValues": [
+              { "label": "Self-selected zone", "value": "selfSelected" },
+              { "label": "Azure-selected zone (Preview)", "value": "azureSelected" }
+            ]
+          },
+		      "visible": "[equals(basics('availabilityOptions'), 'availabilityZone')]"
+      },
+      {
+          "name": "availabilityZone",
+          "type": "Microsoft.Common.DropDown",
+          "label": "Availability zone",
+		      "defaultValue": "Zone 1",
+		      "toolTip": "Multiple zones can be selected",
+          "constraints": {
+            "allowedValues": [
+              { "label": "Zone 1", "value": "1" },
+              { "label": "Zone 2", "value": "2" },
+              { "label": "Zone 3", "value": "3" }
+            ]
+          },
+          "visible": "[equals(basics('zoneOptions'), 'selfSelected')]"
+      },
       {
         "name": "vmName",
         "type": "Microsoft.Common.TextBox",
@@ -38,12 +79,13 @@
         "name": "vmSize",
         "type": "Microsoft.Compute.SizeSelector",
         "label": "VM size",
-        "toolTip": "Select the size of VM.",
+        "toolTip": "Select a VM size to support the workload that you want to run. The size that you choose then determines factors such as processing power, memory, and storage capacity. Azure offers a wide variety of sizes to support many types of uses. Azure charges an hourly price based on the VM's size and operating system.Learn more about Virtual Machine sizes",
         "recommendedSizes": [
           "Standard_F8s"
         ],
         "constraints": {
           "allowedSizes": [
+            "Standard_E2s_v3",
             "Standard_B2s",
             "Standard_B2ms",
             "Standard_B4ms",
@@ -52,7 +94,8 @@
             "Standard_B16ms",
             "Standard_B20ms",
             "Standard_F4s",
-            "Standard_F8s"
+            "Standard_F8s",
+            "Standard_F16s"
           ]
         },
         "visible": "true",
@@ -115,6 +158,40 @@
           "postValidation": "Done"
         },
         "elements": [
+	        {
+            "name": "osDiskSize",
+            "type": "Microsoft.Common.TextBox",
+            "label": "OS Disk Size for VM (GiB)",
+            "toolTip": "Specify the size of the Disk. The Disk size should be between 60GB and 2500GB",
+            "defaultValue": "60",
+            "constraints": {
+              "regex": "^(6[0-9]|7[0-9]|8[0-9]|9[0-9]|1[0-9]{2}|1[1-9][0-9]{2}|2[0-4][0-9]{2}|2500)$",
+              "validationMessage": "The size must be in numbers and minimum allowed size is 60GB and maximum is 2500GB"
+            }
+          },
+          {
+            "name": "osDiskType",
+            "type": "Microsoft.Common.DropDown",
+            "label": "OS disk type",
+            "defaultValue": "Premium SSD",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "Standard HDD",
+                  "value": "Standard HDD"
+                },
+                {
+                  "label": "Standard SSD",
+                  "value": "Standard SSD"
+                },
+                {
+                  "label": "Premium SSD",
+                  "value": "Premium SSD"
+                }
+              ]
+            },
+            "toolTip": "Select the type of OS disk."
+          },
           {
             "name": "network",
             "type": "Microsoft.Network.VirtualNetworkCombo",
@@ -246,6 +323,8 @@
       "virtualNetworkName": "[steps('vmSettings').network.name]",
       "vmName": "[basics('vmName')]",
       "vmSize": "[basics('vmSize')]",
+      "osDiskSize": "[steps('vmSettings').osDiskSize]",
+      "osDiskType": "[steps('vmSettings').osDiskType]",
       "vnetNewOrExisting": "[steps('vmSettings').network.newOrExisting]"
     }
   }
