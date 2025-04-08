@@ -114,7 +114,9 @@
       "type": "string",
       "defaultValue": "Standard_GRS",
       "allowedValues": [
-        "Standard_GRS"
+        "Standard_GRS",
+        "Standard_LRS",
+        "Standard_RAGRS"
       ],
       "metadata": {
         "description": "The type of storage account created for boot diagnostics."
@@ -210,7 +212,7 @@
         "existing"
       ]
     },
-    "osDiskSize": {
+    "vmOSDiskSize": {
       "type": "int",
       "metadata": {
         "description": "The size of the disk in GB."
@@ -227,6 +229,32 @@
         "StandardSSD_LRS",
         "Premium_LRS"
       ]
+    },
+    "enableAcceleratedNetworking": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {          
+        "description": "Enable Accelerated Networking."
+      }
+    },
+    "enableIPForwarding": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {          
+        "description": "Enable IP Forwarding on the network interface."
+      }
+    },
+    "deleteWithVM": {
+      "type": "bool",
+      "defaultValue": false
+    },
+    "deleteNICWithVM": {
+      "type": "bool",
+      "defaultValue": false
+    },
+    "tagsByResource": {
+      "type": "object",
+      "defaultValue": {}
     }
   },
   "variables": {
@@ -243,7 +271,14 @@
     "imageOffer": "infoblox-bloxone-38",
     "imageSku": "infoblox-bloxone-38",
     "imageVersion": "3.8.10",
+    "enableIPForwarding": true,
     "nicPrimaryExistingParams": {
+      "enableIPForwarding": {
+        "value": "[parameters'enableIPForwarding')]"
+      },
+      "enableAcceleratedNetworking": {
+        "value": "[parameters'enableAcceleratedNetworking')]"
+      },
       "location": {
         "value": "[parameters('location')]"
       },
@@ -258,10 +293,19 @@
       },
       "networkSecurityGroupId": {
         "value": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+      },
+      "tagsByResource": {
+        "value": "[parameters('tagsByResource')]"
       }
     },
     "nicPrimaryName": "[concat(parameters('vmName'), '-lan1')]",
     "nicPrimaryNoneParams": {
+      "enableIPForwarding": {
+        "value": "[parameters('enableIPForwarding')]"
+      },
+      "enableAcceleratedNetworking": {
+        "value": "[parameters'enableAcceleratedNetworking')]"
+      },
       "location": {
         "value": "[parameters('location')]"
       },
@@ -273,6 +317,9 @@
       },
       "networkSecurityGroupId": {
         "value": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+      },
+      "tagsByResource": {
+        "value": "[parameters('tagsByResource')]"
       }
     },
     "nicPrimarySetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/nic-pip-', variables('publicIpExistingOrNone'), '.json', parameters('_artifactsLocationSasToken')))]",
@@ -289,6 +336,9 @@
       },
       "publicIpAddressType": {
         "value": "[variables('publicIpAddressType')]"
+      },
+      "tagsByResource": {
+        "value": "[parameters('tagsByResource')]"
       }
     },
     "publicIpResourceExisting": "[resourceId(parameters('publicIpExistingRgName'), concat('Microsoft.Network', '/', 'publicIpAddresses'), parameters('publicIpAddressName'))]",
@@ -345,6 +395,9 @@
       },
       "storageAccountName": {
         "value": "[parameters('storageAccountName')]"
+      },
+      "tagsByResource": {
+        "value": "[parameters('tagsByResource')]"
       }
     },
     "storageAccountSetupURL": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/storageAccount-', parameters('storageAccountNewOrExistingOrNone'), '.json'))]",
@@ -366,6 +419,9 @@
       },
       "subnet1Prefix": {
         "value": "[parameters('subnet1Prefix')]"
+      },
+      "tagsByResource": {
+        "value": "[parameters('tagsByResource')]"
       }
     },
     "vnetResourceExisting": "[resourceId(parameters('virtualNetworkExistingRGName'),'Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
@@ -376,7 +432,7 @@
     {
       "name": "pid",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "properties": {
         "mode": "Incremental",
         "template": {
@@ -389,7 +445,7 @@
     {
       "name": "SettingUpstorageAccount",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -400,18 +456,19 @@
       }
     },
     {
-      "apiVersion": "2021-05-01",
+      "apiVersion": "2023-06-01",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('nsgName')]",
       "location": "[parameters('location')]",
       "properties": {
         "securityRules": "[variables('securityRules')]"
-      }
+      },
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/networkSecurityGroups'), parameters('tagsByResource')['Microsoft.Network/networkSecurityGroups'], json('{}')) ]"
     },
     {
       "name": "SettingUpVirtualNetwork",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -424,7 +481,7 @@
     {
       "name": "SettingUpPrimaryNic",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpVirtualNetwork')]",
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpPublicIP')]",
@@ -436,13 +493,19 @@
           "uri": "[variables('nicPrimarySetupUrl')]",
           "contentVersion": "1.0.0.0"
         },
-        "parameters": "[if(equals(variables('publicIpExistingOrNone'), 'none'), variables('nicPrimaryNoneParams'), variables('nicPrimaryExistingParams'))]"
+        "parameters": "[if(equals(variables('publicIpExistingOrNone'), 'none'), variables('nicPrimaryNoneParams'), variables('nicPrimaryExistingParams'))]",
+        "enableAcceleratedNetworking": {
+          "value": "[parameters'enableAcceleratedNetworking')]"
+        },
+        "enableIPForwarding": {
+          "value": "[parameters'enableIPForwarding')]"
+        }
       }
     },
     {
       "name": "SettingUpPublicIP",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -455,7 +518,7 @@
     {
       "name": "SettingUpVirtualMachine",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpstorageAccount')]",
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpPrimaryNic')]"
@@ -469,6 +532,9 @@
         "parameters": {
           "vmName": {
             "value": "[parameters('vmName')]"
+          },
+          "tagsByResource": {
+            "value": "[parameters('tagsByResource')]"
           },
           "location": {
             "value": "[parameters('location')]"
@@ -507,9 +573,10 @@
                 "createOption":"FromImage",
                 "diskSizeGB": "[parameters('osDiskSize')]",
                 "managedDisk": {
-                  "storageAccountType": "[variables('osDiskType')]"
+                  "storageAccountType": "[variables('osDiskType')]",
+                  "deleteOption": "[if(parameters('deleteWithVM'), 'Delete', 'Detach')]"
                 },
-                "diskSizeGB": "[parameters('osDiskSize')]"
+                "diskSizeGB": "[parameters('vmOSDiskSize')]"
               }
             }
           },
@@ -519,7 +586,8 @@
                 {
                   "id": "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicPrimaryName'))]",
                   "properties": {
-                    "primary": true
+                    "primary": true,
+                    "deleteOption": "[if(parameters('deleteNICWithVM'), 'Delete', 'Detach')]"
                   }
                 }
               ]

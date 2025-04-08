@@ -2,6 +2,9 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "enableIPForwarding": {
+      "type": "bool"
+    },
     "location": {
       "type": "string"
     },
@@ -13,6 +16,13 @@
     },
     "networkSecurityGroupId": {
       "type": "string"
+    },
+    "enableAcceleratedNetworking": {
+      "type": "bool"
+    },
+    "tagsByResource": {
+      "type": "object",
+      "defaultValue": {}
     }
   },
   "resources": [
@@ -21,6 +31,7 @@
       "apiVersion": "2021-05-01",
       "name": "[parameters('nicName')]",
       "location": "[parameters('location')]",
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/publicIPAddresses'), parameters('tagsByResource')['Microsoft.Network/publicIPAddresses'], json('{}')) ]",
       "properties": {
         "ipConfigurations": [
           {
@@ -35,9 +46,11 @@
             }
           }
         ],
+        "enableIPForwarding": "[parameters('enableIPForwarding')]",
         "networkSecurityGroup": {
           "id": "[parameters('networkSecurityGroupId')]"
-        }
+        },
+        "enableAcceleratedNetworking": "[parameters('enableAcceleratedNetworking')]"
       }
     }
   ],

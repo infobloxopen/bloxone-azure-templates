@@ -28,6 +28,10 @@
     },
     "zones": {
       "type": "array"
+    },
+    "tagsByResource": {
+      "type": "object",
+      "defaultValue": {}
     }
   },
   "variables": {
@@ -47,7 +51,8 @@
       "location": "[parameters('location')]",
       "properties": "[variables('properties')]",
       "plan": "[parameters('plan')]",
-      "zones": "[parameters('zones')]"
+      "zones": "[parameters('zones')]",
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Compute/virtualMachines'), parameters('tagsByResource')['Microsoft.Compute/virtualMachines'], json('{}')) ]"
     }
   ],
   "outputs": {}

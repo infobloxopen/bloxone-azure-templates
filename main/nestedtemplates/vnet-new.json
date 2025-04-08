@@ -16,6 +16,10 @@
     },
     "subnet1Prefix": {
       "type": "string"
+    },
+    "tagsByResource": {
+      "type": "object",
+      "defaultValue": {}
     }
   },
   "resources": [
@@ -24,6 +28,7 @@
       "apiVersion": "2021-05-01",
       "name": "[parameters('virtualNetworkName')]",
       "location": "[parameters('location')]",
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/virtualNetworks'), parameters('tagsByResource')['Microsoft.Network/virtualNetworks'], json('{}')) ]",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
