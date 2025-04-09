@@ -339,9 +339,6 @@
       "location": {
         "value": "[parameters('location')]"
       },
-      "deleteOption": {
-        "value": "[parameters('deleteNICWithVM')]"
-      },
       "publicIpAddressName": {
         "value": "[parameters('publicIpAddressName')]"
       },
@@ -524,9 +521,6 @@
           "uri": "[variables('publicIpSetupUrl')]",
           "contentVersion": "1.0.0.0"
         },
-        "deleteOption": {
-          "value": "[parameters('deleteNICWithVM')]"
-        },
         "parameters": "[if(equals(variables('publicIpNewOrNone'), 'new'), variables('publicIpNewParams'), json('null'))]"
       }
     },
@@ -588,8 +582,7 @@
                 "createOption":"FromImage",
                 "diskSizeGB": "[parameters('osDiskSize')]",
                 "managedDisk": {
-                  "storageAccountType": "[variables('osDiskType')]",
-                  "deleteOption": "[parameters('deleteWithVM')]"
+                  "storageAccountType": "[variables('osDiskType')]"
                 },
                 "diskSizeGB": "[parameters('vmOSDiskSize')]"
               }
