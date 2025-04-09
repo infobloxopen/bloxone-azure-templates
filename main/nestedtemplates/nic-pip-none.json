@@ -54,8 +54,7 @@
           "id": "[parameters('networkSecurityGroupId')]"
         },
         "enableAcceleratedNetworking": "[parameters('enableAcceleratedNetworking')]"
-      },
-      "dependsOn": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpAddressName'))]"
+      }
     }
   ],
   "outputs": {}
