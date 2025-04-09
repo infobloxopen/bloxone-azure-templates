@@ -11,9 +11,6 @@
     "publicIpAddressType": {
       "type": "string"
     },
-    "deleteNICWithVM": {
-      "type": "bool"
-    },
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
@@ -27,8 +24,7 @@
       "location": "[parameters('location')]",
       "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/publicIPAddresses'), parameters('tagsByResource')['Microsoft.Network/publicIPAddresses'], json('{}')) ]",
       "properties": {
-        "publicIPAllocationMethod": "[parameters('publicIpAddressType')]",
-        "deleteOption": "[parameters('deleteNICWithVM')]"
+        "publicIPAllocationMethod": "[parameters('publicIpAddressType')]"
       }
     }
   ],
