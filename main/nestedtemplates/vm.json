@@ -29,6 +29,9 @@
     "zones": {
       "type": "array"
     },
+    "deleteWithVM": {
+      "type": "bool"
+    },
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
