@@ -284,6 +284,9 @@
       "enableAcceleratedNetworking": {
         "value": "[parameters'enableAcceleratedNetworking')]"
       },
+      "deleteNICWithVM": {
+        "value": "[parameters('deleteNICWithVM')]"
+      },
       "location": {
         "value": "[parameters('location')]"
       },
@@ -310,6 +313,9 @@
       },
       "enableAcceleratedNetworking": {
         "value": "[parameters('enableAcceleratedNetworking')]"
+      },
+      "deleteNICWithVM": {
+        "value": "[parameters('deleteNICWithVM')]"
       },
       "location": {
         "value": "[parameters('location')]"
