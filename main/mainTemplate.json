@@ -281,9 +281,6 @@
       "enableAcceleratedNetworking": {
         "value": "[parameters'enableAcceleratedNetworking')]"
       },
-      "deleteOption": {
-        "value": "[parameters('deleteNICWithVM')]"
-      },
       "location": {
         "value": "[parameters('location')]"
       },
@@ -310,9 +307,6 @@
       },
       "enableAcceleratedNetworking": {
         "value": "[parameters('enableAcceleratedNetworking')]"
-      },
-      "deleteOption": {
-        "value": "[parameters('deleteNICWithVM')]"
       },
       "location": {
         "value": "[parameters('location')]"
@@ -501,7 +495,6 @@
           "uri": "[variables('nicPrimarySetupUrl')]",
           "contentVersion": "1.0.0.0"
         },
-        "deleteOption": "[parameters('deleteNICWithVM')]",
         "parameters": "[if(equals(variables('publicIpExistingOrNone'), 'none'), variables('nicPrimaryNoneParams'), variables('nicPrimaryExistingParams'))]",
         "enableAcceleratedNetworking": {
           "value": "[parameters('enableAcceleratedNetworking')]"

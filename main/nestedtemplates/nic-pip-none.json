@@ -20,9 +20,6 @@
     "enableAcceleratedNetworking": {
       "type": "bool"
     },
-    "deleteNICWithVM": {
-      "type": "bool"
-    },
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
@@ -49,7 +46,6 @@
             }
           }
         ],
-        "deleteOption": "[parameters('deleteNICWithVM')]",
         "enableIPForwarding": "[parameters('enableIPForwarding')]",
         "networkSecurityGroup": {
           "id": "[parameters('networkSecurityGroupId')]"
