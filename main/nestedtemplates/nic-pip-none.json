@@ -46,7 +46,6 @@
             }
           }
         ],
-        "deleteNICWithVM": "[parameters('deleteNICWithVM')]",
         "enableIPForwarding": "[parameters('enableIPForwarding')]",
         "networkSecurityGroup": {
           "id": "[parameters('networkSecurityGroupId')]"
