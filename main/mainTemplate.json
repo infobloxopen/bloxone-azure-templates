@@ -251,10 +251,7 @@
     },
     "deleteNICWithVM": {
       "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "Delete NIC with VM."
-      }
+      "defaultValue": false
     },
     "tagsByResource": {
       "type": "object",
@@ -341,6 +338,9 @@
     "publicIpNewParams": {
       "location": {
         "value": "[parameters('location')]"
+      },
+      "deleteOption": {
+        "value": "[parameters('deleteNICWithVM')]"
       },
       "publicIpAddressName": {
         "value": "[parameters('publicIpAddressName')]"
