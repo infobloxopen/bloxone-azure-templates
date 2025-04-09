@@ -284,7 +284,7 @@
       "enableAcceleratedNetworking": {
         "value": "[parameters'enableAcceleratedNetworking')]"
       },
-      "deleteNICWithVM": {
+      "deleteOption": {
         "value": "[parameters('deleteNICWithVM')]"
       },
       "location": {
@@ -314,7 +314,7 @@
       "enableAcceleratedNetworking": {
         "value": "[parameters('enableAcceleratedNetworking')]"
       },
-      "deleteNICWithVM": {
+      "deleteOption": {
         "value": "[parameters('deleteNICWithVM')]"
       },
       "location": {
@@ -504,7 +504,7 @@
           "uri": "[variables('nicPrimarySetupUrl')]",
           "contentVersion": "1.0.0.0"
         },
-        "deleteNICWithVM": "[parameters('deleteNICWithVM')]",
+        "deleteOption": "[parameters('deleteNICWithVM')]",
         "parameters": "[if(equals(variables('publicIpExistingOrNone'), 'none'), variables('nicPrimaryNoneParams'), variables('nicPrimaryExistingParams'))]",
         "enableAcceleratedNetworking": {
           "value": "[parameters('enableAcceleratedNetworking')]"
@@ -524,7 +524,7 @@
           "uri": "[variables('publicIpSetupUrl')]",
           "contentVersion": "1.0.0.0"
         },
-        "deleteNICWithVM": {
+        "deleteOption": {
           "value": "[parameters('deleteNICWithVM')]"
         },
         "parameters": "[if(equals(variables('publicIpNewOrNone'), 'new'), variables('publicIpNewParams'), json('null'))]"
@@ -589,7 +589,7 @@
                 "diskSizeGB": "[parameters('osDiskSize')]",
                 "managedDisk": {
                   "storageAccountType": "[variables('osDiskType')]",
-                  "deleteWithVM": "[parameters('deleteWithVM')]"
+                  "deleteOption": "[parameters('deleteWithVM')]"
                 },
                 "diskSizeGB": "[parameters('vmOSDiskSize')]"
               }
