@@ -48,7 +48,7 @@
   },
   "resources": [
     {
-      "apiVersion": "2021-11-01",
+      "apiVersion": "2023-09-01",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
