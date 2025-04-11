@@ -569,7 +569,8 @@
                 "createOption":"FromImage",
                 "diskSizeGB": "[parameters('osDiskSize')]",
                 "managedDisk": {
-                  "storageAccountType": "[variables('osDiskType')]"
+                  "storageAccountType": "[variables('osDiskType')]",
+                  "osDiskDeleteWithVM": "[parameters('deleteWithVM')]"
                 }
               }
             }
