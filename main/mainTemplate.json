@@ -570,8 +570,7 @@
                 "diskSizeGB": "[parameters('osDiskSize')]",
                 "managedDisk": {
                   "storageAccountType": "[variables('osDiskType')]"
-                },
-                "diskSizeGB": "[parameters('osDiskSize')]"
+                }
               }
             }
           },

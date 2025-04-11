@@ -46,6 +46,8 @@
               "subnet": {
                 "id": "[parameters('subnetId')]"
               },
+              "enableIPForwarding": "[parameters('enableIPForwarding')]",
+              "enableAcceleratedNetworking": "[parameters('enableAcceleratedNetworking')]",
               "publicIPAddress": {
                 "id": "[parameters('publicIpAddressId')]"
               }
