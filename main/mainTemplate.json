@@ -276,10 +276,10 @@
     "enableIPForwarding": "[parameters('enableIPForwarding')]",
     "nicPrimaryExistingParams": {
       "enableIPForwarding": {
-        "value": "[parameters'enableIPForwarding')]"
+        "value": "[parameters('enableIPForwarding')]"
       },
       "enableAcceleratedNetworking": {
-        "value": "[parameters'enableAcceleratedNetworking')]"
+        "value": "[parameters('enableAcceleratedNetworking')]"
       },
       "location": {
         "value": "[parameters('location')]"
@@ -577,7 +577,7 @@
                 "managedDisk": {
                   "storageAccountType": "[variables('osDiskType')]"
                 },
-                "diskSizeGB": "[parameters('vmOSDiskSize')]"
+                "diskSizeGB": "[parameters('osDiskSize')]"
               }
             }
           },
