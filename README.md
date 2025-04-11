@@ -176,7 +176,6 @@ Use Cases
 
 Configuration 
     Enabling IP Forwarding: You can enable IP forwarding at the NIC level in Azure. This requires configuring the VM's network interface to allow traffic forwarding 
-
     Operating System Configuration: You might need to enable IP forwarding within the VM's operating system to ensure it can forward traffic between private IP addresses assigned to Azure network interfaces 
 
 Impact 
