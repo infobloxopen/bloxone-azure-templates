@@ -21,7 +21,8 @@
       "type": "bool"
     },
     "deleteNICWithVM": {
-      "type": "bool"
+      "type": "bool",
+      "defaultValue": false
     },
     "tagsByResource": {
       "type": "object",
