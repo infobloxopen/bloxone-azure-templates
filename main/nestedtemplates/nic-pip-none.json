@@ -20,6 +20,9 @@
     "enableAcceleratedNetworking": {
       "type": "bool"
     },
+    "deleteNICWithVM": {
+      "type": "bool"
+    },
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
