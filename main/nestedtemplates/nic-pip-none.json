@@ -46,8 +46,6 @@
             }
           }
         ],
-        "enableAcceleratedNetworking": "[parameters('enableAcceleratedNetworking')]",
-        "enableIPForwarding": "[parameters('enableIPForwarding')]",
         "networkSecurityGroup": {
           "id": "[parameters('networkSecurityGroupId')]"
         }

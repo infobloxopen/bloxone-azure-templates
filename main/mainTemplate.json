@@ -495,13 +495,7 @@
           "uri": "[variables('nicPrimarySetupUrl')]",
           "contentVersion": "1.0.0.0"
         },
-        "parameters": "[if(equals(variables('publicIpExistingOrNone'), 'none'), variables('nicPrimaryNoneParams'), variables('nicPrimaryExistingParams'))]",
-        "enableAcceleratedNetworking": {
-          "value": "[parameters('enableAcceleratedNetworking')]"
-        },
-        "enableIPForwarding": {
-          "value": "[parameters('enableIPForwarding')]"
-        }
+        "parameters": "[if(equals(variables('publicIpExistingOrNone'), 'none'), variables('nicPrimaryNoneParams'), variables('nicPrimaryExistingParams'))]"
       }
     },
     {
