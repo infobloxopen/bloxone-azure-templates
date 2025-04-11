@@ -245,14 +245,6 @@
         "description": "Enable IP Forwarding on the network interface."
       }
     },
-    "deleteWithVM": {
-      "type": "bool",
-      "defaultValue": false
-    },
-    "deleteNICWithVM": {
-      "type": "bool",
-      "defaultValue": false
-    },
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
@@ -569,8 +561,7 @@
                 "createOption":"FromImage",
                 "diskSizeGB": "[parameters('osDiskSize')]",
                 "managedDisk": {
-                  "storageAccountType": "[variables('osDiskType')]",
-                  "osDiskDeleteWithVM": "[parameters('deleteWithVM')]"
+                  "storageAccountType": "[variables('osDiskType')]"
                 }
               }
             }

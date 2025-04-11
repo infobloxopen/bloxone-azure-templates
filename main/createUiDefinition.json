@@ -200,13 +200,6 @@
               ]
             },
             "toolTip": "Select the type of OS disk."
-          },
-          {
-            "name": "deleteWithVM",
-            "type": "Microsoft.Common.CheckBox",
-            "label": "Delete with VM",
-            "toolTip": "Disks persist independently from the virtual machine. You can choose to automatically delete a disk when the associated virtual machine is deleted.",
-            "defaultValue": false
           }
         ]
       },  
@@ -298,13 +291,6 @@
               ]
             },
             "visible": true
-          },
-          {
-            "name": "deleteNICWithVM",
-            "type": "Microsoft.Common.CheckBox",
-            "label": "Delete Public IP and NIC when VM is deleted",
-            "toolTip": "Public IP addresses and NICs persist independently from the virtual machine. You can choose to automatically delete the public IP address and NIC when the associated virtual machine is deleted.",
-            "defaultValue": false
           },
           {
             "name": "ipForwarding",
@@ -417,12 +403,10 @@
       "vnetNewOrExisting": "[steps('networking').virtualNetwork.newOrExisting]",
       "osDiskSize": "[steps('disks').osDiskSize]",
       "osDiskType": "[steps('disks').osDiskType]",
-      "osDiskDeleteWithVM": "[steps('disks').deleteWithVM]",
       "availabilityZone": "[basics('availabilityZone')]",
       "availabilityOptions": "[basics('availabilityOptions')]",
       "zoneOptions": "[basics('zoneOptions')]",
       "injecting": "[basics('injecting')]",
-      "deleteNICWithVM": "[steps('networking').deleteNICWithVM]",
       "ipForwarding": "[steps('networking').ipForwarding]",
       "enableAcceleratedNetworking": "[steps('networking').enableAcceleratedNetworking]"
     }
