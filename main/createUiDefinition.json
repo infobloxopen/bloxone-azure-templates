@@ -293,7 +293,7 @@
             "visible": true
           },
           {
-            "name": "ipForwarding",
+            "name": "enableIPForwarding",
             "type": "Microsoft.Common.CheckBox",
             "label": "Enable IP Forwarding",
             "toolTip": "Enable IP forwarding for VM.",
@@ -351,7 +351,7 @@
             "options": {
               "hideExisting": false
             },
-            "visible": "[equals(steps('vmSettings').serialConsole, 'Yes')]"
+            "visible": "[equals(steps('networking').serialConsole, 'Yes')]"
           }
         ]
       },
@@ -407,7 +407,7 @@
       "availabilityOptions": "[basics('availabilityOptions')]",
       "zoneOptions": "[basics('zoneOptions')]",
       "injecting": "[basics('injecting')]",
-      "ipForwarding": "[steps('networking').ipForwarding]",
+      "enableIPForwarding": "[steps('networking').enableIPForwarding]",
       "enableAcceleratedNetworking": "[steps('networking').enableAcceleratedNetworking]"
     }
   }

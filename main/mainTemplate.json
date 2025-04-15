@@ -33,9 +33,9 @@
       "metadata": {
         "description": "Availability options for the Virtual Machine."
       },
-      "defaultValue": "Availability zone",
+      "defaultValue": "availabilityZone",
       "allowedValues": [
-        "Availability zone",
+        "availabilityZone",
         "No Infrastructure required"
       ]
     },
@@ -44,7 +44,11 @@
       "metadata": {
         "description": "Zone options for the Virtual Machine."
       },
-      "defaultValue": ""
+      "defaultValue": "Self-selected zone",
+      "allowedValues": [
+        "Self-selected zone",
+        "Azure selected zone"
+      ]
     },
     "availabilityZone": {
       "type": "Array",
