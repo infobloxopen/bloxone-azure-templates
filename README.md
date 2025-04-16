@@ -71,7 +71,6 @@ Normal VM: Basic deployment with no high availability guarantees.
 2 Zones: Maximum availability and resilience, ensuring uptime even if one zone fails. 
 For more info: https://learn.microsoft.com/en-us/azure/virtual-machines/create-portal-availability-zone  
 
-
 When you don't select any while launching a VM with the Azure-selected zone option, Azure automatically selects the best availability zone for your VM based on current capacity and performance metrics. This helps to optimize the placement of your VM without requiring you to manually choose a specific zone. 
 
 And let's say you launched a VM with zone 1 and in future, if you want to move to zone 2, this can be done. On overview page of VM, you can see availability zone -> click on edit, then choose zone -> agree and ok. But this works based on the selected reqion has availability and quota.
@@ -252,4 +251,5 @@ If you click on network interface, you can see Edit accelerated networking by cl
 ![Screenshot from 2025-04-11 14:38:54](https://raw.githubusercontent.com/smallu-infoblox/bloxone-azure-templates/azure/an/referenceimages/Screenshot%20from%202025-04-11%2014-38-54.png)
 
 If you have any doubts, please reach out the author of this.
+
 
