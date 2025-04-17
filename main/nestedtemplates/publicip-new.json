@@ -10,14 +10,19 @@
     },
     "publicIpAddressType": {
       "type": "string"
+    },
+    "tagsByResource": {
+      "type": "object",
+      "defaultValue": {}
     }
   },
   "resources": [
     {
-      "apiVersion": "2021-05-01",
+      "apiVersion": "2023-06-01",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[parameters('publicIpAddressName')]",
       "location": "[parameters('location')]",
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/publicIPAddresses'), parameters('tagsByResource')['Microsoft.Network/publicIPAddresses'], json('{}')) ]",
       "properties": {
         "publicIPAllocationMethod": "[parameters('publicIpAddressType')]"
       }
