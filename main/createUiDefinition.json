@@ -51,7 +51,7 @@
           "type": "Microsoft.Common.DropDown",
           "label": "Availability zone",
 		      "defaultValue": "Zone 1",
-		      "toolTip": "Multiple zones can be selected",
+		      "toolTip": "Availability zones can be selected",
           "constraints": {
             "allowedValues": [
               { "label": "Zone 1", "value": "1" },
@@ -114,15 +114,24 @@
     ],
     "steps": [
       {
-        "name": "vmSettings",
-        "label": "VM Settings",
-        "bladeTitle": "Bloxone VM settings",
+        "name": "disks",
+        "label": "Disks",
+        "bladeTitle": "Disks",
         "subLabel": {
-          "preValidation": "Configure VM Settings",
+          "preValidation": "Configure disks",
           "postValidation": "Done"
         },
         "elements": [
-	        {
+          {
+            "name": "InfoAdvanced",
+            "type": "Microsoft.Common.InfoBox",
+            "visible": "true",
+            "options": {
+              "icon": "Info",
+              "text": "This section consists of disk related information for your virtual machine. You can specify the size and type of disks to use for your VM."
+            }
+          },
+          {
             "name": "osDiskSize",
             "type": "Microsoft.Common.TextBox",
             "label": "OS Disk Size for VM (GiB)",
@@ -136,35 +145,55 @@
           {
             "name": "osDiskType",
             "type": "Microsoft.Common.DropDown",
-            "label": "OS disk type",
-            "defaultValue": "Premium SSD",
+            "label": "OS Disk type",
+            "defaultValue": "Premium_LRS",
             "constraints": {
               "allowedValues": [
                 {
-                  "label": "Standard HDD",
-                  "value": "Standard HDD"
+                  "label": "Standard HDD (Standard_LRS)",
+                  "value": "Standard_LRS"
                 },
                 {
-                  "label": "Standard SSD",
-                  "value": "Standard SSD"
+                  "label": "Standard SSD (StandardSSD_LRS)",
+                  "value": "StandardSSD_LRS"
                 },
                 {
-                  "label": "Premium SSD",
-                  "value": "Premium SSD"
+                  "label": "Premium SSD (Premium_LRS)",
+                  "value": "Premium_LRS"
                 }
               ]
             },
             "toolTip": "Select the type of OS disk."
+          }
+        ]
+      },  
+      {
+        "name": "networking",
+        "label": "Networking",
+        "subLabel": {
+          "preValidation": "Configure networking",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "Networking",
+        "elements": [
+          {
+            "name": "InfoAdvanced",
+            "type": "Microsoft.Common.InfoBox",
+            "visible": "true",
+            "options": {
+              "icon": "Info",
+              "text": "Define network connectivity for your virtual machine by configuring network interface card (NIC) settings. You can control ports, inbound and outbound connectivity with security group rules, or place behind an existing load balancing solution."
+            }
           },
           {
-            "name": "network",
+            "name": "virtualNetwork",
             "type": "Microsoft.Network.VirtualNetworkCombo",
             "label": {
               "virtualNetwork": "Virtual network",
               "subnets": "Subnets"
             },
             "toolTip": {
-              "virtualNetwork": "Only virtual networks in the currently selected subscription and location are listed. If you choose to create a new virtual network, it will be created in the same subscription, location, and resource group as the storage account."
+              "virtualNetwork": "Only virtual networks in the currently selected subscription and location are listed. If you choose to create a new virtual network, it will be created in the same subscription, location, and resource group as the VM."
             },
             "constraints": {
               "minAddressPrefixSize": "/29"
@@ -218,6 +247,37 @@
             "visible": true
           },
           {
+            "name": "enableIPForwarding",
+            "type": "Microsoft.Common.CheckBox",
+            "label": "Enable IP Forwarding",
+            "toolTip": "Enable IP forwarding for VM.",
+            "defaultValue": false
+          },
+          {
+            "name": "info",
+            "type": "Microsoft.Common.InfoBox",
+            "visible": "[or(equals(basics('vmSize'), 'Standard_E2s_v3'), equals(basics('vmSize'), 'Standard_E4s_v5'), equals(basics('vmSize'), 'Standard_E8s_v5'), equals(basics('vmSize'), 'Standard_E16s_v5'), equals(basics('vmSize'), 'Standard_E20s_v5'), equals(basics('vmSize'), 'Standard_E4ds_v5'), equals(basics('vmSize'), 'Standard_E8ds_v5'), equals(basics('vmSize'), 'Standard_E16ds_v5'), equals(basics('vmSize'), 'Standard_E20ds_v5'), equals(basics('vmSize'), 'Standard_D4ds_v5'), equals(basics('vmSize'), 'Standard_D8ds_v5'), equals(basics('vmSize'), 'Standard_D16ds_v5'), equals(basics('vmSize'), 'Standard_D32ds_v5'), equals(basics('vmSize'), 'Standard_F4s_v2'), equals(basics('vmSize'), 'Standard_F8s_v2'), equals(basics('vmSize'), 'Standard_F16s_v2'), equals(basics('vmSize'), 'Standard_F32s_v2'), equals(basics('vmSize'), 'Standard_F48s_v2'), equals(basics('vmSize'), 'Standard_F4s'), equals(basics('vmSize'), 'Standard_F8s'), equals(basics('vmSize'), 'Standard_F16s'), equals(basics('vmSize'), 'Standard_M8ms'), equals(basics('vmSize'), 'Standard_M16ms'), equals(basics('vmSize'), 'Standard_M32ms'))]",
+            "options": {
+              "icon": "Info",
+              "text": "Accelerated networking is a feature that enables single root I/O virtualization (SR-IOV) for virtual machines. This can improve network performance and reduce CPU utilization."
+            }
+          },
+          {
+            "name": "enableAcceleratedNetworking",
+            "type": "Microsoft.Common.CheckBox",
+            "label": "Enable accelerated networking",
+            "toolTip": "Enables low latency and high throughput on the network interface.",
+            "defaultValue": false,
+		        "visible": "[or(equals(basics('vmSize'), 'Standard_E2s_v3'), equals(basics('vmSize'), 'Standard_E4s_v5'), equals(basics('vmSize'), 'Standard_E8s_v5'), equals(basics('vmSize'), 'Standard_E16s_v5'), equals(basics('vmSize'), 'Standard_E20s_v5'), equals(basics('vmSize'), 'Standard_E4ds_v5'), equals(basics('vmSize'), 'Standard_E8ds_v5'), equals(basics('vmSize'), 'Standard_E16ds_v5'), equals(basics('vmSize'), 'Standard_E20ds_v5'), equals(basics('vmSize'), 'Standard_D4ds_v5'), equals(basics('vmSize'), 'Standard_D8ds_v5'), equals(basics('vmSize'), 'Standard_D16ds_v5'), equals(basics('vmSize'), 'Standard_D32ds_v5'), equals(basics('vmSize'), 'Standard_F4s_v2'), equals(basics('vmSize'), 'Standard_F8s_v2'), equals(basics('vmSize'), 'Standard_F16s_v2'), equals(basics('vmSize'), 'Standard_F32s_v2'), equals(basics('vmSize'), 'Standard_F48s_v2'), equals(basics('vmSize'), 'Standard_F4s'), equals(basics('vmSize'), 'Standard_F8s'), equals(basics('vmSize'), 'Standard_F16s'), equals(basics('vmSize'), 'Standard_M8ms'), equals(basics('vmSize'), 'Standard_M16ms'), equals(basics('vmSize'), 'Standard_M32ms'))]"
+          }
+        ]
+      },
+      {
+        "name": "advanced",
+        "label": "Advanced",
+        "bladeTitle": "Advanced",
+        "elements": [
+          {
             "name": "serialConsole",
             "type": "Microsoft.Common.OptionsGroup",
             "label": "Serial Console",
@@ -256,7 +316,7 @@
             "options": {
               "hideExisting": false
             },
-            "visible": "[equals(steps('vmSettings').serialConsole, 'Yes')]"
+            "visible": "[equals(steps('advanced').serialConsole, 'Yes')]"
           }
         ]
       },
@@ -289,25 +349,30 @@
       "jointoken": "[basics('jointoken')]",
       "httpProxy": "[basics('httpProxy')]",
       "location": "[location()]",
-      "publicIPAddressName": "[steps('vmSettings').publicIp.name]",
-      "publicIpExistingRgName": "[steps('vmSettings').publicIp.resourceGroup]",
-      "publicIpNewOrExistingOrNone": "[steps('vmSettings').publicIp.newOrExistingOrNone]",
-      "securityGroup": "[if(startsWith(string(steps('vmSettings').securityGroup), '['), steps('vmSettings').securityGroup, parse(concat('[\"',steps('vmSettings').securityGroup,'\"]')))]",
-      "storageAccountName": "[steps('vmSettings').storageAccount.name]",
-      "storageAccountType": "[steps('vmSettings').storageAccount.type]",
-      "storageAccountNewOrExistingOrNone": "[if(empty(steps('vmSettings').storageAccount.newOrExisting), 'none', steps('vmSettings').storageAccount.newOrExisting)]",
-      "storageAccountExistingRG": "[steps('vmSettings').storageAccount.resourceGroup]",
-      "subnet1Name": "[steps('vmSettings').network.subnets.subnet1.name]",
-      "subnet1Prefix": "[steps('vmSettings').network.subnets.subnet1.addressPrefix]",
-      "virtualNetworkAddressPrefix": "[steps('vmSettings').network.addressPrefix]",
-      "virtualNetworkExistingRGName": "[steps('vmSettings').network.resourceGroup]",
-      "virtualNetworkName": "[steps('vmSettings').network.name]",
+      "publicIPAddressName": "[steps('networking').publicIp.name]",
+      "publicIpExistingRgName": "[steps('networking').publicIp.resourceGroup]",
+      "publicIpNewOrExistingOrNone": "[steps('networking').publicIp.newOrExistingOrNone]",
+      "securityGroup": "[if(startsWith(string(steps('networking').securityGroup), '['), steps('networking').securityGroup, parse(concat('[\"',steps('networking').securityGroup,'\"]')))]",
+      "storageAccountName": "[steps('advanced').storageAccount.name]",
+      "storageAccountType": "[steps('advanced').storageAccount.type]",
+      "storageAccountNewOrExistingOrNone": "[if(empty(steps('advanced').storageAccount.newOrExisting), 'none', steps('advanced').storageAccount.newOrExisting)]",
+      "storageAccountExistingRG": "[steps('advanced').storageAccount.resourceGroup]",
+      "subnet1Name": "[steps('networking').virtualNetwork.subnets.subnet1.name]",
+      "subnet1Prefix": "[steps('networking').virtualNetwork.subnets.subnet1.addressPrefix]",
+      "virtualNetworkAddressPrefix": "[steps('networking').virtualNetwork.addressPrefix]",
+      "virtualNetworkExistingRGName": "[steps('networking').virtualNetwork.resourceGroup]",
+      "virtualNetworkName": "[steps('networking').virtualNetwork.name]",
       "vmName": "[basics('vmName')]",
       "vmSize": "[basics('vmSize')]",
-      "vnetNewOrExisting": "[steps('vmSettings').network.newOrExisting]",
+      "vnetNewOrExisting": "[steps('networking').virtualNetwork.newOrExisting]",
       "tagsByResource": "[steps('tags').tagsByResource]",
-      "osDiskSize": "[steps('vmSettings').osDiskSize]",
-      "osDiskType": "[steps('vmSettings').osDiskType]"
+      "osDiskSize": "[steps('disks').osDiskSize]",
+      "osDiskType": "[steps('disks').osDiskType]",
+      "availabilityZone": "[basics('availabilityZone')]",
+      "availabilityOptions": "[basics('availabilityOptions')]",
+      "zoneOptions": "[basics('zoneOptions')]",
+      "enableIPForwarding": "[steps('networking').enableIPForwarding]",
+      "enableAcceleratedNetworking": "[steps('networking').enableAcceleratedNetworking]"
     }
   }
 }

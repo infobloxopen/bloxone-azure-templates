@@ -17,6 +17,9 @@
     "networkSecurityGroupId": {
       "type": "string"
     },
+    "enableAcceleratedNetworking": {
+      "type": "bool"
+    },
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
@@ -44,6 +47,7 @@
           }
         ],
         "enableIPForwarding": "[parameters('enableIPForwarding')]",
+        "enableAcceleratedNetworking": "[parameters('enableAcceleratedNetworking')]",
         "networkSecurityGroup": {
           "id": "[parameters('networkSecurityGroupId')]"
         }

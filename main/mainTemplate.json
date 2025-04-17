@@ -36,9 +36,9 @@
       "metadata": {
         "description": "Availability options for the Virtual Machine."
       },
-      "defaultValue": "Availability zone",
+      "defaultValue": "availabilityZone",
       "allowedValues": [
-        "Availability zone",
+        "availabilityZone",
         "No Infrastructure required"
       ]
     },
@@ -47,7 +47,11 @@
       "metadata": {
         "description": "Zone options for the Virtual Machine."
       },
-      "defaultValue": ""
+      "defaultValue": "Self-selected zone",
+      "allowedValues": [
+        "Self-selected zone",
+        "Azure selected zone"
+      ]
     },
     "availabilityZone": {
       "type": "Array",
@@ -213,23 +217,45 @@
         "StandardSSD_LRS",
         "Premium_LRS"
       ]
+    },
+    "enableAcceleratedNetworking": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {          
+        "description": "Enable Accelerated Networking."
+      }
+    },
+    "enableIPForwarding": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {          
+        "description": "Enable IP Forwarding on the network interface."
+      }
+    },
+    "tagsByResource": {
+      "type": "object",
+      "defaultValue": {}
     }
   },
   "variables": {
     "OSDiskName":"[concat(parameters('vmName'), uniqueString(resourceGroup().id))]",
+    "osDiskType": "[parameters('osDiskType')]",
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
     "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n')]",
     "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpProxy'), '\n')]",
     "customData": "[if(empty(parameters('httpProxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
-    "enableIPForwarding": true,
+    "enableIPForwarding": "[parameters('enableIPForwarding')]",
     "imageOffer": "",
     "imagePublisher": "",
     "imageSku": "",
     "imageVersion": "",
     "nicPrimaryExistingParams": {
       "enableIPForwarding": {
-        "value": "[variables('enableIPForwarding')]"
+        "value": "[parameters('enableIPForwarding')]"
+      },
+      "enableAcceleratedNetworking": {
+        "value": "[parameters('enableAcceleratedNetworking')]"
       },
       "location": {
         "value": "[parameters('location')]"
@@ -253,7 +279,10 @@
     "nicPrimaryName": "[concat(parameters('vmName'), '-lan1')]",
     "nicPrimaryNoneParams": {
       "enableIPForwarding": {
-        "value": "[variables('enableIPForwarding')]"
+        "value": "[parameters('enableIPForwarding')]"
+      },
+      "enableAcceleratedNetworking": {
+        "value": "[parameters('enableAcceleratedNetworking')]"
       },
       "location": {
         "value": "[parameters('location')]"
@@ -501,8 +530,7 @@
                 "diskSizeGB": "[parameters('osDiskSize')]",
                 "managedDisk": {
                   "storageAccountType": "[variables('osDiskType')]"
-                },
-                "diskSizeGB": "[parameters('osDiskSize')]"
+                }
               }
             }
           },
@@ -534,3 +562,4 @@
     }
   ]
 }
+
