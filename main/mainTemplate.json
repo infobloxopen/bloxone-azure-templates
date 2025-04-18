@@ -47,10 +47,10 @@
       "metadata": {
         "description": "Zone options for the Virtual Machine."
       },
-      "defaultValue": "Self-selected zone",
+      "defaultValue": "selfSelected",
       "allowedValues": [
-        "Self-selected zone",
-        "Azure selected zone"
+        "selfSelected",
+        "azureSelected"
       ]
     },
     "availabilityZone": {
@@ -253,7 +253,6 @@
     "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n')]",
     "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpProxy'), '\n')]",
     "customData": "[if(empty(parameters('httpProxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
-    "enableIPForwarding": "[parameters('enableIPForwarding')]",
     "imageOffer": "",
     "imagePublisher": "",
     "imageSku": "",
@@ -566,6 +565,13 @@
             }
           }
         }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deploymentScripts",
+      "name": "TestValidationStub",
+      "properties": {
+        "scriptContent": "[parameters('availabilityOptions')] | [parameters('zoneOptions')]"
       }
     }
   ]
