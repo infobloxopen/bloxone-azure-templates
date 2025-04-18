@@ -31,7 +31,7 @@
       "apiVersion": "2023-06-01",
       "name": "[parameters('nicName')]",
       "location": "[parameters('location')]",
-      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/publicIPAddresses'), parameters('tagsByResource')['Microsoft.Network/publicIPAddresses'], json('{}')) ]",
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/networkInterfaces'), parameters('tagsByResource')['Microsoft.Network/networkInterfaces'], json('{}')) ]",
       "properties": {
         "ipConfigurations": [
           {

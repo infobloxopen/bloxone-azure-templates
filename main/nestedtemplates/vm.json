@@ -26,12 +26,12 @@
     "plan": {
       "type": "object"
     },
-    "zones": {
-      "type": "array"
-    },
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
+    },
+    "zones": {
+      "type": "array"
     }
   },
   "variables": {
@@ -51,8 +51,8 @@
       "location": "[parameters('location')]",
       "properties": "[variables('properties')]",
       "plan": "[parameters('plan')]",
-      "zones": "[parameters('zones')]",
-      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Compute/virtualMachines'), parameters('tagsByResource')['Microsoft.Compute/virtualMachines'], json('{}')) ]"
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Compute/virtualMachines'), parameters('tagsByResource')['Microsoft.Compute/virtualMachines'], json('{}')) ]",
+      "zones": "[parameters('zones')]"
     }
   ],
   "outputs": {}
