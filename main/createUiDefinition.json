@@ -166,7 +166,7 @@
             "toolTip": "Select the type of OS disk."
           }
         ]
-      },  
+      },
       {
         "name": "networking",
         "label": "Networking",

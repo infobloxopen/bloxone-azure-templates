@@ -221,20 +221,16 @@
     "enableAcceleratedNetworking": {
       "type": "bool",
       "defaultValue": false,
-      "metadata": {          
+      "metadata": {
         "description": "Enable Accelerated Networking."
       }
     },
     "enableIPForwarding": {
       "type": "bool",
       "defaultValue": false,
-      "metadata": {          
+      "metadata": {
         "description": "Enable IP Forwarding on the network interface."
       }
-    },
-    "tagsByResource": {
-      "type": "object",
-      "defaultValue": {}
     }
   },
   "variables": {
@@ -562,4 +558,3 @@
     }
   ]
 }
-

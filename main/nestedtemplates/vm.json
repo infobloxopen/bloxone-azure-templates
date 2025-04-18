@@ -32,10 +32,6 @@
     },
     "zones": {
       "type": "array"
-    },
-    "tagsByResource": {
-      "type": "object",
-      "defaultValue": {}
     }
   },
   "variables": {
