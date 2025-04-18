@@ -16,6 +16,18 @@
             ]
           },
           "allowExisting": true
+        },
+        "location": {
+          "label": "Region",
+          "toolTip": "The Azure region into which resources should be deployed.",
+          "resourceTypes": [
+            "Microsoft.Network/networkInterfaces",
+            "Microsoft.Network/networkSecurityGroups",
+            "Microsoft.Network/publicIPAddresses",
+            "Microsoft.Storage/storageAccounts",
+            "Microsoft.Compute/virtualMachines"
+          ],
+          "visible": true
         }
       }
     },
