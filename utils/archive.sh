@@ -12,15 +12,20 @@ function archive() {
 }
 
 function usage() {
-    echo -e "\nUsage: $0 accessPortal=<accessPortal> configServer=<configServer> notificationServer=<notificationServer> pid=<pid>\n"
+    echo -e "\nUsage: $0 imageOffer=<imageOffer> imagePublisher=<imagePublisher> imageSku=<imageSku> imageVersion=<imageVersion> trackingId=<trackingId>"
+    echo -e "Required parameters:\n imageOffer\n imagePublisher\n imageSku\n imageVersion\n trackingId"
+    echo "You can get imageOffer, imagePublisher, imageSku and imageVersion in your virtual machine offer."
+    echo "You can get trackingId in your application offer."
 }
 
 # Patching mainTemplate.
 function patchMainTemplate() {
-    jq ".variables.hostSetup.accessPortal = \"${accessPortal}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
-    jq ".variables.hostSetup.configServer = \"${configServer}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
-    jq ".variables.hostSetup.notificationServer = \"${notificationServer}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
-    jq ".resources[0].name = \"${pid}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
+    jq ".variables.imageOffer = \"${imageOffer}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
+    jq ".variables.imagePublisher = \"${imagePublisher}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
+    jq ".variables.imageSku = \"${imageSku}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
+    jq ".variables.imageVersion = \"${imageVersion}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
+
+    jq ".resources[0].name = \"${trackingId}\"" ${MAIN_TEMPLATE} > tmp.$$.json && mv tmp.$$.json ${MAIN_TEMPLATE}
     
     echo "${MAIN_TEMPLATE} is patched."
 }
@@ -34,7 +39,7 @@ do
     export "$KEY"="$VALUE"
 done
 
-if [ -z ${accessPortal} ] || [ -z ${configServer} ] || [ -z ${notificationServer} ] || [ -z ${pid} ]; then
+if [ -z ${imageOffer} ] || [ -z ${imagePublisher} ] || [ -z ${imageSku} ] || [ -z ${imageVersion} ] || [ -z ${trackingId} ]; then
     usage
     exit 0
 fi
