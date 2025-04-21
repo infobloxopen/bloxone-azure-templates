@@ -35,17 +35,16 @@
       "apiVersion": "2023-04-01",
       "location": "[parameters('location')]",
       "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Storage/storageAccounts'), parameters('tagsByResource')['Microsoft.Storage/storageAccounts'], json('{}')) ]",
-      "sku":{
+      "sku": {
         "name": "[parameters('storageAccountType')]"
       },
-      "properties": {
-      }
+      "properties": {}
     }
   ],
   "outputs": {
     "endpointURL": {
       "type": "string",
-      "value": "[reference(parameters('StorageAccountName'), '2021-08-01').primaryEndpoints.blob]"
+      "value": "[reference(parameters('StorageAccountName'), '2023-04-01').primaryEndpoints.blob]"
     }
   }
 }
