@@ -40,44 +40,44 @@ This file is a standard Azure Resource Manager (ARM) template that specifies the
 createUiDefinition.json: focuses on the user experience of creating the application.
 mainTemplate.json: focuses on the deployment of resources when the application is created.
 
-## Here we have features like, 
+## Here we have features like,
 
-### availabilityOptions 
-Description: Allows users to select the availability options for their virtual machine, such as Availability Zone, Availability Set, or No Redundancy. Dependencies: 
+### availabilityOptions
+Description: Allows users to select the availability options for their virtual machine, such as Availability Zone, Availability Set, or No Redundancy. Dependencies:
 
 ### Availability Zone:
-Requires the VM to be deployed in a region that supports Availability Zones. 
+Requires the VM to be deployed in a region that supports Availability Zones.
 
 ### Availability Set:
-Requires the creation of an Availability Set resource. 
+Requires the creation of an Availability Set resource.
 
-### zoneOptions 
-Description: Allows users to select specific zones within a region for their resources. Dependencies: Requires the region to support Availability Zones. 
-In this, we have added option for Availability zone, where customer can choose the availability zone and how many zones while deploying the VM. These are the supported regions - https://learn.microsoft.com/en-us/azure/reliability/regions-list 
+### zoneOptions
+Description: Allows users to select specific zones within a region for their resources. Dependencies: Requires the region to support Availability Zones.
+In this, we have added option for Availability zone, where customer can choose the availability zone and how many zones while deploying the VM. These are the supported regions - https://learn.microsoft.com/en-us/azure/reliability/regions-list
 
-### Deploying a VM in different configurations can impact its availability and resilience. Here's a comparison: 
-#### Normal VM Deployment 
-Description: A VM deployed without any specific availability configuration. 
-Availability: No guarantees for high availability. If the underlying hardware fails, the VM may experience downtime. 
-Use Case: Suitable for non-critical applications where occasional downtime is acceptable. 
+### Deploying a VM in different configurations can impact its availability and resilience. Here's a comparison:
+#### Normal VM Deployment
+Description: A VM deployed without any specific availability configuration.
+Availability: No guarantees for high availability. If the underlying hardware fails, the VM may experience downtime.
+Use Case: Suitable for non-critical applications where occasional downtime is acceptable.
 
-#### VM Deployment in 1 Zone 
-Description: A VM deployed in a single availability zone within an Azure region. 
-Availability: Higher availability compared to a normal VM. Availability zones are physically separate locations within a region, designed to be resilient to local failures 
-Use Case: Suitable for applications that require higher availability but can tolerate some downtime in case of zone-wide failures. 
+#### VM Deployment in 1 Zone
+Description: A VM deployed in a single availability zone within an Azure region.
+Availability: Higher availability compared to a normal VM. Availability zones are physically separate locations within a region, designed to be resilient to local failures
+Use Case: Suitable for applications that require higher availability but can tolerate some downtime in case of zone-wide failures.
 
-#### VM Deployment in 2 Zones 
-Description: VMs deployed across two availability zones within an Azure region. 
-Availability: Even higher availability and resilience. If one zone fails, the VM in the other zone remains operational 
-Use Case: Ideal for critical applications that require maximum uptime and resilience against zone-wide failures. 
+#### VM Deployment in 2 Zones
+Description: VMs deployed across two availability zones within an Azure region.
+Availability: Even higher availability and resilience. If one zone fails, the VM in the other zone remains operational
+Use Case: Ideal for critical applications that require maximum uptime and resilience against zone-wide failures.
 
-### Summary 
-Normal VM: Basic deployment with no high availability guarantees. 
-1 Zone: Improved availability with resilience to local failures. 
-2 Zones: Maximum availability and resilience, ensuring uptime even if one zone fails. 
-For more info: https://learn.microsoft.com/en-us/azure/virtual-machines/create-portal-availability-zone  
+### Summary
+Normal VM: Basic deployment with no high availability guarantees.
+1 Zone: Improved availability with resilience to local failures.
+2 Zones: Maximum availability and resilience, ensuring uptime even if one zone fails.
+For more info: https://learn.microsoft.com/en-us/azure/virtual-machines/create-portal-availability-zone
 
-When you don't select any while launching a VM with the Azure-selected zone option, Azure automatically selects the best availability zone for your VM based on current capacity and performance metrics. This helps to optimize the placement of your VM without requiring you to manually choose a specific zone. 
+When you don't select any while launching a VM with the Azure-selected zone option, Azure automatically selects the best availability zone for your VM based on current capacity and performance metrics. This helps to optimize the placement of your VM without requiring you to manually choose a specific zone.
 
 And let's say you launched a VM with zone 1 and in future, if you want to move to zone 2, this can be done. On overview page of VM, you can see availability zone -> click on edit, then choose zone -> agree and ok. But this works based on the selected reqion has availability and quota.
 
