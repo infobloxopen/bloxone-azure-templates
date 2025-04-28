@@ -36,9 +36,9 @@
       "metadata": {
         "description": "Availability options for the Virtual Machine."
       },
-      "defaultValue": "availabilityZone",
+      "defaultValue": "availabilityZones",
       "allowedValues": [
-        "availabilityZone",
+        "availabilityZones",
         "No Infrastructure required"
       ]
     },
@@ -53,10 +53,10 @@
         "azureSelected"
       ]
     },
-    "availabilityZone": {
-      "type": "Array",
+    "availabilityZones": {
+      "type": "array",
       "metadata": {
-        "description": "Availability Zone for the Virtual Machine 1."
+        "description": "Availability Zones for the Virtual Machine 1."
       },
       "allowedValues": [
         [
@@ -557,7 +557,7 @@
             }
           },
           "zones": {
-            "value": "[parameters('availabilityZone')]"
+            "value": "[parameters('availabilityZones')]"
           },
           "diagnosticsProfile": {
             "value": {

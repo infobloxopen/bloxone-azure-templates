@@ -44,8 +44,8 @@
               "value": "no infrastructure"
             },
             {
-              "label": "Availability zone",
-              "value": "availabilityZone"
+              "label": "Availability zones",
+              "value": "availabilityZones"
             }
           ]
         },
@@ -68,10 +68,10 @@
             }
           ]
         },
-        "visible": "[equals(basics('availabilityOptions'), 'availabilityZone')]"
+        "visible": "[equals(basics('availabilityOptions'), 'availabilityZones')]"
       },
       {
-        "name": "availabilityZone",
+        "name": "availabilityZones",
         "type": "Microsoft.Common.DropDown",
         "label": "Availability zone",
         "defaultValue": "Zone 1",
@@ -399,9 +399,11 @@
       "vmSize": "[basics('vmSize')]",
       "vnetNewOrExisting": "[steps('networking').virtualNetwork.newOrExisting]",
       "tagsByResource": "[steps('tags').tagsByResource]",
-      "osDiskSize": "[steps('disks').osDiskSize]",
+      "osDiskSize": "[int(steps('disks').osDiskSize)]",
       "osDiskType": "[steps('disks').osDiskType]",
-      "availabilityZone": "[basics('availabilityZone')]",
+      "availabilityZones": [
+        "[basics('availabilityZones')]"
+      ],
       "availabilityOptions": "[basics('availabilityOptions')]",
       "zoneOptions": "[basics('zoneOptions')]",
       "enableIPForwarding": "[steps('networking').enableIPForwarding]",
