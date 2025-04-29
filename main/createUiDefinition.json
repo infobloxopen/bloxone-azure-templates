@@ -41,7 +41,7 @@
           "allowedValues": [
             {
               "label": "No infrastructure redundancy required",
-              "value": "No infrastructure redundancy required"
+              "value": "noInfrastructure"
             },
             {
               "label": "Availability zones",
