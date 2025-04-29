@@ -31,7 +31,7 @@
       "defaultValue": {}
     },
     "zones": {
-      "type": "array"
+      "type": "string"
     }
   },
   "variables": {
