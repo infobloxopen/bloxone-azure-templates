@@ -39,7 +39,7 @@
       "defaultValue": "availabilityZones",
       "allowedValues": [
         "availabilityZones",
-        "No Infrastructure required"
+        "No infrastructure redundancy required"
       ]
     },
     "zoneOptions": {
@@ -54,24 +54,16 @@
       ]
     },
     "availabilityZones": {
-      "type": "array",
+      "type": "string",
       "metadata": {
         "description": "Availability Zones for the Virtual Machine 1."
       },
       "allowedValues": [
-        [
-          "1"
-        ],
-        [
-          "2"
-        ],
-        [
-          "3"
-        ]
+        "1",
+        "2",
+        "3"
       ],
-      "defaultValue": [
-        "1"
-      ]
+      "defaultValue": "1"
     },
     "location": {
       "type": "string",

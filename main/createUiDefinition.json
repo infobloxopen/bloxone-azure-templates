@@ -41,7 +41,7 @@
           "allowedValues": [
             {
               "label": "No infrastructure redundancy required",
-              "value": "no infrastructure"
+              "value": "No infrastructure redundancy required"
             },
             {
               "label": "Availability zones",
@@ -401,9 +401,7 @@
       "tagsByResource": "[steps('tags').tagsByResource]",
       "osDiskSize": "[int(steps('disks').osDiskSize)]",
       "osDiskType": "[steps('disks').osDiskType]",
-      "availabilityZones": [
-        "[basics('availabilityZones')]"
-      ],
+      "availabilityZones": "[basics('availabilityZones')]",
       "availabilityOptions": "[basics('availabilityOptions')]",
       "zoneOptions": "[basics('zoneOptions')]",
       "enableIPForwarding": "[steps('networking').enableIPForwarding]",
