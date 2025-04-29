@@ -549,7 +549,7 @@
             }
           },
           "zones": {
-            "value": "[parameters('availabilityZones')]"
+            "value": ["[parameters('availabilityZones')]"]
           },
           "diagnosticsProfile": {
             "value": {
