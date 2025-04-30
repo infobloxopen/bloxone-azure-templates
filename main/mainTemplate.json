@@ -39,7 +39,7 @@
       "defaultValue": "availabilityZones",
       "allowedValues": [
         "availabilityZones",
-        "No Infrastructure required"
+        "noInfrastructure"
       ]
     },
     "zoneOptions": {
@@ -54,24 +54,16 @@
       ]
     },
     "availabilityZones": {
-      "type": "array",
+      "type": "string",
       "metadata": {
         "description": "Availability Zones for the Virtual Machine 1."
       },
       "allowedValues": [
-        [
-          "1"
-        ],
-        [
-          "2"
-        ],
-        [
-          "3"
-        ]
+        "1",
+        "2",
+        "3"
       ],
-      "defaultValue": [
-        "1"
-      ]
+      "defaultValue": "1"
     },
     "location": {
       "type": "string",
@@ -557,7 +549,7 @@
             }
           },
           "zones": {
-            "value": "[parameters('availabilityZones')]"
+            "value": ["[parameters('availabilityZones')]"]
           },
           "diagnosticsProfile": {
             "value": {
