@@ -39,7 +39,7 @@
       "defaultValue": "availabilityZones",
       "allowedValues": [
         "availabilityZones",
-        "No infrastructure redundancy required"
+        "noInfrastructure"
       ]
     },
     "zoneOptions": {
