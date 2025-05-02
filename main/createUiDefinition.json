@@ -179,7 +179,7 @@
             "name": "osDiskType",
             "type": "Microsoft.Common.DropDown",
             "label": "OS Disk type",
-            "defaultValue": "Premium_LRS",
+            "defaultValue": "Premium SSD (Premium_LRS)",
             "constraints": {
               "allowedValues": [
                 {
