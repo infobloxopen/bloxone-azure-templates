@@ -245,13 +245,7 @@
     "osDiskType": "[parameters('osDiskType')]",
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
-    "host_setup": {
-      "jointoken": "",
-      "tags": {
-        "DeployedFrom": "AZURE-Marketplace"
-      }
-    },
-    "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n')]",
+    "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n  tags: {\n    \"DeployedFrom\": \"AZURE-Marketplace\"\n  }\n')]",
     "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpProxy'), '\n')]",
     "customData": "[if(empty(parameters('httpProxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
     "imageOffer": "",
