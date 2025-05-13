@@ -8,9 +8,6 @@
     "publicIpAddressName": {
       "type": "string"
     },
-    "publicIpAddressType": {
-      "type": "string"
-    },
     "sku": {
       "type": "string",
       "metadata": {
@@ -70,7 +67,7 @@
       },
       "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/publicIPAddresses'), parameters('tagsByResource')['Microsoft.Network/publicIPAddresses'], json('{}')) ]",
       "properties": {
-        "publicIPAllocationMethod": "[parameters('publicIpAddressType')]"
+        "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]"
       }
     }
   ],

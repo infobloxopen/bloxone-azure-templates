@@ -343,7 +343,6 @@
     },
     "nicPrimarySetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/nic-pip-', variables('publicIpExistingOrNone'), '.json', parameters('_artifactsLocationSasToken')))]",
     "nsgName": "[concat(parameters('vmName'), '-securityGroup')]",
-    "publicIpAddressType": "Dynamic",
     "ddosSettings": "[if(empty(parameters('ddosProtectionMode')), json('null'), createObject('protectionMode', parameters('ddosProtectionMode')))]",
     "publicIpExistingOrNone": "[replace(parameters('publicIpNewOrExistingOrNone'), 'new', 'existing')]",
     "publicIpNewOrNone": "[replace(parameters('publicIpNewOrExistingOrNone'), 'existing', 'none')]",
@@ -353,9 +352,6 @@
       },
       "publicIpAddressName": {
         "value": "[parameters('publicIpAddressName')]"
-      },
-      "publicIpAddressType": {
-        "value": "[variables('publicIpAddressType')]"
       },
       "publicIPAllocationMethod": {
         "value": "[parameters('publicIPAllocationMethod')]"
