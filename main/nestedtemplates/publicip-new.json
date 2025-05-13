@@ -9,27 +9,18 @@
       "type": "string"
     },
     "sku": {
-      "type": "string",
-      "metadata": {
-          "description": "Sku for the resource."
-        }
+      "type": "string"
     },
     "routingPreference": {
       "type": "string",
-      "defaultValue": "",
-      "metadata": {
-          "description": "Routing Preference for the resource."
-      }
+      "defaultValue": ""
     },
     "publicIPAllocationMethod": {
       "type": "string",
       "allowedValues": [
         "Static",
         "Dynamic"
-      ],
-      "metadata": {
-          "description": "Public IP allocation method."
-      }
+      ]
     },
     "tier": {
       "type": "string",
@@ -37,17 +28,15 @@
           "Regional",
           "Global"
       ],
-      "defaultValue": "Regional",
-      "metadata": {
-          "description": "Tier for the resource."
-      }
+      "defaultValue": "Regional"
     },
     "zones": {
       "type": "array",
-      "defaultValue": [],
-      "metadata": {
-          "description": "Zones for the resource."
-      }
+      "defaultValue": []
+    },
+    "ddosProtectionMode": {
+      "type": "string",
+      "defaultValue": ""
     },
     "tagsByResource": {
       "type": "object",
