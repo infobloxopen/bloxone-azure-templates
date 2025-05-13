@@ -118,14 +118,6 @@
           "description": "Tier for the resource."
       }
     },
-    "ddosProtectionMode": {
-      "type": "string",
-      "allowedValues": [
-          "Disabled",
-          "Enabled",
-          "VirtualNetworkInherited"
-      ]
-    },
     "publicIpExistingRgName": {
       "type": "string",
       "defaultValue": "",
@@ -374,8 +366,8 @@
       "routingPreference": {
         "value": "[parameters('routingPreference')]"
       },
-      "ddosSettings": {
-        "value": "[variables('ddosSettings')]"
+      "tier": {
+        "value": "[parameters('tier')]"
       },
       "tagsByResource": {
         "value": "[parameters('tagsByResource')]"

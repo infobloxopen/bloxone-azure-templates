@@ -52,14 +52,6 @@
           "description": "Zones for the resource."
       }
     },
-    "ddosProtectionMode": {
-      "type": "string",
-      "allowedValues": [
-          "Disabled",
-          "Enabled",
-          "VirtualNetworkInherited"
-      ]
-    },
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
