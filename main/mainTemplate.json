@@ -88,7 +88,7 @@
       ],
       "metadata": {
           "description": "Sku for the resource."
-        }
+      }
     },
     "routingPreference": {
       "type": "string",
@@ -104,18 +104,18 @@
         "Dynamic"
       ],
       "metadata": {
-          "description": "Public IP allocation method."
+        "description": "Public IP allocation method."
       }
     },
     "tier": {
       "type": "string",
       "allowedValues": [
-          "Regional",
-          "Global"
+        "Regional",
+        "Global"
       ],
       "defaultValue": "Regional",
       "metadata": {
-          "description": "Tier for the resource."
+        "description": "Tier for the resource."
       }
     },
     "ddosProtectionMode": {
@@ -127,7 +127,7 @@
         "VirtualNetworkInherited"
       ],
       "metadata": {
-          "description": "DDoS Protection Mode for the resource."
+        "description": "DDoS Protection Mode for the resource."
       }
     },
     "publicIpExistingRgName": {
