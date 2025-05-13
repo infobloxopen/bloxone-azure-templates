@@ -11,6 +11,55 @@
     "publicIpAddressType": {
       "type": "string"
     },
+    "sku": {
+      "type": "string",
+      "metadata": {
+          "description": "Sku for the resource."
+        }
+    },
+    "routingPreference": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+          "description": "Routing Preference for the resource."
+      }
+    },
+    "publicIPAllocationMethod": {
+      "type": "string",
+      "allowedValues": [
+        "Static",
+        "Dynamic"
+      ],
+      "metadata": {
+          "description": "Public IP allocation method."
+      }
+    },
+    "tier": {
+      "type": "string",
+      "allowedValues": [
+          "Regional",
+          "Global"
+      ],
+      "defaultValue": "Regional",
+      "metadata": {
+          "description": "Tier for the resource."
+      }
+    },
+    "zones": {
+      "type": "array",
+      "defaultValue": [],
+      "metadata": {
+          "description": "Zones for the resource."
+      }
+    },
+    "ddosProtectionMode": {
+      "type": "string",
+      "allowedValues": [
+          "Disabled",
+          "Enabled",
+          "VirtualNetworkInherited"
+      ]
+    },
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
@@ -22,6 +71,11 @@
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[parameters('publicIpAddressName')]",
       "location": "[parameters('location')]",
+      "zones": "[parameters('zones')]",
+      "sku": {
+        "name": "[parameters('sku')]",
+        "tier": "[parameters('tier')]"
+      },
       "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/publicIPAddresses'), parameters('tagsByResource')['Microsoft.Network/publicIPAddresses'], json('{}')) ]",
       "properties": {
         "publicIPAllocationMethod": "[parameters('publicIpAddressType')]"
