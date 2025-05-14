@@ -17,18 +17,15 @@
     },
     "publicIPAllocationMethod": {
       "type": "string",
-      "allowedValues": [
-        "Static",
-        "Dynamic"
-      ]
+      "defaultValue": "Static"
     },
     "tier": {
       "type": "string",
+      "defaultValue": "Regional",
       "allowedValues": [
-          "Regional",
-          "Global"
-      ],
-      "defaultValue": "Regional"
+        "Regional",
+        "Global"
+      ]
     },
     "zones": {
       "type": "array",

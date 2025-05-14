@@ -99,6 +99,7 @@
     },
     "publicIPAllocationMethod": {
       "type": "string",
+      "defaultValue": "Static",
       "allowedValues": [
         "Static",
         "Dynamic"
@@ -120,7 +121,7 @@
     },
     "ddosProtectionMode": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "Disabled",
       "allowedValues": [
         "Disabled",
         "Enabled",
@@ -355,7 +356,6 @@
     },
     "nicPrimarySetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/nic-pip-', variables('publicIpExistingOrNone'), '.json', parameters('_artifactsLocationSasToken')))]",
     "nsgName": "[concat(parameters('vmName'), '-securityGroup')]",
-    "ddosSettings": "[if(empty(parameters('ddosProtectionMode')), json('null'), createObject('protectionMode', parameters('ddosProtectionMode')))]",
     "publicIpExistingOrNone": "[replace(parameters('publicIpNewOrExistingOrNone'), 'new', 'existing')]",
     "publicIpNewOrNone": "[replace(parameters('publicIpNewOrExistingOrNone'), 'existing', 'none')]",
     "publicIpNewParams": {
