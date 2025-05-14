@@ -261,8 +261,7 @@
             "options": {
               "hideNone": false,
               "hideDomainNameLabel": true,
-              "hideExisting": false,
-              "zone": 3
+              "hideExisting": false
             },
             "visible": true
           },

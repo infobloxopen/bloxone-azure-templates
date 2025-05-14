@@ -15,28 +15,8 @@
       "type": "string",
       "defaultValue": ""
     },
-    "publicIPAllocationMethod": {
-      "type": "string",
-      "allowedValues": [
-        "Static",
-        "Dynamic"
-      ]
-    },
-    "tier": {
-      "type": "string",
-      "allowedValues": [
-          "Regional",
-          "Global"
-      ],
-      "defaultValue": "Regional"
-    },
-    "zones": {
-      "type": "array",
-      "defaultValue": []
-    },
-    "ddosProtectionMode": {
-      "type": "string",
-      "defaultValue": ""
+    "publicIpAddressType": {
+      "type": "string"
     },
     "tagsByResource": {
       "type": "object",
@@ -49,14 +29,9 @@
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[parameters('publicIpAddressName')]",
       "location": "[parameters('location')]",
-      "zones": "[parameters('zones')]",
-      "sku": {
-        "name": "[parameters('sku')]",
-        "tier": "[parameters('tier')]"
-      },
       "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/publicIPAddresses'), parameters('tagsByResource')['Microsoft.Network/publicIPAddresses'], json('{}')) ]",
       "properties": {
-        "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]"
+        "publicIPAllocationMethod": "[parameters('publicIpAddressType')]",
       }
     }
   ],
