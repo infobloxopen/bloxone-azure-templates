@@ -8,13 +8,6 @@
     "publicIpAddressName": {
       "type": "string"
     },
-    "sku": {
-      "type": "string"
-    },
-    "routingPreference": {
-      "type": "string",
-      "defaultValue": ""
-    },
     "publicIpAddressType": {
       "type": "string"
     },
