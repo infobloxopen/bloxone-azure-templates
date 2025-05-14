@@ -21,7 +21,7 @@
     },
     "tier": {
       "type": "string",
-      "defaultValue": "Regional",
+      "defaultValue": "",
       "allowedValues": [
         "Regional",
         "Global"

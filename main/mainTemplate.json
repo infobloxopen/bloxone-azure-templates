@@ -114,7 +114,7 @@
         "Regional",
         "Global"
       ],
-      "defaultValue": "Regional",
+      "defaultValue": "",
       "metadata": {
         "description": "Tier for the resource."
       }
