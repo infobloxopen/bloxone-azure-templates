@@ -79,6 +79,58 @@
         "description": "Name of the Public IP Address."
       }
     },
+    "sku": {
+      "type": "string",
+      "defaultValue": "Standard",
+      "allowedValues": [
+        "Basic",
+        "Standard"
+      ],
+      "metadata": {
+          "description": "Sku for the resource."
+      }
+    },
+    "routingPreference": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+          "description": "Routing Preference for the resource."
+      }
+    },
+    "publicIPAllocationMethod": {
+      "type": "string",
+      "defaultValue": "Static",
+      "allowedValues": [
+        "Static",
+        "Dynamic"
+      ],
+      "metadata": {
+        "description": "Public IP allocation method."
+      }
+    },
+    "tier": {
+      "type": "string",
+      "allowedValues": [
+        "Regional",
+        "Global"
+      ],
+      "defaultValue": "Regional",
+      "metadata": {
+        "description": "Tier for the resource."
+      }
+    },
+    "ddosProtectionMode": {
+      "type": "string",
+      "defaultValue": "Disabled",
+      "allowedValues": [
+        "Disabled",
+        "Enabled",
+        "VirtualNetworkInherited"
+      ],
+      "metadata": {
+        "description": "DDoS Protection Mode for the resource."
+      }
+    },
     "publicIpExistingRgName": {
       "type": "string",
       "defaultValue": "",
@@ -304,7 +356,6 @@
     },
     "nicPrimarySetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/nic-pip-', variables('publicIpExistingOrNone'), '.json', parameters('_artifactsLocationSasToken')))]",
     "nsgName": "[concat(parameters('vmName'), '-securityGroup')]",
-    "publicIpAddressType": "Dynamic",
     "publicIpExistingOrNone": "[replace(parameters('publicIpNewOrExistingOrNone'), 'new', 'existing')]",
     "publicIpNewOrNone": "[replace(parameters('publicIpNewOrExistingOrNone'), 'existing', 'none')]",
     "publicIpNewParams": {
@@ -314,8 +365,17 @@
       "publicIpAddressName": {
         "value": "[parameters('publicIpAddressName')]"
       },
-      "publicIpAddressType": {
-        "value": "[variables('publicIpAddressType')]"
+      "publicIPAllocationMethod": {
+        "value": "[parameters('publicIPAllocationMethod')]"
+      },
+      "sku": {
+        "value": "[parameters('sku')]"
+      },
+      "routingPreference": {
+        "value": "[parameters('routingPreference')]"
+      },
+      "tier": {
+        "value": "[parameters('tier')]"
       },
       "tagsByResource": {
         "value": "[parameters('tagsByResource')]"
