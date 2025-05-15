@@ -368,6 +368,11 @@
       "publicIPAllocationMethod": {
         "value": "[parameters('publicIPAllocationMethod')]"
       },
+      "zones": {
+        "value": [
+          "[parameters('availabilityZones')]"
+        ]
+      },
       "sku": {
         "value": "[parameters('sku')]"
       },
