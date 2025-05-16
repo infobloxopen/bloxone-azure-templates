@@ -26,6 +26,10 @@
     "plan": {
       "type": "object"
     },
+    "zones": {
+      "type": "string",
+      "defaultValue": ""
+    },
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
@@ -38,6 +42,14 @@
       "storageProfile": "[parameters('storageProfile')]",
       "networkProfile": "[parameters('networkProfile')]",
       "diagnosticsProfile": "[parameters('diagnosticsProfile')]"
+    },
+    "propertiesWithZones": {
+      "hardwareProfile": "[parameters('hardwareProfile')]",
+      "osProfile": "[parameters('osProfile')]",
+      "storageProfile": "[parameters('storageProfile')]",
+      "networkProfile": "[parameters('networkProfile')]",
+      "diagnosticsProfile": "[parameters('diagnosticsProfile')]",
+      "zones": "[parameters('zones')]"
     }
   },
   "resources": [
@@ -46,7 +58,7 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
-      "properties": "[variables('properties')]",
+      "properties": "[if(greater(length(parameters('zones')), 0), variables('propertiesWithZones'), variables('properties'))]",
       "plan": "[parameters('plan')]",
       "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Compute/virtualMachines'), parameters('tagsByResource')['Microsoft.Compute/virtualMachines'], json('{}')) ]"
     }

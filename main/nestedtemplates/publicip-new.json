@@ -29,7 +29,7 @@
     },
     "zones": {
       "type": "string",
-      "defaultValue": []
+      "defaultValue": ""
     },
     "ddosProtectionMode": {
       "type": "string",
