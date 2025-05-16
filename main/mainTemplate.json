@@ -370,7 +370,7 @@
       },
       "zones": {
         "value": [
-          "[parameters('availabilityZones')]"
+          "[if(equals(parameters('availabilityOptions'), 'availabilityZones'), parameters('availabilityZones'), json('null'))]"
         ]
       },
       "sku": {
@@ -615,7 +615,7 @@
           },
           "zones": {
             "value": [
-              "[parameters('availabilityZones')]"
+              "[if(equals(parameters('availabilityOptions'), 'availabilityZones'), parameters('availabilityZones'), json('null'))]"
             ]
           },
           "diagnosticsProfile": {
