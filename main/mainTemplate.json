@@ -539,6 +539,7 @@
       }
     },
     {
+      "condition": "[equals(parameters('availabilityOptions'), 'availabilityZones')]",
       "name": "SettingUpVirtualMachine",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2023-07-01",
@@ -617,6 +618,93 @@
             "value": [
               "[if(equals(parameters('availabilityOptions'), 'availabilityZones'), parameters('availabilityZones'), json('null'))]"
             ]
+          },
+          "diagnosticsProfile": {
+            "value": {
+              "bootDiagnostics": {
+                "enabled": "true",
+                "storageUri": "[if(equals(parameters('storageAccountNewOrExistingOrNone'), 'none'), '', reference('SettingUpstorageAccount').outputs.endpointURL.value)]"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "condition": "[equals(parameters('availabilityOptions'), 'noInfrastructure')]",
+      "name": "SettingUpVirtualMachine",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2023-07-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments/', 'SettingUpstorageAccount')]",
+        "[resourceId('Microsoft.Resources/deployments/', 'SettingUpPrimaryNic')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('virtualMachineSetUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmName": {
+            "value": "[parameters('vmName')]"
+          },
+          "tagsByResource": {
+            "value": "[parameters('tagsByResource')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "hardwareProfile": {
+            "value": {
+              "vmSize": "[parameters('vmSize')]"
+            }
+          },
+          "osProfile": {
+            "value": {
+              "computerName": "[parameters('vmName')]",
+              "adminUsername": "[uniqueString(ResourceGroup().Id)]",
+              "adminPassword": "[variables('adminPassword')]",
+              "customData": "[base64(variables('customData'))]"
+            }
+          },
+          "plan": {
+            "value": {
+              "publisher": "[variables('imagePublisher')]",
+              "product": "[variables('imageOffer')]",
+              "name": "[variables('imageSku')]"
+            }
+          },
+          "storageProfile": {
+            "value": {
+              "imageReference": {
+                "publisher": "[variables('imagePublisher')]",
+                "offer": "[variables('imageOffer')]",
+                "sku": "[variables('imageSku')]",
+                "version": "[variables('imageVersion')]"
+              },
+              "osDisk": {
+                "name": "[variables('OSDiskName')]",
+                "caching": "ReadOnly",
+                "createOption": "FromImage",
+                "diskSizeGB": "[parameters('osDiskSize')]",
+                "managedDisk": {
+                  "storageAccountType": "[variables('osDiskType')]"
+                }
+              }
+            }
+          },
+          "networkProfile": {
+            "value": {
+              "networkInterfaces": [
+                {
+                  "id": "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicPrimaryName'))]",
+                  "properties": {
+                    "primary": true
+                  }
+                }
+              ]
+            }
           },
           "diagnosticsProfile": {
             "value": {

@@ -29,9 +29,6 @@
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
-    },
-    "zones": {
-      "type": "array"
     }
   },
   "variables": {
@@ -45,18 +42,6 @@
   },
   "resources": [
     {
-      "condition": "[greater(length(parameters('zones')), 0)]",
-      "apiVersion": "2023-09-01",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('vmName')]",
-      "location": "[parameters('location')]",
-      "properties": "[variables('properties')]",
-      "plan": "[parameters('plan')]",
-      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Compute/virtualMachines'), parameters('tagsByResource')['Microsoft.Compute/virtualMachines'], json('{}')) ]",
-      "zones": "[parameters('zones')]"
-    },
-    {
-      "condition": "[equals(length(parameters('zones')), 0)]",
       "apiVersion": "2023-09-01",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('vmName')]",
