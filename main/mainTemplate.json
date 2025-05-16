@@ -369,9 +369,7 @@
         "value": "[parameters('publicIPAllocationMethod')]"
       },
       "zones": {
-        "value": [
-          "[if(equals(parameters('availabilityOptions'), 'availabilityZones'), parameters('availabilityZones'), json('null'))]"
-        ]
+        "value": "[if(equals(parameters('availabilityOptions'), 'availabilityZones'), parameters('availabilityZones'), json('null'))]"
       },
       "sku": {
         "value": "[parameters('sku')]"

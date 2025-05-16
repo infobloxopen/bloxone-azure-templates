@@ -28,7 +28,7 @@
       ]
     },
     "zones": {
-      "type": "array",
+      "type": "string",
       "defaultValue": []
     },
     "ddosProtectionMode": {
@@ -47,7 +47,7 @@
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[parameters('publicIpAddressName')]",
       "location": "[parameters('location')]",
-      "zones": "[parameters('zones')]",
+      "zones": ["[parameters('zones')]"],
       "sku": {
         "name": "[parameters('sku')]",
         "tier": "[parameters('tier')]"
