@@ -53,7 +53,7 @@
       "location": "[parameters('location')]",
       "properties": "[variables('properties')]",
       "plan": "[parameters('plan')]",
-      "zones": ["[parameters('zones')]"],
+      "zones": "[createArray(parameters('zones'))]",
       "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Compute/virtualMachines'), parameters('tagsByResource')['Microsoft.Compute/virtualMachines'], json('{}')) ]"
     },
     {
