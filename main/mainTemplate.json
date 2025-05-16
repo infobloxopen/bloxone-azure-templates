@@ -87,14 +87,14 @@
         "Standard"
       ],
       "metadata": {
-          "description": "Sku for the resource."
+        "description": "Sku for the resource."
       }
     },
     "routingPreference": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
-          "description": "Routing Preference for the resource."
+        "description": "Routing Preference for the resource."
       }
     },
     "publicIPAllocationMethod": {
@@ -368,6 +368,9 @@
       "publicIPAllocationMethod": {
         "value": "[parameters('publicIPAllocationMethod')]"
       },
+      "zones": {
+        "value": "[if(equals(parameters('availabilityOptions'), 'availabilityZones'), parameters('availabilityZones'), json('null'))]"
+      },
       "sku": {
         "value": "[parameters('sku')]"
       },
@@ -609,9 +612,7 @@
             }
           },
           "zones": {
-            "value": [
-              "[parameters('availabilityZones')]"
-            ]
+            "value": "[if(equals(parameters('availabilityOptions'), 'availabilityZones'), parameters('availabilityZones'), json('null'))]"
           },
           "diagnosticsProfile": {
             "value": {

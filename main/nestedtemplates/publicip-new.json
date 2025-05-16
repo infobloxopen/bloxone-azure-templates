@@ -28,8 +28,8 @@
       ]
     },
     "zones": {
-      "type": "array",
-      "defaultValue": []
+      "type": "string",
+      "defaultValue": ""
     },
     "ddosProtectionMode": {
       "type": "string",
@@ -42,11 +42,27 @@
   },
   "resources": [
     {
+      "condition": "[greater(length(parameters('zones')), 0)]",
       "apiVersion": "2023-06-01",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[parameters('publicIpAddressName')]",
       "location": "[parameters('location')]",
-      "zones": "[parameters('zones')]",
+      "zones": ["[parameters('zones')]"],
+      "sku": {
+        "name": "[parameters('sku')]",
+        "tier": "[parameters('tier')]"
+      },
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/publicIPAddresses'), parameters('tagsByResource')['Microsoft.Network/publicIPAddresses'], json('{}')) ]",
+      "properties": {
+        "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]"
+      }
+    },
+    {
+      "condition": "[equals(length(parameters('zones')), 0)]",
+      "apiVersion": "2023-06-01",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[parameters('publicIpAddressName')]",
+      "location": "[parameters('location')]",
       "sku": {
         "name": "[parameters('sku')]",
         "tier": "[parameters('tier')]"
