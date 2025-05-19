@@ -8,14 +8,10 @@
     },
     "_artifactsLocationSasToken": {
       "type": "secureString",
-      "defaultValue": ""
-    },
-    "customData": {
-      "type": "string",
+      "defaultValue": "",
       "metadata": {
-        "description": "CustomData for cloudinit."
-      },
-      "defaultValue": ""
+        "description": "SasToken access to Azure Storage resources."
+      }
     },
     "guid": {
       "type": "string",
@@ -28,15 +24,22 @@
       },
       "defaultValue": ""
     },
-    "availabilityOptions":{
+    "httpProxy": {
+      "type": "string",
+      "metadata": {
+        "description": "httpProxy."
+      },
+      "defaultValue": ""
+    },
+    "availabilityOptions": {
       "type": "string",
       "metadata": {
         "description": "Availability options for the Virtual Machine."
       },
-      "defaultValue": "Availability zone",
+      "defaultValue": "availabilityZones",
       "allowedValues": [
-        "Availability zone",
-        "No Infrastructure required"
+        "availabilityZones",
+        "noInfrastructure"
       ]
     },
     "zoneOptions": {
@@ -44,15 +47,23 @@
       "metadata": {
         "description": "Zone options for the Virtual Machine."
       },
-      "defaultValue": ""
+      "defaultValue": "selfSelected",
+      "allowedValues": [
+        "selfSelected",
+        "azureSelected"
+      ]
     },
-    "availabilityZone": {
-      "type": "Array",
+    "availabilityZones": {
+      "type": "string",
       "metadata": {
-        "description": "Availability Zone for the Virtual Machine 1."
+        "description": "Availability Zones for the Virtual Machine 1."
       },
-      "allowedValues": [["1"], ["2"], ["3"]],
-      "defaultValue": ["1"]
+      "allowedValues": [
+        "1",
+        "2",
+        "3"
+      ],
+      "defaultValue": "1"
     },
     "location": {
       "type": "string",
@@ -66,6 +77,58 @@
       "defaultValue": "PublicIP",
       "metadata": {
         "description": "Name of the Public IP Address."
+      }
+    },
+    "sku": {
+      "type": "string",
+      "defaultValue": "Standard",
+      "allowedValues": [
+        "Basic",
+        "Standard"
+      ],
+      "metadata": {
+        "description": "Sku for the resource."
+      }
+    },
+    "routingPreference": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Routing Preference for the resource."
+      }
+    },
+    "publicIPAllocationMethod": {
+      "type": "string",
+      "defaultValue": "Static",
+      "allowedValues": [
+        "Static",
+        "Dynamic"
+      ],
+      "metadata": {
+        "description": "Public IP allocation method."
+      }
+    },
+    "tier": {
+      "type": "string",
+      "allowedValues": [
+        "Regional",
+        "Global"
+      ],
+      "defaultValue": "Regional",
+      "metadata": {
+        "description": "Tier for the resource."
+      }
+    },
+    "ddosProtectionMode": {
+      "type": "string",
+      "defaultValue": "Disabled",
+      "allowedValues": [
+        "Disabled",
+        "Enabled",
+        "VirtualNetworkInherited"
+      ],
+      "metadata": {
+        "description": "DDoS Protection Mode for the resource."
       }
     },
     "publicIpExistingRgName": {
@@ -87,20 +150,15 @@
         "description": "Indicates whether the Public IP is new or existing."
       }
     },
-    "securityGroupSsh": {
-      "type": "string",
-      "defaultValue": "false",
+    "securityGroup": {
+      "type": "array",
+      "defaultValue": [
+        "bootstrapUi"
+      ],
       "allowedValues": [
-        "false",
-        "true"
-      ]
-    },
-    "securityGroupBootstrapUi": {
-      "type": "string",
-      "defaultValue": "false",
-      "allowedValues": [
-        "false",
-        "true"
+        [
+          "bootstrapUi"
+        ]
       ]
     },
     "storageAccountName": {
@@ -114,7 +172,9 @@
       "type": "string",
       "defaultValue": "Standard_GRS",
       "allowedValues": [
-        "Standard_GRS"
+        "Standard_GRS",
+        "Standard_LRS",
+        "Standard_RAGRS"
       ],
       "metadata": {
         "description": "The type of storage account created for boot diagnostics."
@@ -141,21 +201,18 @@
     },
     "subnet1Name": {
       "type": "string",
-      "defaultValue": "default",
       "metadata": {
         "description": "Subnet 1 name."
       }
     },
     "subnet1Prefix": {
       "type": "string",
-      "defaultValue": "10.2.0.0/24",
       "metadata": {
         "description": "Subnet 1 prefix."
       }
     },
     "virtualNetworkAddressPrefix": {
       "type": "string",
-      "defaultValue": "10.0.0.0/16",
       "metadata": {
         "description": "Virtual network address prefix."
       }
@@ -169,7 +226,6 @@
     },
     "virtualNetworkName": {
       "type": "string",
-      "defaultValue": "onprem-qa-vnet",
       "metadata": {
         "description": "Virtual network name."
       }
@@ -186,18 +242,7 @@
       "metadata": {
         "description": "Size of the Virtual Machine."
       },
-      "defaultValue": "Standard_F8s",
-      "allowedValues": [
-        "Standard_B2s",
-        "Standard_B2ms",
-        "Standard_B4ms",
-        "Standard_B8ms",
-        "Standard_B12ms",
-        "Standard_B16ms",
-        "Standard_B20ms",
-        "Standard_F4s",
-        "Standard_F8s"
-      ]
+      "defaultValue": "Standard_F8s_v2"
     },
     "vnetNewOrExisting": {
       "type": "string",
@@ -210,29 +255,62 @@
         "existing"
       ]
     },
-    "vmOSDiskSize": {
+    "tagsByResource": {
+      "type": "object",
+      "defaultValue": {}
+    },
+    "osDiskSize": {
       "type": "int",
       "metadata": {
         "description": "The size of the disk in GB."
       }
+    },
+    "osDiskType": {
+      "type": "string",
+      "defaultValue": "Premium_LRS",
+      "metadata": {
+        "description": "The type of managed disk to use for the OS disk of the VM."
+      },
+      "allowedValues": [
+        "Standard_LRS",
+        "StandardSSD_LRS",
+        "Premium_LRS"
+      ]
+    },
+    "enableAcceleratedNetworking": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Enable Accelerated Networking."
+      }
+    },
+    "enableIPForwarding": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Enable IP Forwarding on the network interface."
+      }
     }
   },
   "variables": {
-    "OSDiskName":"[concat(parameters('vmName'), uniqueString(resourceGroup().id))]",
-    "osDiskType":"Premium_LRS",
+    "OSDiskName": "[concat(parameters('vmName'), uniqueString(resourceGroup().id))]",
+    "osDiskType": "[parameters('osDiskType')]",
     "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
-    "customData": "[concat(variables('cloudConfig'), '  access_portal: ', variables('hostSetup').accessPortal, '\n  jointoken: ', parameters('jointoken'), '\n  config_server: ', variables('hostSetup').configServer, '\n  notification_server: ', variables('hostSetup').notificationServer, '\n')]",
-    "hostSetup": {
-      "accessPortal": "",
-      "configServer": "",
-      "notificationServer": ""
-    },
-    "imagePublisher": "infoblox",
-    "imageOffer": "infoblox-bloxone-34",
-    "imageSku": "infoblox-bloxone-34",
-    "imageVersion": "3.4.1",
+    "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n  tags: \n    - DeployedFrom: AZURE-Marketplace\n')]",
+    "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpProxy'), '\n')]",
+    "customData": "[if(empty(parameters('httpProxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
+    "imageOffer": "",
+    "imagePublisher": "",
+    "imageSku": "",
+    "imageVersion": "",
     "nicPrimaryExistingParams": {
+      "enableIPForwarding": {
+        "value": "[parameters('enableIPForwarding')]"
+      },
+      "enableAcceleratedNetworking": {
+        "value": "[parameters('enableAcceleratedNetworking')]"
+      },
       "location": {
         "value": "[parameters('location')]"
       },
@@ -247,10 +325,19 @@
       },
       "networkSecurityGroupId": {
         "value": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+      },
+      "tagsByResource": {
+        "value": "[parameters('tagsByResource')]"
       }
     },
     "nicPrimaryName": "[concat(parameters('vmName'), '-lan1')]",
     "nicPrimaryNoneParams": {
+      "enableIPForwarding": {
+        "value": "[parameters('enableIPForwarding')]"
+      },
+      "enableAcceleratedNetworking": {
+        "value": "[parameters('enableAcceleratedNetworking')]"
+      },
       "location": {
         "value": "[parameters('location')]"
       },
@@ -262,11 +349,13 @@
       },
       "networkSecurityGroupId": {
         "value": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+      },
+      "tagsByResource": {
+        "value": "[parameters('tagsByResource')]"
       }
     },
     "nicPrimarySetupUrl": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/nic-pip-', variables('publicIpExistingOrNone'), '.json', parameters('_artifactsLocationSasToken')))]",
     "nsgName": "[concat(parameters('vmName'), '-securityGroup')]",
-    "publicIpAddressType": "Dynamic",
     "publicIpExistingOrNone": "[replace(parameters('publicIpNewOrExistingOrNone'), 'new', 'existing')]",
     "publicIpNewOrNone": "[replace(parameters('publicIpNewOrExistingOrNone'), 'existing', 'none')]",
     "publicIpNewParams": {
@@ -276,8 +365,23 @@
       "publicIpAddressName": {
         "value": "[parameters('publicIpAddressName')]"
       },
-      "publicIpAddressType": {
-        "value": "[variables('publicIpAddressType')]"
+      "publicIPAllocationMethod": {
+        "value": "[parameters('publicIPAllocationMethod')]"
+      },
+      "zones": {
+        "value": "[if(equals(parameters('availabilityOptions'), 'availabilityZones'), parameters('availabilityZones'), json('null'))]"
+      },
+      "sku": {
+        "value": "[parameters('sku')]"
+      },
+      "routingPreference": {
+        "value": "[parameters('routingPreference')]"
+      },
+      "tier": {
+        "value": "[parameters('tier')]"
+      },
+      "tagsByResource": {
+        "value": "[parameters('tagsByResource')]"
       }
     },
     "publicIpResourceExisting": "[resourceId(parameters('publicIpExistingRgName'), concat('Microsoft.Network', '/', 'publicIpAddresses'), parameters('publicIpAddressName'))]",
@@ -300,23 +404,7 @@
         }
       }
     ],
-    "securityRuleSsh": [
-      {
-        "name": "SSH",
-        "properties": {
-          "description": "Allow SSH",
-          "access": "Allow",
-          "destinationAddressPrefix": "*",
-          "destinationPortRange": "22",
-          "direction": "Inbound",
-          "priority": 100,
-          "protocol": "Tcp",
-          "sourceAddressPrefix": "*",
-          "sourcePortRange": "*"
-        }
-      }
-    ],
-    "securityRules": "[if(equals(parameters('securityGroupSsh'), 'true'), concat(if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), json('[]')), variables('securityRuleSsh')), if(equals(parameters('securityGroupBootstrapUi'), 'true'), variables('securityRuleHtps'), json('[]')))]",
+    "securityRules": "[if(contains(parameters('securityGroup'), 'bootstrapUi'), variables('securityRuleHtps'), json('[]'))]",
     "storageAccountExistingParams": {
       "storageAccountName": {
         "value": "[parameters('storageAccountName')]"
@@ -334,6 +422,9 @@
       },
       "storageAccountName": {
         "value": "[parameters('storageAccountName')]"
+      },
+      "tagsByResource": {
+        "value": "[parameters('tagsByResource')]"
       }
     },
     "storageAccountSetupURL": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/storageAccount-', parameters('storageAccountNewOrExistingOrNone'), '.json'))]",
@@ -355,6 +446,9 @@
       },
       "subnet1Prefix": {
         "value": "[parameters('subnet1Prefix')]"
+      },
+      "tagsByResource": {
+        "value": "[parameters('tagsByResource')]"
       }
     },
     "vnetResourceExisting": "[resourceId(parameters('virtualNetworkExistingRGName'),'Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
@@ -365,7 +459,7 @@
     {
       "name": "pid",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "properties": {
         "mode": "Incremental",
         "template": {
@@ -378,7 +472,7 @@
     {
       "name": "SettingUpstorageAccount",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -389,18 +483,19 @@
       }
     },
     {
-      "apiVersion": "2021-05-01",
+      "apiVersion": "2023-06-01",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('nsgName')]",
       "location": "[parameters('location')]",
       "properties": {
         "securityRules": "[variables('securityRules')]"
-      }
+      },
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/networkSecurityGroups'), parameters('tagsByResource')['Microsoft.Network/networkSecurityGroups'], json('{}')) ]"
     },
     {
       "name": "SettingUpVirtualNetwork",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -413,7 +508,7 @@
     {
       "name": "SettingUpPrimaryNic",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpVirtualNetwork')]",
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpPublicIP')]",
@@ -431,7 +526,7 @@
     {
       "name": "SettingUpPublicIP",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -444,7 +539,7 @@
     {
       "name": "SettingUpVirtualMachine",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2023-07-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpstorageAccount')]",
         "[resourceId('Microsoft.Resources/deployments/', 'SettingUpPrimaryNic')]"
@@ -459,6 +554,9 @@
           "vmName": {
             "value": "[parameters('vmName')]"
           },
+          "tagsByResource": {
+            "value": "[parameters('tagsByResource')]"
+          },
           "location": {
             "value": "[parameters('location')]"
           },
@@ -472,7 +570,7 @@
               "computerName": "[parameters('vmName')]",
               "adminUsername": "[uniqueString(ResourceGroup().Id)]",
               "adminPassword": "[variables('adminPassword')]",
-              "customData": "[base64(if(empty(parameters('customData')), variables('customData'), parameters('customData')))]"
+              "customData": "[base64(variables('customData'))]"
             }
           },
           "plan": {
@@ -490,14 +588,14 @@
                 "sku": "[variables('imageSku')]",
                 "version": "[variables('imageVersion')]"
               },
-              "osDisk":{
-                "name":"[variables('OSDiskName')]",
-                "caching":"ReadOnly",
-                "createOption":"FromImage",
+              "osDisk": {
+                "name": "[variables('OSDiskName')]",
+                "caching": "ReadOnly",
+                "createOption": "FromImage",
+                "diskSizeGB": "[parameters('osDiskSize')]",
                 "managedDisk": {
                   "storageAccountType": "[variables('osDiskType')]"
-                },
-                "diskSizeGB": "[parameters('vmOSDiskSize')]"
+                }
               }
             }
           },
@@ -514,7 +612,7 @@
             }
           },
           "zones": {
-            "value": "[parameters('availabilityZone')]"
+            "value": "[if(equals(parameters('availabilityOptions'), 'availabilityZones'), parameters('availabilityZones'), json('null'))]"
           },
           "diagnosticsProfile": {
             "value": {

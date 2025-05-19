@@ -8,18 +8,68 @@
     "publicIpAddressName": {
       "type": "string"
     },
-    "publicIpAddressType": {
+    "sku": {
       "type": "string"
+    },
+    "routingPreference": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "publicIPAllocationMethod": {
+      "type": "string",
+      "defaultValue": "Static"
+    },
+    "tier": {
+      "type": "string",
+      "defaultValue": "Regional",
+      "allowedValues": [
+        "Regional",
+        "Global"
+      ]
+    },
+    "zones": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "ddosProtectionMode": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "tagsByResource": {
+      "type": "object",
+      "defaultValue": {}
     }
   },
   "resources": [
     {
-      "apiVersion": "2021-05-01",
+      "condition": "[greater(length(parameters('zones')), 0)]",
+      "apiVersion": "2023-06-01",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[parameters('publicIpAddressName')]",
       "location": "[parameters('location')]",
+      "zones": ["[parameters('zones')]"],
+      "sku": {
+        "name": "[parameters('sku')]",
+        "tier": "[parameters('tier')]"
+      },
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/publicIPAddresses'), parameters('tagsByResource')['Microsoft.Network/publicIPAddresses'], json('{}')) ]",
       "properties": {
-        "publicIPAllocationMethod": "[parameters('publicIpAddressType')]"
+        "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]"
+      }
+    },
+    {
+      "condition": "[equals(length(parameters('zones')), 0)]",
+      "apiVersion": "2023-06-01",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[parameters('publicIpAddressName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "[parameters('sku')]",
+        "tier": "[parameters('tier')]"
+      },
+      "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Network/publicIPAddresses'), parameters('tagsByResource')['Microsoft.Network/publicIPAddresses'], json('{}')) ]",
+      "properties": {
+        "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]"
       }
     }
   ],
