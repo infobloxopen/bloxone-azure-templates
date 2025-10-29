@@ -36,7 +36,7 @@
       "metadata": {
         "description": "Availability options for the Virtual Machine."
       },
-      "defaultValue": "availabilityZones",
+      "defaultValue": "noInfrastructure",
       "allowedValues": [
         "availabilityZones",
         "noInfrastructure"
@@ -59,11 +59,12 @@
         "description": "Availability Zones for the Virtual Machine 1."
       },
       "allowedValues": [
+        "",
         "1",
         "2",
         "3"
       ],
-      "defaultValue": "1"
+      "defaultValue": ""
     },
     "location": {
       "type": "string",
