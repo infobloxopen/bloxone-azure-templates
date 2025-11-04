@@ -17,6 +17,10 @@
       "type": "string",
       "defaultValue": "[newGuid()]"
     },
+    "adminPassword": {
+      "type": "secureString",
+      "defaultValue": "[newGuid()]"
+    },
     "jointoken": {
       "type": "string",
       "metadata": {
@@ -296,7 +300,6 @@
   "variables": {
     "OSDiskName": "[concat(parameters('vmName'), uniqueString(resourceGroup().id))]",
     "osDiskType": "[parameters('osDiskType')]",
-    "adminPassword": "[concat(uniqueString(parameters('guid')), '*#Wy5*s6@')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
     "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n  tags: \n    - DeployedFrom: AZURE-Marketplace\n')]",
     "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpProxy'), '\n')]",
@@ -570,7 +573,7 @@
             "value": {
               "computerName": "[parameters('vmName')]",
               "adminUsername": "[uniqueString(ResourceGroup().Id)]",
-              "adminPassword": "[variables('adminPassword')]",
+              "adminPassword": "[parameters('adminPassword')]",
               "customData": "[base64(variables('customData'))]"
             }
           },
