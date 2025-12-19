@@ -1,0 +1,10 @@
+# Generated Kubernetes manifests
+k8s-manifest-generated.yaml
+*-generated.yaml
+
+# Temporary files
+*.tmp
+tmp.*
+
+# Archive files
+bloxone-template-*.zip
