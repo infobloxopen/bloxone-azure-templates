@@ -14,7 +14,7 @@ The Kubernetes deployment provides an alternative to the VM-based deployment off
 
 ## Quick Start
 
-### Option 1: Using the Generation Script
+### Option 1: Using the Generation Script (Recommended)
 
 Generate a customized Kubernetes manifest with your specific parameters:
 
@@ -31,14 +31,18 @@ kubectl apply -f my-bloxone-manifest.yaml
 
 ### Option 2: Manual Configuration
 
-1. Copy the template:
+1. Copy the template or example:
    ```bash
+   # Use the template (without proxy example)
    cp k8s/bloxone-deployment.yaml my-bloxone-deployment.yaml
+   
+   # OR use the example (with proxy configuration)
+   cp k8s/bloxone-deployment-example.yaml my-bloxone-deployment.yaml
    ```
 
 2. Edit the manifest and replace:
-   - `jointoken: ""` with your actual join token in both the ConfigMap and Secret
-   - Optionally add `httpProxy` to the ConfigMap if you need proxy support
+   - `__JOINTOKEN__` or `YOUR_JOIN_TOKEN_HERE` with your actual join token
+   - Update `httpProxy` value if using proxy (or remove the httpProxy lines if not needed)
 
 3. Deploy to your cluster:
    ```bash
@@ -173,8 +177,13 @@ kubectl delete namespace bloxone
   - Horizontal Pod Autoscaling (HPA)
   - Pod Disruption Budgets (PDB)
 
+## Files in this Directory
+
+- **`bloxone-deployment.yaml`**: Base template Kubernetes manifest with placeholders (`__JOINTOKEN__`)
+- **`bloxone-deployment-example.yaml`**: Example manifest with placeholder values showing both jointoken and httpProxy configuration
+- **`README.md`**: This documentation file
+
 ## Related Files
 
-- `bloxone-deployment.yaml`: Template Kubernetes manifest
-- `../utils/generate-k8s-manifest.sh`: Script to generate customized manifests
+- `../utils/generate-k8s-manifest.sh`: Script to generate customized manifests from the template
 - `../main/mainTemplate.json`: ARM template for VM deployment (alternative deployment method)
