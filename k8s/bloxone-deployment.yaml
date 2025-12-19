@@ -1,0 +1,94 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bloxone
+  labels:
+    name: bloxone
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bloxone-config
+  namespace: bloxone
+data:
+  cloud-config.yaml: |
+    #cloud-config
+    host_setup:
+      jointoken: __JOINTOKEN__
+      tags:
+        - DeployedFrom: AZURE-AKS
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bloxone
+  namespace: bloxone
+  labels:
+    app: bloxone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bloxone
+  template:
+    metadata:
+      labels:
+        app: bloxone
+    spec:
+      containers:
+      - name: bloxone
+        image: infoblox/bloxone:latest
+        env:
+        - name: JOINTOKEN
+          valueFrom:
+            secretKeyRef:
+              name: bloxone-secret
+              key: jointoken
+        - name: HTTP_PROXY
+          valueFrom:
+            configMapKeyRef:
+              name: bloxone-config
+              key: httpProxy
+              optional: true
+        volumeMounts:
+        - name: config
+          mountPath: /config
+      volumes:
+      - name: config
+        configMap:
+          name: bloxone-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bloxone-service
+  namespace: bloxone
+  labels:
+    app: bloxone
+spec:
+  type: LoadBalancer
+  selector:
+    app: bloxone
+  ports:
+  - name: dns-tcp
+    protocol: TCP
+    port: 53
+    targetPort: 53
+  - name: dns-udp
+    protocol: UDP
+    port: 53
+    targetPort: 53
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: 443
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bloxone-secret
+  namespace: bloxone
+type: Opaque
+stringData:
+  jointoken: __JOINTOKEN__
