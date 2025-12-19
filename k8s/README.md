@@ -168,14 +168,23 @@ kubectl delete namespace bloxone
 
 ## Notes
 
-- The manifest uses `infoblox/bloxone:latest` as a placeholder image. Update this to the actual BloxOne container image from your registry.
-- The join token is stored in both a Secret (for security) and ConfigMap (for backward compatibility with cloud-config format).
-- For production deployments, consider implementing:
-  - Resource limits and requests
-  - Persistent volumes for data
+- **Container Image**: The manifest uses `infoblox/bloxone:latest` as a placeholder. Update this to the actual BloxOne container image and specific version tag from your registry. Using `latest` is not recommended for production.
+
+- **Join Token Storage**: The join token is stored in both a Secret (as a Kubernetes secret for the JOINTOKEN environment variable) and in the ConfigMap's cloud-config.yaml (for compatibility with BloxOne's cloud-init format). This duplication is intentional to support the cloud-config initialization pattern used in the VM deployments.
+
+- **Cloud-Config Volume**: The `/config` volume mount contains the cloud-config.yaml file which is used by BloxOne during initialization, similar to how customData is used in the VM deployment.
+
+- **HTTP Proxy Configuration**: When httpProxy is configured:
+  - It's added as a key in the ConfigMap data section (accessible as environment variable)
+  - It's also embedded in the cloud-config.yaml as `access_https_proxy` (for BloxOne initialization)
+
+- **For Production Deployments**, consider implementing:
+  - Specific version tags instead of `latest`
+  - Resource limits and requests for the container
+  - Persistent volumes for data that needs to survive pod restarts
   - Network policies for security
-  - Horizontal Pod Autoscaling (HPA)
-  - Pod Disruption Budgets (PDB)
+  - Horizontal Pod Autoscaling (HPA) if needed
+  - Pod Disruption Budgets (PDB) for high availability
 
 ## Files in this Directory
 

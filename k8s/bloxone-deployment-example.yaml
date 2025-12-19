@@ -17,7 +17,7 @@ data:
     #cloud-config
     host_setup:
       jointoken: YOUR_JOIN_TOKEN_HERE
-      access_https_proxy: http://your-proxy-server:port
+      access_https_proxy: "http://your-proxy-server:port"
       tags:
         - DeployedFrom: AZURE-AKS
 ---
@@ -40,6 +40,8 @@ spec:
     spec:
       containers:
       - name: bloxone
+        # Note: Replace with actual BloxOne container image and version
+        # Using 'latest' is not recommended for production
         image: infoblox/bloxone:latest
         env:
         - name: JOINTOKEN
@@ -47,15 +49,18 @@ spec:
             secretKeyRef:
               name: bloxone-secret
               key: jointoken
+        # HTTP_PROXY will only be available if httpProxy key exists in ConfigMap
         - name: HTTP_PROXY
           valueFrom:
             configMapKeyRef:
               name: bloxone-config
               key: httpProxy
               optional: true
+        # Mount cloud-config for BloxOne initialization
         volumeMounts:
         - name: config
           mountPath: /config
+          readOnly: true
       volumes:
       - name: config
         configMap:

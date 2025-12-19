@@ -82,7 +82,7 @@ if [ -n "$HTTP_PROXY" ]; then
     # Add httpProxy to ConfigMap data section (right after the data: line in ConfigMap section)
     sed -i '/^  cloud-config.yaml: |$/i\  httpProxy: "'"$HTTP_PROXY_ESCAPED"'"' "$OUTPUT_FILE"
     # Add access_https_proxy to cloud-config (after jointoken line, properly indented)
-    sed -i '/^      jointoken: /a\      access_https_proxy: '"$HTTP_PROXY" "$OUTPUT_FILE"
+    sed -i '/^      jointoken: /a\      access_https_proxy: '"\"$HTTP_PROXY\"" "$OUTPUT_FILE"
 fi
 
 echo ""
