@@ -97,15 +97,15 @@ Initially do changes in CretaeUidefinition.json file, then Go to -> Create UI De
 
 When availability zone supports for example: East US
 
-![Screenshot from 2025-03-24 15:53:54](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/az/referenceimages/Screenshot%20from%202025-03-24%2015-53-54.png)
+![Screenshot from 2025-03-24 15:53:54](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-03-24%2015-53-54.png)
 
 When availability zone doesn't support for example: Australia Central
 
-![Screenshot from 2025-03-24 16:02:46](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/az/referenceimages/Screenshot%20from%202025-03-24%2016-02-46.png)
+![Screenshot from 2025-03-24 16:02:46](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-03-24%2016-02-46.png)
 
 Then modify mainTemplate.json accordingly and Go to -> Test UI(https://portal.azure.com/#create/Microsoft.Template) -> Build your own template -> paste the json content which you have modified -> save to preview
 
-![Screenshot from 2025-03-26 10:50:04](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/az/referenceimages/Screenshot%20from%202025-03-26%2010-50-04.png)
+![Screenshot from 2025-03-26 10:50:04](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-03-26%2010-50-04.png)
 
 Use offerid -> infoblox-bloxone-34 & image version -> 3.4.1 - This can be checked with the team internally because this may change sometime.
 
@@ -113,7 +113,7 @@ And check for final preview, if it is good then proceed for Next. Below is refer
 
 When it is success, it'll show Create option like below, here artifacts location we need to provide for manual testing purpose only.
 
-![Screenshot from 2025-03-26 09:37:00](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/az/referenceimages/Screenshot%20from%202025-03-26%2009-37-00.png)
+![Screenshot from 2025-03-26 09:37:00](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-03-26%2009-37-00.png)
 
 Use this link for artifacts location -> https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/refs/heads/main/main/
 
@@ -125,25 +125,25 @@ Other way is, in artifacts location you can put all the content from git like ab
 
 And when you click on Create and Deployment is success then it shows like below.
 
-![Screenshot from 2025-03-26 11:26:26](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/az/referenceimages/Screenshot%20from%202025-03-26%2011-26-26.png)
+![Screenshot from 2025-03-26 11:26:26](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-03-26%2011-26-26.png)
 
 Once this is done, you can click on VM name, check its details and verify it.
 
-![Screenshot from 2025-03-26 11:30:01](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/az/referenceimages/Screenshot%20from%202025-03-26%2011-30-01.png)
+![Screenshot from 2025-03-26 11:30:01](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-03-26%2011-30-01.png)
 
 The above process is deploying a regular VM without availability zone
 
 Below deployed a VM with Zone 1
 
-![Screenshot from 2025-04-03 08:17:33](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/az/referenceimages/Screenshot%20from%202025-04-03%2008-17-33.png)
+![Screenshot from 2025-04-03 08:17:33](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-04-03%2008-17-33.png)
 
 Below deployed a VM with Zone 2
 
-![Screenshot from 2025-04-03 08:19:18](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/az/referenceimages/Screenshot%20from%202025-04-03%2008-19-18.png)
+![Screenshot from 2025-04-03 08:19:18](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-04-03%2008-19-18.png)
 
 Here, I have tried deploying a VM with OS disk size of 120GB. Once you click on Settings tab left side as shown in below image -> click on Disks blade, you can see the disk related information, below is the reference.
 
-![Screenshot from 2025-04-03 08:23:39](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/az/referenceimages/Screenshot%20from%202025-04-03%2008-23-39.png)
+![Screenshot from 2025-04-03 08:23:39](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-04-03%2008-23-39.png)
 
 
 So, basically createUiDefinition.json file is only a UI interface for viewing purpose. But mainTemplate.json file is something which takes the parameters behind and deploy a VM based on these values, along with other files in nested deployments.
@@ -194,11 +194,11 @@ By default, IP forwarding is disabled on Azure network interfaces. You need to e
 
 While deploying a VM, if we click the check box like below, enable IP Forwarding, below is reference.
 
-![Screenshot from 2025-04-11 14:42:42](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/an/referenceimages/Screenshot%20from%202025-04-11%2014-42-42.png)
+![Screenshot from 2025-04-11 14:42:42](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-04-11%2014-42-42.png)
 
 Here it is to check from portal, navigate to network settings from networking tab on left side, in essentials you can see network interface, if you click on network interface -> click on IP configurations on Settings tab left side, now you can see Enable IP forwarding
 
-![Screenshot from 2025-04-11 14:55:21](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/an/referenceimages/Screenshot%20from%202025-04-11%2014-55-21.png)
+![Screenshot from 2025-04-11 14:55:21](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-04-11%2014-55-21.png)
 
 
 In future we can enable or disable, based on requirement.
@@ -246,14 +246,14 @@ In summary, IP forwarding is about routing traffic between networks, while accel
 
 While deploying a VM, we can click the check box like below, if we want to enable accelerated networking
 
-![Screenshot from 2025-04-11 14:42:42](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/an/referenceimages/Screenshot%20from%202025-04-11%2014-42-42.png)
+![Screenshot from 2025-04-11 14:42:42](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-04-11%2014-42-42.png)
 
 Here it is to check from portal, navigate to network settings from networking tab on left side, in essentials you can see Accelerated networking is enabled
 
-![Screenshot from 2025-04-09 17:10:56](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/an/referenceimages/Screenshot%20from%202025-04-09%2017-10-56.png)
+![Screenshot from 2025-04-09 17:10:56](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-04-09%2017-10-56.png)
 
 If you click on network interface, you can see Edit accelerated networking by clicking that a tab opens to enable or disable.
 
-![Screenshot from 2025-04-11 14:38:54](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/azure/an/referenceimages/Screenshot%20from%202025-04-11%2014-38-54.png)
+![Screenshot from 2025-04-11 14:38:54](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-04-11%2014-38-54.png)
 
 If you have any doubts, please reach out the author of this.
