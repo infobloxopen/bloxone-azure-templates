@@ -97,9 +97,9 @@
       {
         "name": "vmName",
         "type": "Microsoft.Common.TextBox",
-        "label": "Bloxone VM name",
-        "defaultValue": "Bloxone",
-        "toolTip": "The name of the new Bloxone vm.",
+        "label": "NIOS-X VM name",
+        "defaultValue": "NIOS-X",
+        "toolTip": "The name of the new NIOS-X vm.",
         "multiLine": false,
         "constraints": {
           "required": true,
@@ -357,7 +357,7 @@
       {
         "name": "tags",
         "label": "Tags",
-        "bladeTitle": "Bloxone Tags",
+        "bladeTitle": "NIOS-X Tags",
         "subLabel": {
           "preValidation": "Configure tags",
           "postValidation": "Done"

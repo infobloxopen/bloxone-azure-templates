@@ -237,7 +237,7 @@
     },
     "vmName": {
       "type": "string",
-      "defaultValue": "Bloxone",
+      "defaultValue": "NIOS-X",
       "metadata": {
         "description": "Name for the Virtual Machine."
       }
