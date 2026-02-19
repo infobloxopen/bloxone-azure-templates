@@ -305,10 +305,10 @@
   "variables": {
     "OSDiskName": "[concat(parameters('vmName'), uniqueString(resourceGroup().id))]",
     "osDiskType": "[parameters('osDiskType')]",
-    "imageOffer": "infoblox-nios-x-vm",
-    "imagePublisher": "infoblox",
-    "imageSku": "infoblox-nios-x-vm",
-    "imageVersion": "4.0.0",
+    "imageOffer": "",
+    "imagePublisher": "",
+    "imageSku": "",
+    "imageVersion": "",
 
     "nicPrimaryExistingParams": {
       "enableIPForwarding": {
