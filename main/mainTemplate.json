@@ -22,7 +22,7 @@
       "defaultValue": "[newGuid()]"
     },
     "jointoken": {
-      "type": "string",
+      "type": "secureString",
       "metadata": {
         "description": "Jointoken."
       },
