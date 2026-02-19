@@ -21,17 +21,22 @@
       "type": "secureString",
       "defaultValue": "[newGuid()]"
     },
-    "jointoken": {
-      "type": "secureString",
-      "metadata": {
-        "description": "Jointoken."
-      },
-      "defaultValue": ""
+     "keyVaultResourceId": {
+      "type": "string",
+      "metadata": { "description": "Key Vault Resource ID (e.g. /subscriptions/<subId>/resourceGroups/<rg>/providers/Microsoft.KeyVault/vaults/<vaultName>)" }
+    },
+    "keyVaultSecretName": {
+      "type": "string",
+      "metadata": { "description": "Key Vault secret name that stores the join token (e.g. jointoken)" }
+    },
+    "cloudInitContent": {
+      "type": "string",
+      "metadata": { "description": "Raw #cloud-config content with placeholders (REPLACE_VAULT_NAME, REPLACE_SECRET_NAME, REPLACE_HTTP_PROXY)" }
     },
     "httpProxy": {
       "type": "string",
       "metadata": {
-        "description": "httpProxy."
+        "description": "Optional HTTP proxy (host:port only)"
       },
       "defaultValue": ""
     },
@@ -60,7 +65,7 @@
     "availabilityZones": {
       "type": "string",
       "metadata": {
-        "description": "Availability Zones for the Virtual Machine 1."
+        "description": "Availability Zones for the Virtual Machine."
       },
       "allowedValues": [
         "",
@@ -300,14 +305,11 @@
   "variables": {
     "OSDiskName": "[concat(parameters('vmName'), uniqueString(resourceGroup().id))]",
     "osDiskType": "[parameters('osDiskType')]",
-    "cloudConfig": "#cloud-config\nhost_setup:\n",
-    "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n  tags: \n    - DeployedFrom: AZURE-Marketplace\n')]",
-    "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpProxy'), '\n')]",
-    "customData": "[if(empty(parameters('httpProxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
-    "imageOffer": "",
-    "imagePublisher": "",
-    "imageSku": "",
-    "imageVersion": "",
+    "imageOffer": "infoblox-nios-x-vm",
+    "imagePublisher": "infoblox",
+    "imageSku": "infoblox-nios-x-vm",
+    "imageVersion": "4.0.0",
+
     "nicPrimaryExistingParams": {
       "enableIPForwarding": {
         "value": "[parameters('enableIPForwarding')]"
@@ -572,9 +574,9 @@
           "osProfile": {
             "value": {
               "computerName": "[parameters('vmName')]",
-              "adminUsername": "[uniqueString(ResourceGroup().Id)]",
+              "adminUsername": "[uniqueString(resourceGroup().id)]",
               "adminPassword": "[parameters('adminPassword')]",
-              "customData": "[base64(variables('customData'))]"
+              "customData": "[base64(replace(replace(replace(parameters('cloudInitContent'), 'REPLACE_VAULT_NAME', last(split(parameters('keyVaultResourceId'), '/'))), 'REPLACE_SECRET_NAME', parameters('keyVaultSecretName')), 'REPLACE_HTTP_PROXY', parameters('httpProxy')))]"
             }
           },
           "plan": {
