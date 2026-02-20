@@ -30,6 +30,9 @@
       "type": "string",
       "defaultValue": ""
     },
+    "identity": {
+      "type": "SystemAssigned"
+    },
     "tagsByResource": {
       "type": "object",
       "defaultValue": {}
