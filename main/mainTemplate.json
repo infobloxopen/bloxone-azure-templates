@@ -21,17 +21,23 @@
       "type": "secureString",
       "defaultValue": "[newGuid()]"
     },
-     "keyVaultResourceId": {
+    "keyVaultResourceId": {
       "type": "string",
-      "metadata": { "description": "Key Vault Resource ID (e.g. /subscriptions/<subId>/resourceGroups/<rg>/providers/Microsoft.KeyVault/vaults/<vaultName>)" }
+      "metadata": {
+        "description": "Key Vault Resource ID (e.g. /subscriptions/<subId>/resourceGroups/<rg>/providers/Microsoft.KeyVault/vaults/<vaultName>)"
+      }
     },
     "keyVaultSecretName": {
       "type": "string",
-      "metadata": { "description": "Key Vault secret name that stores the join token (e.g. jointoken)" }
+      "metadata": {
+        "description": "Key Vault secret name that stores the join token (e.g. jointoken)"
+      }
     },
     "cloudInitContent": {
       "type": "string",
-      "metadata": { "description": "Raw #cloud-config content with placeholders (REPLACE_VAULT_NAME, REPLACE_SECRET_NAME, REPLACE_HTTP_PROXY)" }
+      "metadata": {
+        "description": "Raw #cloud-config content with placeholders (REPLACE_VAULT_NAME, REPLACE_SECRET_NAME, REPLACE_HTTP_PROXY)"
+      }
     },
     "httpProxy": {
       "type": "string",
