@@ -119,18 +119,18 @@
         ],
         "visible": "true",
         "osPlatform": "Linux"
-      },
+      },  
       {
         "name": "keyVaultResourceId",
         "type": "Microsoft.Common.TextBox",
         "label": "Key Vault Resource ID",
-        "toolTip": "Example:\n/subscriptions/<subscription-id>/resourceGroups/niosx-rg/providers/Microsoft.KeyVault/vaults/jointoken\n",
+        "toolTip": "Example:\n/subscriptions/<subscription-id>/resourceGroups/<resource-group>/providers/Microsoft.KeyVault/vaults/<vault-name>\n",
         "constraints": {
           "required": true,
           "validations": [
             {
-              "regex": "^/subscriptions/.+/resourceGroups/.+/providers/Microsoft\\.KeyVault/vaults/.+$",
-              "message": "Provide a valid Key Vault Resource ID"
+              "regex": "^/subscriptions/[0-9a-fA-F-]+/resourceGroups/[^/]+/providers/Microsoft\\.KeyVault/vaults/[^/]+$",
+              "message": "Provide a valid Key Vault resource ID"
             }
           ]
         },
@@ -140,10 +140,8 @@
         "name": "keyVaultSecretName",
         "type": "Microsoft.Common.TextBox",
         "label": "Key Vault Secret Name",
-        "toolTip": "Example: jointoken (secret stored inside Key Vault)",
-        "constraints": {
-          "required": true
-        },
+        "toolTip": "Example: Secret where jointoken is stored",
+        "constraints": { "required": true },
         "visible": true
       },
       {

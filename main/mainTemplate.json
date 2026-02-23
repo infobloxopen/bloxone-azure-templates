@@ -24,20 +24,21 @@
     "keyVaultResourceId": {
       "type": "string",
       "metadata": {
-        "description": "Key Vault Resource ID (e.g. /subscriptions/<subId>/resourceGroups/<rg>/providers/Microsoft.KeyVault/vaults/<vaultName>)"
+        "description": "Key Vault Resource ID"
       }
     },
     "keyVaultSecretName": {
       "type": "string",
       "metadata": {
-        "description": "Key Vault secret name that stores the join token (e.g. jointoken)"
+        "description": "Name of the secret storing join token"
       }
     },
     "cloudInitContent": {
       "type": "string",
       "metadata": {
-        "description": "Raw #cloud-config content with placeholders (REPLACE_VAULT_NAME, REPLACE_SECRET_NAME, REPLACE_HTTP_PROXY)"
-      }
+        "description": "Raw #cloud-config with placeholders (REPLACE_VAULT_NAME, REPLACE_SECRET_NAME, REPLACE_HTTP_PROXY)"
+      },
+      "defaultValue": "#cloud-config\nwrite_files:\n- path: /etc/infoblox/host_setup.yaml\n  permissions: 0644\n  owner: root:root\n  content: |\n    host_setup:\n      jointoken: PLACEHOLDER\n      tags:\n        - DeployedFrom: AZURE-Marketplace\n\nruncmd:\n  - bash -lc 'ACCESS_TOKEN=$(curl -s -H Metadata:true \"http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://vault.azure.net\" | python3 -c \"import sys,json;print(json.load(sys.stdin)[\\\"access_token\\\"])\")'\n  - bash -lc 'JOINTOKEN=$(curl -sS -H \"Authorization: Bearer ${ACCESS_TOKEN}\" \"https://REPLACE_VAULT_NAME.vault.azure.net/secrets/REPLACE_SECRET_NAME?api-version=7.4\" | python3 -c \"import sys,json;print(json.load(sys.stdin)[\\\"value\\\"])\")'\n  - bash -lc 'sed -i s#PLACEHOLDER#${JOINTOKEN}#g /etc/infoblox/host_setup.yaml'\n  - bash -lc 'if [ \"REPLACE_HTTP_PROXY\" != \"\" ]; then echo \"export http_proxy=REPLACE_HTTP_PROXY\" > /etc/profile.d/infoblox-proxy.sh; echo \"export https_proxy=REPLACE_HTTP_PROXY\" >> /etc/profile.d/infoblox-proxy.sh; chmod 0644 /etc/profile.d/infoblox-proxy.sh; fi'\n"
     },
     "httpProxy": {
       "type": "string",
@@ -315,7 +316,6 @@
     "imagePublisher": "",
     "imageSku": "",
     "imageVersion": "",
-
     "nicPrimaryExistingParams": {
       "enableIPForwarding": {
         "value": "[parameters('enableIPForwarding')]"

@@ -5,6 +5,8 @@
 To create zip archive use archive.sh script from utils directory:
 ```
 $ utils/archive.sh imageOffer="" imagePublisher="" imageSku="" imageVersion="" trackingId=""
+
+./utils/archive.sh imageOffer="infoblox-nios-x-vm" imagePublisher="infoblox" imageSku="infoblox-nios-x-vm" imageVersion="4.0.0" trackingId="pid-31878965-56f8-4ddf-a700-b0b70e48b973-partnercenter"
 ```
 
 You can get `imageOffer`, `imagePublisher`, `imageSku` and `imageVersion` in your virtual machine offer.
@@ -264,7 +266,9 @@ If you have any doubts, please reach out the author of this.
 
 ### Memo: Handling Credentials in Azure Marketplace Create UI Definition (Solution Templates)
 **Audience:** Engineers and PMs publishing Azure Application (Solution Template) offers
+
 **Purpose:** Explain what credentials the UI can collect, what it cannot, and the compliant pattern for application secrets
+
 ```
 # Error
 Failed. Operation failed, exception: Credentials found in file createUiDefinition.json for offer infoblox-nios-x-app, plan infoblox-nios-x-app and version 1.0.13. Matching lines are "type": "Microsoft.Common.TextBox", . Credential type is General Symmetric Key. Related documentation https://aka.ms/credentialsRestrictions.
@@ -272,6 +276,7 @@ Failed. Operation failed, exception: Credentials found in file createUiDefinitio
 1) What the Create UI Definition (CUID) is for
     • createUiDefinition.json defines the Azure Portal UI for your Solution Template: controls in Basics and Steps, plus Outputs that map to ARM template parameters. This is the standard, documented flow: UI → outputs → ARM parameters. [docs.cloud...google.com]
     • Microsoft documents the control catalog (elements) you can use (TextBox, DropDown, PasswordBox, CredentialsCombo, etc.).
+
 2) Which credentials are allowed to be collected
     • Allowed (intended): OS/VM admin credentials using the credential controls: 
         ○ Microsoft.Compute.UserNameTextBox
@@ -279,18 +284,22 @@ Failed. Operation failed, exception: Credentials found in file createUiDefinitio
         ○ Microsoft.Compute.CredentialsCombo
 These are shown in Microsoft’s Create UI Definition elements reference. They are for VM/OS provisioning—not application tokens.
         ○ The UI/ARM mapping itself (outputs → parameters) is supported and described in the Create UI Definition overview and authoring guides. [docs.cloud...google.com]
+
 3) What is not allowed (and why submission failed)
     • Not allowed: Collecting application secrets (API tokens, join tokens, symmetric keys, access keys, client secrets) in any UI control—even if you use PasswordBox.
     • Reason: Marketplace certification validation (enforced during submission in Partner Center) flags such inputs as “credentials/symmetric keys” and fails the offer. This is a Marketplace security requirement layered on top of UI schema support. In other words, the element exists, but certification forbids using it to capture arbitrary secrets. [docs.cloud...google.com]
+    
     **Important distinction:**
     Create UI Definition docs show how to build UIs (and include credential controls for VM admin). Certification rules decide what secrets you may collect. VM admin creds are permitted; arbitrary application secrets are not. [docs.cloud...google.com]
+
 4) The Microsoft‑approved pattern for application secrets
     • Do not collect secrets in the UI and do not pass them via ARM parameters.
     • Do store the secret in Azure Key Vault and let the VM fetch it at first boot using a Managed Identity (IMDS → AAD token → Key Vault REST).
     • Provide only non‑secret references in UI (Key Vault resource ID, secret name).
     • This matches Create UI Definition’s role (UI for non‑secret inputs) and keeps certification happy. [docs.cloud...google.com]
 
-With latest additions, will be passing KeyVaultId, Secret Name and Cloud-init data
+### Secrets thru Key Vault
+With latest changes in MS policies, will be passing jointoken thru KeyVaultId, Secret Name and Cloud-init data
 ```
 # Vault
 Key Vault Resource Id: /subscriptions/<sub-id>/resourceGroups/<resource-group>/providers/Microsoft.KeyVault/vaults/<vault>
