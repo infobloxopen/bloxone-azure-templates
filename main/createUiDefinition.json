@@ -119,24 +119,43 @@
         ],
         "visible": "true",
         "osPlatform": "Linux"
-      },
+      },  
       {
-        "name": "jointoken",
+        "name": "keyVaultResourceId",
         "type": "Microsoft.Common.TextBox",
-        "label": "Jointoken",
-        "toolTip": "Enter Jointoken obtained from CSP.",
+        "label": "Key Vault Resource ID",
+        "toolTip": "Example:\n/subscriptions/<subscription-id>/resourceGroups/<resource-group>/providers/Microsoft.KeyVault/vaults/<vault-name>\n",
         "constraints": {
           "required": true,
-          "regex": "^(?:[a-zA-Z0-9_\\-]+\\.)?[a-zA-Z0-9_\\-]{44}(?:\\.[a-zA-Z0-9_\\-]+)?$",
-          "validationMessage": "Insert valid Jointoken."
+          "validations": [
+            {
+              "regex": "^/subscriptions/[0-9a-fA-F-]+/resourceGroups/[^/]+/providers/Microsoft\\.KeyVault/vaults/[^/]+$",
+              "message": "Provide a valid Key Vault resource ID"
+            }
+          ]
         },
-        "visible": "true"
+        "visible": true
+      },
+      {
+        "name": "keyVaultSecretName",
+        "type": "Microsoft.Common.TextBox",
+        "label": "Key Vault Secret Name",
+        "toolTip": "Example: Secret where jointoken is stored",
+        "constraints": { "required": true },
+        "visible": true
+      },
+      {
+        "name": "cloudInitContent",
+        "type": "Microsoft.Common.TextBox",
+        "label": "Cloud Init (internal)",
+        "visible": false,
+        "defaultValue": "#cloud-config\nwrite_files:\n- path: /etc/infoblox/host_setup.yaml\n  permissions: 0644\n  owner: root:root\n  content: |\n    host_setup:\n      jointoken: PLACEHOLDER\n      tags:\n        - DeployedFrom: AZURE-Marketplace\n\nruncmd:\n  - bash -lc 'ACCESS_TOKEN=$(curl -s -H Metadata:true \"http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://vault.azure.net\" | jq -r .access_token)'\n  - bash -lc 'JOINTOKEN=$(curl -sS -H \"Authorization: Bearer ${ACCESS_TOKEN}\" \"https://REPLACE_VAULT_NAME.vault.azure.net/secrets/REPLACE_SECRET_NAME?api-version=7.4\" | jq -r .value)'\n  - bash -lc 'sed -i s#PLACEHOLDER#${JOINTOKEN}#g /etc/infoblox/host_setup.yaml'\n  - bash -lc 'if [ \"REPLACE_HTTP_PROXY\" != \"\" ]; then echo \"export http_proxy=REPLACE_HTTP_PROXY\" > /etc/profile.d/infoblox-proxy.sh; echo \"export https_proxy=REPLACE_HTTP_PROXY\" >> /etc/profile.d/infoblox-proxy.sh; chmod 0644 /etc/profile.d/infoblox-proxy.sh; fi'\n"
       },
       {
         "name": "httpProxy",
         "type": "Microsoft.Common.TextBox",
-        "label": "HTTP proxy",
-        "toolTip": "Pass http proxy E.g: http://[username:passwod@]&lt;proxy_host&gt;:&lt;proxy_port&gt;",
+        "label": "HTTP proxy (host:port only)",
+        "toolTip": "Pass http proxy E.g: http://[username:passwod@]&lt;proxy_host&gt;:&lt;proxy_port&gt; Do not include credentials.",
         "constraints": {
           "required": false,
           "regex": "^http:\\/\\/(([^:]{1,128}):([^@]{1,256})@)?((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(\\[((([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])))\\])|(((?!-)[a-zA-Z0-9-]{0,62}[a-zA-Z0-9].)+[a-zA-Z]{2,63}))\\:(6553[0-5]|655[0-2][0-9]|65[0-4][0-9][0-9]|6[0-4][0-9][0-9][0-9]|[1-5][0-9][0-9][0-9][0-9]|[1-9][0-9]{0,3})$",
@@ -380,7 +399,9 @@
       }
     ],
     "outputs": {
-      "jointoken": "[basics('jointoken')]",
+      "keyVaultResourceId": "[basics('keyVaultResourceId')]",
+      "keyVaultSecretName": "[basics('keyVaultSecretName')]",
+      "cloudInitContent": "[basics('cloudInitContent')]",
       "httpProxy": "[basics('httpProxy')]",
       "location": "[location()]",
       "publicIPAddressName": "[steps('networking').publicIp.name]",

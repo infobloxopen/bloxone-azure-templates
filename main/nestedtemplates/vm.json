@@ -51,6 +51,7 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
+      "identity": { "type": "SystemAssigned" },
       "properties": "[variables('properties')]",
       "plan": "[parameters('plan')]",
       "zones": "[createArray(parameters('zones'))]",
@@ -62,6 +63,7 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
+      "identity": { "type": "SystemAssigned" },
       "properties": "[variables('properties')]",
       "plan": "[parameters('plan')]",
       "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.Compute/virtualMachines'), parameters('tagsByResource')['Microsoft.Compute/virtualMachines'], json('{}')) ]"
