@@ -124,7 +124,7 @@
         "name": "registrationCode",
         "type": "Microsoft.Common.TextBox",
         "label": "JOINTOKEN",
-        "toolTip": "Non‑secret code used to register the NIOS-X VM with CSP",
+        "toolTip": "Code obtained from CSP to register and associate the NIOS-X VM with your CSP account",
         "constraints": {
           "required": true
         },
