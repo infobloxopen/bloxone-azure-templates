@@ -121,17 +121,15 @@
         "osPlatform": "Linux"
       },
       {
-        "name": "jointoken",
+        "name": "registrationCode",
         "type": "Microsoft.Common.TextBox",
-        "label": "Jointoken",
-        "toolTip": "Enter Jointoken obtained from CSP.",
+        "label": "JOINTOKEN",
+        "toolTip": "Code obtained from CSP to register and associate the NIOS-X VM with your CSP account",
         "constraints": {
-          "required": true,
-          "regex": "^(?:[a-zA-Z0-9_\\-]+\\.)?[a-zA-Z0-9_\\-]{44}(?:\\.[a-zA-Z0-9_\\-]+)?$",
-          "validationMessage": "Insert valid Jointoken."
+          "required": true
         },
-        "visible": "true"
-      },
+        "visible": true
+      },      
       {
         "name": "httpProxy",
         "type": "Microsoft.Common.TextBox",
@@ -380,7 +378,7 @@
       }
     ],
     "outputs": {
-      "jointoken": "[basics('jointoken')]",
+      "registrationCode": "[basics('registrationCode')]",
       "httpProxy": "[basics('httpProxy')]",
       "location": "[location()]",
       "publicIPAddressName": "[steps('networking').publicIp.name]",
