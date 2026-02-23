@@ -21,12 +21,11 @@
       "type": "secureString",
       "defaultValue": "[newGuid()]"
     },
-    "jointoken": {
+    "registrationCode": {
       "type": "string",
       "metadata": {
-        "description": "Jointoken."
-      },
-      "defaultValue": ""
+        "description": "Non-secret registration code"
+      }
     },
     "httpProxy": {
       "type": "string",
@@ -301,7 +300,7 @@
     "OSDiskName": "[concat(parameters('vmName'), uniqueString(resourceGroup().id))]",
     "osDiskType": "[parameters('osDiskType')]",
     "cloudConfig": "#cloud-config\nhost_setup:\n",
-    "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('jointoken'), '\n  tags: \n    - DeployedFrom: AZURE-Marketplace\n')]",
+    "customDataWithoutHttpProxy": "[concat(variables('cloudConfig'), '\n  jointoken: ', parameters('registrationCode'), '\n  tags: \n    - DeployedFrom: AZURE-Marketplace\n')]",
     "customDataWithHttpProxy": "[concat(variables('customDataWithoutHttpProxy'), '  access_https_proxy: ', parameters('httpProxy'), '\n')]",
     "customData": "[if(empty(parameters('httpProxy')), variables('customDataWithoutHttpProxy'), variables('customDataWithHttpProxy'))]",
     "imageOffer": "",
