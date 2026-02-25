@@ -255,10 +255,11 @@ After any change in code, Please run ttk locally to check errors https://docs.mi
 ## ARM Template Test Toolkit (ARM‑TTK)
 ### Overview
 The Azure Resource Manager Template Test Toolkit (ARM‑TTK) is a test suite developed by Microsoft to validate ARM templates, parameter files, and CreateUiDefinition (CUID) files. It detects common issues, enforces best practices, and ensures the templates meet Marketplace and internal quality standards.
+
 **According to Microsoft Learn:**
 
 “The ARM template test toolkit checks whether your template uses recommended practices… When your template isn't compliant, it returns a list of warnings with suggested changes.”
- [learn.microsoft.com]
+ [https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/test-toolkit]
 
 ARM‑TTK is implemented as a PowerShell module containing best‑practice validations used by:
 
@@ -269,11 +270,12 @@ Internal deployment pipelines
 **The GitHub repo states:**
 
 “These tests validate templates for Azure QuickStart and Azure Marketplace… ensuring consistent coding practices and catching issues such as unused parameters, security risks, and poor template structure.”
- [github.com]
+ [[github.com](https://github.com/Azure/arm-ttk)]
 
 
 #### Why ARM‑TTK Is Required
 **1. Ensures Template Quality**
+
 ARM‑TTK identifies coding issues such as:
 
 - Unused parameters
@@ -286,10 +288,11 @@ These issues correspond to test cases documented by Microsoft:
 
 “This test finds parameters that aren't used… delete any parameters that are defined but not used.”
 (Test: Parameters Must Be Referenced)
- [learn.microsoft.com]
+ [[learn.microsoft.com](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/template-test-cases)]
 
 
 **2. Enforces Security Practices**
+
 ARM‑TTK flags insecure patterns like:
 
 - Returning secrets via outputs
@@ -299,10 +302,11 @@ ARM‑TTK flags insecure patterns like:
 **Microsoft notes:**
 
 “Secure parameters can't have a hard‑coded default value.”
- [learn.microsoft.com]
+ [[learn.microsoft.com](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/template-test-cases)]
 
 
 **3. Mandatory for Azure Marketplace Publishing**
+
 Azure Marketplace certification requires that:
 
 - ARM Templates must pass ARM‑TTK
@@ -311,6 +315,7 @@ Azure Marketplace certification requires that:
 Without passing this tool, Marketplace submission will fail.
 
 **4. Improves Deployment Reliability**
+
 By eliminating structural issues, ARM‑TTK prevents:
 
 - Runtime deployment failures
@@ -323,7 +328,7 @@ By eliminating structural issues, ARM‑TTK prevents:
 Microsoft Learn provides the official installation steps for Windows, Linux, and macOS:
 
 “Download the latest .zip… extract it… navigate to the arm‑ttk folder… Import the module with Import-Module ./arm-ttk.psd1.”
- [learn.microsoft.com]
+ [[learn.microsoft.com](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/test-toolkit)]
 
 **macOS / Linux**
 ```PowerShell
@@ -347,11 +352,10 @@ $ Test-AzTemplate -TemplatePath . -Test "CreateUIDefinition_*"
 
 **This executes all test groups:**
 
-deploymentTemplate
-deploymentParameters
-createUiDefinition
-all
- [github.com]
+- deploymentTemplate
+- deploymentParameters
+- createUiDefinition
+[[github.com](https://github.com/Azure/arm-ttk)]
 
 **Common ARM‑TTK Rules (You’ll See These)**
 
@@ -425,18 +429,22 @@ PS /Users/shasidharreddy/bloxone-azure-templates/main>
 ### Troubleshooting
 
 **TTK says “Parameters Must Be Referenced”**
+
 Either delete the parameter or reference it in a valid expression (e.g., an outputs echo or a variable used later).
 
 
 **CUID “Textboxes Are Well Formed” fails**
+
 Ensure each Microsoft.Common.TextBox has a non‑empty regex and a length quantifier in that regex; include a validation message. [learn.microsoft.com]
 
 
 **API‑version runtime error (NoRegisteredProviderFound)**
+
 Switch to a supported apiVersion from the error’s list and/or register the provider namespace. [koskila.net], [github.com]
 
 
 **Preview the CUID without deploying**
+
 Use the Create UI Definition Sandbox to preview immediately and resolve UI property errors. [commandmasters.com]
 
 
@@ -450,7 +458,8 @@ Use the Create UI Definition Sandbox to preview immediately and resolve UI prope
 - CI ideas: running ARM‑TTK in pipelines. [docs.azure.cn]
 
 
-**Once arm-ttk is valid and pass, then we can create template.**
+**Once arm-ttk is valid and pass, then we can create a template.**
+
 ---
 
 ## Creating a Deployment Archive
