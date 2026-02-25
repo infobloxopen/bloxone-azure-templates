@@ -1,16 +1,5 @@
 # Bloxone Azure Templates
 
-## Creating a Deployment Archive
-
-To create zip archive use archive.sh script from utils directory:
-```
-$ utils/archive.sh imageOffer="" imagePublisher="" imageSku="" imageVersion="" trackingId=""
-```
-
-You can get `imageOffer`, `imagePublisher`, `imageSku` and `imageVersion` in your virtual machine offer.
-
-You can get `trackingId` in your application offer.
-
 ## About This Repository
 
 Basically, this repo bloxone-azure-templates(https://github.com/infobloxopen/bloxone-azure-templates) which is used to store bloxone azure templates, this provides Azure Marketplace Cloud Offering for customers of Infoblox, while deploying the VM.
@@ -256,4 +245,233 @@ If you click on network interface, you can see Edit accelerated networking by cl
 
 ![Screenshot from 2025-04-11 14:38:54](https://raw.githubusercontent.com/infobloxopen/bloxone-azure-templates/main/referenceimages/Screenshot%20from%202025-04-11%2014-38-54.png)
 
-If you have any doubts, please reach out the author of this.
+**If you have any doubts, please reach out the author of this.**
+
+---
+
+### You can contribute to this repository from time-to-time based on need.
+After any change in code, Please run ttk locally to check errors https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/test-toolkit
+
+## ARM Template Test Toolkit (ARM‑TTK)
+### Overview
+The Azure Resource Manager Template Test Toolkit (ARM‑TTK) is a test suite developed by Microsoft to validate ARM templates, parameter files, and CreateUiDefinition (CUID) files. It detects common issues, enforces best practices, and ensures the templates meet Marketplace and internal quality standards.
+
+**According to Microsoft Learn:**
+
+“The ARM template test toolkit checks whether your template uses recommended practices… When your template isn't compliant, it returns a list of warnings with suggested changes.”
+ [https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/test-toolkit]
+
+ARM‑TTK is implemented as a PowerShell module containing best‑practice validations used by:
+
+Azure Marketplace
+Azure Quickstart templates
+Internal deployment pipelines
+
+**The GitHub repo states:**
+
+“These tests validate templates for Azure QuickStart and Azure Marketplace… ensuring consistent coding practices and catching issues such as unused parameters, security risks, and poor template structure.”
+ [[github.com](https://github.com/Azure/arm-ttk)]
+
+
+#### Why ARM‑TTK Is Required
+**1. Ensures Template Quality**
+
+ARM‑TTK identifies coding issues such as:
+
+- Unused parameters
+- Incorrect schema versions
+- Hard‑coded values
+- Missing location properties
+- Mis‑structured CreateUiDefinition controls
+
+These issues correspond to test cases documented by Microsoft:
+
+“This test finds parameters that aren't used… delete any parameters that are defined but not used.”
+(Test: Parameters Must Be Referenced)
+ [[learn.microsoft.com](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/template-test-cases)]
+
+
+**2. Enforces Security Practices**
+
+ARM‑TTK flags insecure patterns like:
+
+- Returning secrets via outputs
+- Using secureString defaults improperly
+- Exposing credentials in clear text
+
+**Microsoft notes:**
+
+“Secure parameters can't have a hard‑coded default value.”
+ [[learn.microsoft.com](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/template-test-cases)]
+
+
+**3. Mandatory for Azure Marketplace Publishing**
+
+Azure Marketplace certification requires that:
+
+- ARM Templates must pass ARM‑TTK
+- CreateUIDefinition must pass all UI tests
+
+Without passing this tool, Marketplace submission will fail.
+
+**4. Improves Deployment Reliability**
+
+By eliminating structural issues, ARM‑TTK prevents:
+
+- Runtime deployment failures
+- Schema mismatches
+- API version mismatches
+- Incorrect resource wiring
+
+
+### Installing ARM‑TTK
+Microsoft Learn provides the official installation steps for Windows, Linux, and macOS:
+
+“Download the latest .zip… extract it… navigate to the arm‑ttk folder… Import the module with Import-Module ./arm-ttk.psd1.”
+ [[learn.microsoft.com](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/test-toolkit)]
+
+**macOS / Linux**
+```PowerShell
+# Install Powershell
+$ brew install --cask powershell
+$ pwsh
+PowerShell 7.5.4
+
+```
+
+#### How To Run ARM‑TTK
+**Full Test Suite**
+```PowerShell
+$ git clone https://github.com/Azure/arm-ttk.git
+$ cd ./arm-ttk/arm-ttk/
+$ Import-Module ./arm-ttk/arm-ttk.psd1
+$ cd ~/bloxone-azure-templates/mytemplates/
+$ Test-AzTemplate -TemplatePath .
+$ Test-AzTemplate -TemplatePath . -Test "CreateUIDefinition_*"
+```
+
+**This executes all test groups:**
+
+- deploymentTemplate
+- deploymentParameters
+- createUiDefinition
+[[github.com](https://github.com/Azure/arm-ttk)]
+
+**Common ARM‑TTK Rules (You’ll See These)**
+
+Parameters Must Be Referenced – delete or reference unused parameters.
+Variables Must Be Referenced – delete or reference unused variables.
+Secure String Parameters Cannot Have Default – no hard‑coded default for secure values.
+Location Should Not Be Hardcoded – use resourceGroup().location when appropriate.
+Outputs Must Not Contain Secrets – never emit secrets in plain text.
+CreateUIDefinition Must Not Have Blanks – no empty regex or required fields.
+Textboxes Are Well Formed – TextBox controls must have regex with a length quantifier.
+
+
+**The official list shows examples that pass and fail, with exact rule names and remediations.**
+
+**Run Only CUID Tests**
+```PowerShell
+Test-AzTemplate -TemplatePath . -Test createUIDefinition
+```
+
+**Run Only ARM Template Tests**
+```PowerShell
+Test-AzTemplate -TemplatePath . -Test deploymentTemplate
+```
+
+**Run a Specific Test**
+```PowerShell
+Test-AzTemplate -TemplatePath . -Test "Parameters Must Be Referenced"
+```
+
+**Run Against a Specific File**
+```PowerShell
+Test-AzTemplate -TemplatePath . -Test "Resources Should Have Location" -File mainTemplate.json
+```
+
+**Skip a Test (not recommended for Marketplace)**
+```PowerShell
+Test-AzTemplate -TemplatePath . -Skip apiVersions-Should-Be-Recent
+```
+
+#### Output
+```JSON
+
+PS /Users/shasidharreddy/bloxone-azure-templates/main> Test-AzTemplate -TemplatePath . -Test "CreateUIDefinition_*"
+WARNING: Test 'CreateUIDefinition_*' was not found, all tests will be run
+
+Validating main\createUiDefinition.json
+  JSONFiles Should Be Valid
+    [+] JSONFiles Should Be Valid (2 ms)
+WARNING: Test 'CreateUIDefinition_*' was not found, all tests will be run
+  Allowed Values Should Actually Be Allowed
+    [+] Allowed Values Should Actually Be Allowed (51 ms)
+  Controls In Outputs Must Exist
+  ...
+  ...
+  Variables Must Be Referenced
+    [+] Variables Must Be Referenced (2 ms)
+  Virtual Machines Should Not Be Preview
+    [+] Virtual Machines Should Not Be Preview (3 ms)
+  VM Images Should Use Latest Version
+    [+] VM Images Should Use Latest Version (2 ms)
+  VM Size Should Be A Parameter
+    [+] VM Size Should Be A Parameter (28 ms)
+Pass  : 359
+Total : 359
+Fail  : 0
+
+
+PS /Users/shasidharreddy/bloxone-azure-templates/main>
+```
+
+### Troubleshooting
+
+**TTK says “Parameters Must Be Referenced”**
+
+Either delete the parameter or reference it in a valid expression (e.g., an outputs echo or a variable used later).
+
+
+**CUID “Textboxes Are Well Formed” fails**
+
+Ensure each Microsoft.Common.TextBox has a non‑empty regex and a length quantifier in that regex; include a validation message. [learn.microsoft.com]
+
+
+**API‑version runtime error (NoRegisteredProviderFound)**
+
+Switch to a supported apiVersion from the error’s list and/or register the provider namespace. [koskila.net], [github.com]
+
+
+**Preview the CUID without deploying**
+
+Use the Create UI Definition Sandbox to preview immediately and resolve UI property errors. [commandmasters.com]
+
+
+### References
+
+- ARM‑TTK – Microsoft Learn: usage & install guides. [github.com]
+- ARM‑TTK – GitHub README: commands, test groups, and examples. [learn.microsoft.com]
+- Template Test Cases: full list of rules (parameters/variables referenced, secure defaults, etc.).
+- CUID Sandbox: preview CreateUiDefinition quickly. [commandmasters.com]
+- Provider Registration Troubleshooting: fix NoRegisteredProviderFound by using supported apiVersions or registering providers. [koskila.net], [github.com]
+- CI ideas: running ARM‑TTK in pipelines. [docs.azure.cn]
+
+
+**Once arm-ttk is valid and pass, then we can create a template.**
+
+---
+
+## Creating a Deployment Archive
+
+To create zip archive use archive.sh script from utils directory:
+```
+$ utils/archive.sh imageOffer="" imagePublisher="" imageSku="" imageVersion="" trackingId=""
+```
+
+You can get `imageOffer`, `imagePublisher`, `imageSku` and `imageVersion` in your virtual machine offer.
+
+You can get `trackingId` in your application offer.
+
+---
+**If you have any doubts, please reach out the author of this.**

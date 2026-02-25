@@ -47,7 +47,7 @@
   "resources": [
     {
       "condition": "[greater(length(parameters('zones')), 0)]",
-      "apiVersion": "2023-09-01",
+      "apiVersion": "2025-04-01",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
@@ -58,7 +58,7 @@
     },
     {
       "condition": "[equals(length(parameters('zones')), 0)]",
-      "apiVersion": "2023-09-01",
+      "apiVersion": "2025-04-01",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
