@@ -1,6 +1,25 @@
 # Bloxone Azure Templates
 
-## Creating a Deployment Archive
+## Deployment Options
+
+This repository provides two deployment methods for BloxOne on Azure:
+
+1. **VM Deployment** (Azure ARM Templates) - Deploy BloxOne as a Virtual Machine
+2. **Kubernetes Deployment** (K8s Manifests) - Deploy BloxOne on Azure Kubernetes Service (AKS)
+
+## Kubernetes Deployment (NEW)
+
+For deploying BloxOne on Azure Kubernetes Service (AKS), see the [k8s directory](k8s/README.md).
+
+Quick start:
+```bash
+$ utils/generate-k8s-manifest.sh jointoken=<your-token> output=my-manifest.yaml
+$ kubectl apply -f my-manifest.yaml
+```
+
+See [k8s/README.md](k8s/README.md) for detailed instructions.
+
+## Creating a VM Deployment Archive
 
 To create zip archive use archive.sh script from utils directory:
 ```
