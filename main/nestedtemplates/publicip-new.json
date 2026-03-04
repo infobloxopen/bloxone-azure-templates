@@ -43,7 +43,7 @@
   "resources": [
     {
       "condition": "[greater(length(parameters('zones')), 0)]",
-      "apiVersion": "2023-06-01",
+      "apiVersion": "2025-05-01",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[parameters('publicIpAddressName')]",
       "location": "[parameters('location')]",
@@ -59,7 +59,7 @@
     },
     {
       "condition": "[equals(length(parameters('zones')), 0)]",
-      "apiVersion": "2023-06-01",
+      "apiVersion": "2025-05-01",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[parameters('publicIpAddressName')]",
       "location": "[parameters('location')]",
@@ -73,5 +73,14 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "routingPreferenceEcho": {
+      "type": "string",
+      "value": "[parameters('routingPreference')]"
+    },
+    "ddosProtectionModeEcho": {
+      "type": "string",
+      "value": "[parameters('ddosProtectionMode')]"
+    }
+  }
 }

@@ -126,7 +126,13 @@
         "label": "JOINTOKEN",
         "toolTip": "Code obtained from CSP to register and associate the NIOS-X VM with your CSP account",
         "constraints": {
-          "required": true
+          "required": true,
+          "validations": [
+            {
+              "regex": "^[A-Za-z0-9_-]{8,20}\\.[A-Za-z0-9_-]{20,80}\\.[A-Za-z0-9_-]{3,10}$",
+              "message": "Use valid code obtained from CSP."
+            }
+          ]
         },
         "visible": true
       },      
